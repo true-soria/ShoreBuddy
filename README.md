@@ -1,1 +1,2 @@
 # ShoreBuddy
+Shaun Moon
