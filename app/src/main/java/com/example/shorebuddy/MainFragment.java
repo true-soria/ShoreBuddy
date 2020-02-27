@@ -1,7 +1,6 @@
-package com.example.shorebuddy.ui.main;
+package com.example.shorebuddy;
 
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
 
@@ -13,7 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.shorebuddy.R;
+import com.example.shorebuddy.viewmodels.MainViewModel;
 
 public class MainFragment extends Fragment {
 
@@ -33,8 +32,7 @@ public class MainFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ViewModelProvider viewModelProvider = new ViewModelProvider(this);
-        mViewModel = viewModelProvider.get(MainViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(MainViewModel.class);
         // TODO: Use the ViewModel
     }
 
