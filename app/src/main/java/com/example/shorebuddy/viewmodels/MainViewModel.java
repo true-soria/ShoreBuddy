@@ -45,7 +45,7 @@ public class MainViewModel extends ViewModel {
         mSolunarRepo = new SolunarRepoStub();
 
         mSearchStr.setValue("");
-        mCurrentSelectedLake.setValue(new Lake());
+        mCurrentSelectedLake.setValue(new Lake("Casitas"));
         mAllLakes = mLakeRepo.getAllLakes();
         LiveData<Weather> mWeatherInternal = Transformations.switchMap(mCurrentSelectedLake, currentLake -> mWeatherRepo.getWeatherData(currentLake.getLocation()));
         mWeather.addSource(mWeatherInternal, value -> mWeather.setValue(value));
@@ -72,6 +72,10 @@ public class MainViewModel extends ViewModel {
         return mSolunar;
     }
 
+    public void setSearchQuery(String query) {
+        mSearchStr.setValue(query);
+    }
+
     public void updateWeatherData() {
         mUpdateWeatherDataEvent.setValue(new Event<>(true));
     }
@@ -89,18 +93,28 @@ public class MainViewModel extends ViewModel {
     }
 
     private class LakeRepoStub implements LakeRepository {
+        private MutableLiveData<List<Lake>> mFilteredLakes = new MutableLiveData<>();
+        private MutableLiveData<List<Lake>> mAllLakes = new MutableLiveData<>();
+
+        public LakeRepoStub() {
+            Vector<Lake> vec = new Vector<>();
+            vec.add(new Lake("Casitas"));
+            vec.add(new Lake("Pinecrest"));
+            mAllLakes.setValue(vec);
+        }
         @Override
         public LiveData<List<Lake>> getAllLakes() {
-            MutableLiveData data = new MutableLiveData();
-            data.setValue(new Vector<Lake>());
-            return data;
+            return mAllLakes;
         }
 
         @Override
         public LiveData<List<Lake>> getFilteredLakes(SearchQuery query) {
-            MutableLiveData data = new MutableLiveData();
-            data.setValue(new Vector<Lake>());
-            return data;
+            Vector<Lake> vec = new Vector<>();
+            vec.add(new Lake("Casitas"));
+            vec.add(new Lake("Pinecrest"));
+            vec.removeIf(lake -> !lake.name.toLowerCase().contains(query.getRawString().toLowerCase()));
+            mFilteredLakes.setValue(vec);
+            return mFilteredLakes;
         }
     }
 

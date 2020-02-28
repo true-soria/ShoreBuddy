@@ -7,11 +7,11 @@ public class SearchQuery {
         mString = s;
     }
 
-    String getQuery() {
+    public String getQuery() {
         return "%" + mString + "%";
     }
 
-    String getRawString() {
+    public String getRawString() {
         return mString;
     }
 }
