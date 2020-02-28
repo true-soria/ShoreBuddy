@@ -17,6 +17,7 @@ import com.example.shorebuddy.utilities.SearchQuery;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Vector;
 
 public class MainViewModel extends ViewModel {
@@ -49,7 +50,7 @@ public class MainViewModel extends ViewModel {
         mAllLakes = mLakeRepo.getAllLakes();
         LiveData<Weather> mWeatherInternal = Transformations.switchMap(mCurrentSelectedLake, currentLake -> mWeatherRepo.getWeatherData(currentLake.getLocation()));
         mWeather.addSource(mWeatherInternal, value -> mWeather.setValue(value));
-        mWeather.addSource(mUpdateWeatherDataEvent, updateEvent -> mWeatherRepo.updateWeatherData(mCurrentSelectedLake.getValue().getLocation()));
+        mWeather.addSource(mUpdateWeatherDataEvent, updateEvent -> mWeatherRepo.updateWeatherData(Objects.requireNonNull(mCurrentSelectedLake.getValue()).getLocation()));
     }
 
     public LiveData<Lake> getCurrentlySelectedLake() {
@@ -72,6 +73,14 @@ public class MainViewModel extends ViewModel {
         return mSolunar;
     }
 
+    public void setCurrentSelectedLake(Lake lake) {
+        mCurrentSelectedLake.setValue(lake);
+    }
+
+    public void setCurrentSelectedLakeFromFilteredPosition(int position) {
+        mCurrentSelectedLake.setValue(mFilteredLakes.getValue().get(position));
+    }
+
     public void setSearchQuery(String query) {
         mSearchStr.setValue(query);
     }
@@ -80,7 +89,7 @@ public class MainViewModel extends ViewModel {
         mUpdateWeatherDataEvent.setValue(new Event<>(true));
     }
 
-    private class WeatherRepoStub implements WeatherRepository {
+    private static class WeatherRepoStub implements WeatherRepository {
         @Override
         public LiveData<Weather> getWeatherData(LatLng location) {
             MutableLiveData data = new MutableLiveData();
@@ -92,16 +101,17 @@ public class MainViewModel extends ViewModel {
         public void updateWeatherData(LatLng location) {}
     }
 
-    private class LakeRepoStub implements LakeRepository {
+    private static class LakeRepoStub implements LakeRepository {
         private MutableLiveData<List<Lake>> mFilteredLakes = new MutableLiveData<>();
         private MutableLiveData<List<Lake>> mAllLakes = new MutableLiveData<>();
 
-        public LakeRepoStub() {
+        LakeRepoStub() {
             Vector<Lake> vec = new Vector<>();
             vec.add(new Lake("Casitas"));
             vec.add(new Lake("Pinecrest"));
             mAllLakes.setValue(vec);
         }
+
         @Override
         public LiveData<List<Lake>> getAllLakes() {
             return mAllLakes;
@@ -118,7 +128,7 @@ public class MainViewModel extends ViewModel {
         }
     }
 
-    private class SolunarRepoStub implements SolunarRepository {
+    private static class SolunarRepoStub implements SolunarRepository {
         @Override
         public LiveData<Solunar> getSolunarData(LatLng location) {
             MutableLiveData data = new MutableLiveData();
