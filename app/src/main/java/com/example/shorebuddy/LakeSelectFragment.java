@@ -67,6 +67,7 @@ public class LakeSelectFragment extends Fragment implements LakeListAdapter.OnLa
         lakesRecyclerView.setLayoutManager(new LinearLayoutManager(activity));
 
         assert activity != null;
+        mViewModel.setSearchQuery("");
         mViewModel.getFilteredLakes().observe(getViewLifecycleOwner(), lakesAdapter::setLakes);
 
         SearchView lakesSearchView = rootView.findViewById(R.id.lakes_search_view);
