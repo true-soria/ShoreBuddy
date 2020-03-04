@@ -1,4 +1,4 @@
-package com.example.shorebuddy.data;
+package com.example.shorebuddy.data.weather;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
@@ -14,7 +14,6 @@ public class Weather {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
-    @NonNull
     @ColumnInfo(name = "timeStamp")
     private Date mTimeStamp;
 

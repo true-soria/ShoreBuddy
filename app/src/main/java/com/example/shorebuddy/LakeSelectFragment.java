@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import android.widget.SearchView;
 
 import com.example.shorebuddy.adapters.LakeListAdapter;
-import com.example.shorebuddy.data.Lake;
+import com.example.shorebuddy.data.lakes.Lake;
 import com.example.shorebuddy.viewmodels.MainViewModel;
 
 import java.util.Objects;
@@ -42,7 +42,7 @@ public class LakeSelectFragment extends Fragment implements LakeListAdapter.OnLa
      * @return A new instance of fragment LakeSelectFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static LakeSelectFragment newInstance() {
+    private static LakeSelectFragment newInstance() {
         LakeSelectFragment fragment = new LakeSelectFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);

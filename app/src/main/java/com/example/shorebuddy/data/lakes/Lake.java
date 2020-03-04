@@ -1,4 +1,4 @@
-package com.example.shorebuddy.data;
+package com.example.shorebuddy.data.lakes;
 
 import com.google.android.gms.maps.model.LatLng;
 

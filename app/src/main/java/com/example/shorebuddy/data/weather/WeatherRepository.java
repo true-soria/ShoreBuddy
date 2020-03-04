@@ -1,7 +1,8 @@
-package com.example.shorebuddy.data;
+package com.example.shorebuddy.data.weather;
 
 import androidx.lifecycle.LiveData;
 
+import com.example.shorebuddy.data.weather.Weather;
 import com.google.android.gms.maps.model.LatLng;
 
 public interface WeatherRepository {

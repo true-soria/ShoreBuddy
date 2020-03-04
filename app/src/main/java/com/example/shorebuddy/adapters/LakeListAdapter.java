@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shorebuddy.R;
-import com.example.shorebuddy.data.Lake;
+import com.example.shorebuddy.data.lakes.Lake;
 
 import org.jetbrains.annotations.NotNull;
 

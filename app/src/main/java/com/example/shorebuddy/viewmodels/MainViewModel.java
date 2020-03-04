@@ -6,15 +6,16 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
-import com.example.shorebuddy.data.Lake;
-import com.example.shorebuddy.data.LakeRepository;
-import com.example.shorebuddy.data.Solunar;
-import com.example.shorebuddy.data.SolunarRepository;
-import com.example.shorebuddy.data.Weather;
-import com.example.shorebuddy.data.WeatherRepository;
+import com.example.shorebuddy.data.lakes.Lake;
+import com.example.shorebuddy.data.lakes.LakeRepository;
+import com.example.shorebuddy.data.solunar.Solunar;
+import com.example.shorebuddy.data.weather.Weather;
+import com.example.shorebuddy.data.weather.WeatherRepository;
 import com.example.shorebuddy.utilities.Event;
 import com.example.shorebuddy.utilities.SearchQuery;
 import com.google.android.gms.maps.model.LatLng;
+
+import com.example.shorebuddy.data.solunar.SolunarRepository;
 
 import java.util.List;
 import java.util.Objects;
@@ -78,6 +79,7 @@ public class MainViewModel extends ViewModel {
     }
 
     public void setCurrentSelectedLakeFromFilteredPosition(int position) {
+        assert mFilteredLakes.getValue() != null;
         mCurrentSelectedLake.setValue(mFilteredLakes.getValue().get(position));
     }
 
@@ -92,7 +94,7 @@ public class MainViewModel extends ViewModel {
     private static class WeatherRepoStub implements WeatherRepository {
         @Override
         public LiveData<Weather> getWeatherData(LatLng location) {
-            MutableLiveData data = new MutableLiveData();
+            MutableLiveData<Weather> data = new MutableLiveData<>();
             data.setValue(new Weather());
             return data;
         }
@@ -131,7 +133,7 @@ public class MainViewModel extends ViewModel {
     private static class SolunarRepoStub implements SolunarRepository {
         @Override
         public LiveData<Solunar> getSolunarData(LatLng location) {
-            MutableLiveData data = new MutableLiveData();
+            MutableLiveData<Solunar> data = new MutableLiveData<>();
             data.setValue(new Solunar());
             return data;
         }
