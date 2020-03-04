@@ -9,7 +9,7 @@ public interface WeatherRepository {
     LiveData<Weather> getWeatherData(LatLng location);
 
     // Invalidate cache entry and fetch fresh weather data.
-    void updateWeatherData(LatLng location);
+    void updateWeatherData();
 }
 
 // TODO: Implement WeatherRepository interface

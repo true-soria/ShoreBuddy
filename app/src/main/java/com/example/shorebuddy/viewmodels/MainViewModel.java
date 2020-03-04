@@ -31,11 +31,11 @@ public class MainViewModel extends ViewModel {
     private MutableLiveData<Event<Boolean>> mUpdateWeatherDataEvent = new MutableLiveData<>();
     private LiveData<List<Lake>> mAllLakes;
     private final LiveData<List<Lake>> mFilteredLakes = Transformations.switchMap(mSearchStr, query -> {
-       if (query.isEmpty()) {
-           return mAllLakes;
-       } else {
-           return mLakeRepo.getFilteredLakes(new SearchQuery(query));
-       }
+        if (query.isEmpty()) {
+            return mAllLakes;
+        } else {
+            return mLakeRepo.getFilteredLakes(new SearchQuery(query));
+        }
     });
     private final LiveData<Solunar> mSolunar = Transformations.switchMap(mCurrentSelectedLake, currentLake -> mSolunarRepo.getSolunarData(currentLake.getLocation()));
     private MediatorLiveData<Weather> mWeather = new MediatorLiveData<>();
@@ -51,7 +51,7 @@ public class MainViewModel extends ViewModel {
         mAllLakes = mLakeRepo.getAllLakes();
         LiveData<Weather> mWeatherInternal = Transformations.switchMap(mCurrentSelectedLake, currentLake -> mWeatherRepo.getWeatherData(currentLake.getLocation()));
         mWeather.addSource(mWeatherInternal, value -> mWeather.setValue(value));
-        mWeather.addSource(mUpdateWeatherDataEvent, updateEvent -> mWeatherRepo.updateWeatherData(Objects.requireNonNull(mCurrentSelectedLake.getValue()).getLocation()));
+        mWeather.addSource(mUpdateWeatherDataEvent, updateEvent -> mWeatherRepo.updateWeatherData());
     }
 
     public LiveData<Lake> getCurrentlySelectedLake() {
@@ -100,7 +100,8 @@ public class MainViewModel extends ViewModel {
         }
 
         @Override
-        public void updateWeatherData(LatLng location) {}
+        public void updateWeatherData() {
+        }
     }
 
     private static class LakeRepoStub implements LakeRepository {
@@ -139,3 +140,5 @@ public class MainViewModel extends ViewModel {
         }
     }
 }
+
+

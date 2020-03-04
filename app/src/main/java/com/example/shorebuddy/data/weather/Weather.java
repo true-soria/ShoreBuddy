@@ -7,64 +7,56 @@ import androidx.room.PrimaryKey;
 
 import com.google.android.gms.maps.model.LatLng;
 
-import java.util.Date;
+import java.util.Calendar;
 
 @Entity(tableName = "weather_cache")
 public class Weather {
+    public Weather(LatLng location) {
+        mLatitude = location.latitude;
+        mLongitude = location.longitude;
+    }
+
     @PrimaryKey(autoGenerate = true)
     private int id;
 
     @ColumnInfo(name = "timeStamp")
-    private Date mTimeStamp;
+    public Calendar tmeStamp;
 
     @ColumnInfo(name = "latitude")
-    private Double mLatitude;
+    private double mLatitude;
 
     @ColumnInfo(name = "longitude")
-    private Double mLongitude;
+    private double mLongitude;
 
     @ColumnInfo(name = "temperature")
-    private Double mTemperature;
+    public double temperature;
 
     @ColumnInfo(name = "pressure")
-    private Double mPressure;
+    public double pressure;
 
     @ColumnInfo(name = "humidity")
-    private Double mHumidity;
+    public double humidity;
+
+    @ColumnInfo(name = "main")
+    public String main;
 
     @ColumnInfo(name = "description")
-    private String mDescription;
+    public String description;
 
     @ColumnInfo(name = "windSpeed")
-    private Double mWindSpeed;
+    public double windSpeed;
 
     @ColumnInfo(name = "windDirection")
-    private Double mWindDirection;
+    public double windDirection;
 
     private boolean isValid = true;
 
-    public Date getTimeStamp() {
-        return mTimeStamp;
-    }
-
-    public Double getTemperature() {
-        return mTemperature;
-    }
-
-    public Double getPressure() {
-        return mPressure;
-    }
-
-    public Double getHumidity() {
-        return mHumidity;
-    }
-
-    public String getDescription() {
-        return mDescription;
-    }
-
-    public LatLng getLatLng() {
+    public LatLng getLocation() {
         return new LatLng(mLatitude, mLongitude);
+    }
+
+    public boolean isValid() {
+        return isValid;
     }
 }
 
