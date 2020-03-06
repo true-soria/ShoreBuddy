@@ -6,7 +6,7 @@ import androidx.room.InvalidationTracker;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteOpenHelper;
 
-public class ShoreBuddyDatabase extends RoomDatabase {
+class ShoreBuddyDatabase extends RoomDatabase {
 
     @NonNull
     @Override

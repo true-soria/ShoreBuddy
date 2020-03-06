@@ -22,14 +22,14 @@ import java.util.List;
 import java.util.Vector;
 
 public class MainViewModel extends ViewModel {
-    private LakeRepository mLakeRepo;
-    private WeatherRepository mWeatherRepo;
-    private SolunarRepository mSolunarRepo;
+    private final LakeRepository mLakeRepo = new LakeRepoStub();
+    private final WeatherRepository mWeatherRepo = new DefaultWeatherRepository();
+    private final SolunarRepository mSolunarRepo = new SolunarRepoStub();
 
-    private MutableLiveData<Lake> mCurrentSelectedLake = new MutableLiveData<>();
-    private MutableLiveData<String> mSearchStr = new MutableLiveData<>();
-    private MutableLiveData<Event<Boolean>> mUpdateWeatherDataEvent = new MutableLiveData<>();
-    private LiveData<List<Lake>> mAllLakes;
+    private final MutableLiveData<Lake> mCurrentSelectedLake = new MutableLiveData<>();
+    private final MutableLiveData<String> mSearchStr = new MutableLiveData<>();
+    private final MutableLiveData<Event<Boolean>> mUpdateWeatherDataEvent = new MutableLiveData<>();
+    private final LiveData<List<Lake>> mAllLakes = mLakeRepo.getAllLakes();
     private final LiveData<List<Lake>> mFilteredLakes = Transformations.switchMap(mSearchStr, query -> {
         if (query.isEmpty()) {
             return mAllLakes;
@@ -38,19 +38,14 @@ public class MainViewModel extends ViewModel {
         }
     });
     private final LiveData<Solunar> mSolunar = Transformations.switchMap(mCurrentSelectedLake, currentLake -> mSolunarRepo.getSolunarData(currentLake.getLocation()));
-    private MediatorLiveData<Weather> mWeather = new MediatorLiveData<>();
+    private final MediatorLiveData<Weather> mWeather = new MediatorLiveData<>();
 
     public MainViewModel() {
         //Stubs
-        mLakeRepo = new LakeRepoStub();
-        mWeatherRepo = new DefaultWeatherRepository();
-        mSolunarRepo = new SolunarRepoStub();
-
         mSearchStr.setValue("");
         mCurrentSelectedLake.setValue(new Lake("Casitas"));
-        mAllLakes = mLakeRepo.getAllLakes();
         LiveData<Weather> mWeatherInternal = Transformations.switchMap(mCurrentSelectedLake, currentLake -> mWeatherRepo.getWeatherData(currentLake.getLocation()));
-        mWeather.addSource(mWeatherInternal, value -> mWeather.setValue(value));
+        mWeather.addSource(mWeatherInternal, mWeather::setValue);
         mWeather.addSource(mUpdateWeatherDataEvent, updateEvent -> mWeatherRepo.updateWeatherData());
     }
 
@@ -92,8 +87,8 @@ public class MainViewModel extends ViewModel {
     }
 
     private static class LakeRepoStub implements LakeRepository {
-        private MutableLiveData<List<Lake>> mFilteredLakes = new MutableLiveData<>();
-        private MutableLiveData<List<Lake>> mAllLakes = new MutableLiveData<>();
+        private final MutableLiveData<List<Lake>> mFilteredLakes = new MutableLiveData<>();
+        private final MutableLiveData<List<Lake>> mAllLakes = new MutableLiveData<>();
 
         LakeRepoStub() {
             Vector<Lake> vec = new Vector<>();

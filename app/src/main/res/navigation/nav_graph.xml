@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/lakeSelectFragment"
-        android:name="com.example.shorebuddy.LakeSelectFragment"
+        android:name="com.example.shorebuddy.views.LakeSelectFragment"
         tools:layout="@layout/fragment_lake_select"
         android:label="LakeSelectFragment" >
         <action
@@ -15,7 +15,7 @@
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.example.shorebuddy.MainFragment"
+        android:name="com.example.shorebuddy.views.MainFragment"
         tools:layout="@layout/main_fragment"
         android:label="MainFragment" >
         <action

@@ -19,7 +19,7 @@ public class LakeListAdapter extends RecyclerView.Adapter<LakeListAdapter.LakeVi
     public static class LakeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private Lake mLake;
         private final TextView lakeItemView;
-        private OnLakeListener onLakeListener;
+        private final OnLakeListener onLakeListener;
 
         private LakeViewHolder(View itemView, OnLakeListener onLakeListener) {
             super(itemView);
@@ -35,7 +35,7 @@ public class LakeListAdapter extends RecyclerView.Adapter<LakeListAdapter.LakeVi
     }
 
     private final LayoutInflater mInflater;
-    private OnLakeListener mOnLakeListener;
+    private final OnLakeListener mOnLakeListener;
     private List<Lake> mLakes;
 
     public LakeListAdapter(Context context, OnLakeListener onLakeListener) {

@@ -2,7 +2,7 @@ package com.example.shorebuddy.utilities;
 
 public class Event<T> {
     private boolean mHasBeenHandled = false;
-    private T mContent;
+    private final T mContent;
 
     public Event(T value) {
         mContent = value;

@@ -1,4 +1,4 @@
-package com.example.shorebuddy;
+package com.example.shorebuddy.views;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
 
+import com.example.shorebuddy.views.LakeSelectFragmentDirections;
+import com.example.shorebuddy.R;
 import com.example.shorebuddy.adapters.LakeListAdapter;
 import com.example.shorebuddy.data.lakes.Lake;
 import com.example.shorebuddy.viewmodels.MainViewModel;

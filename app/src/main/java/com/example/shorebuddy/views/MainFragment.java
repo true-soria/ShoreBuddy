@@ -1,4 +1,4 @@
-package com.example.shorebuddy;
+package com.example.shorebuddy.views;
 
 import androidx.lifecycle.ViewModelProvider;
 
@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.shorebuddy.views.MainFragmentDirections;
+import com.example.shorebuddy.R;
 import com.example.shorebuddy.viewmodels.MainViewModel;
 
 import java.util.Objects;
@@ -32,7 +34,6 @@ public class MainFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         mViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity())).get(MainViewModel.class);
     }
 
@@ -43,9 +44,13 @@ public class MainFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.main_fragment, container, false);
 
         TextView currentLakeTextView = rootView.findViewById(R.id.current_lake_text);
-        mViewModel.getCurrentlySelectedLake().observe(getViewLifecycleOwner(), lake -> {
-            currentLakeTextView.setText(String.format("%s%s", getString(R.string.current_lake_text), lake.name));
-        });
+        mViewModel.getCurrentlySelectedLake().observe(getViewLifecycleOwner(),
+                lake -> currentLakeTextView.setText(String.format("%s%s", getString(R.string.current_lake_text), lake.name)));
+
+        TextView currentWeatherTextView = rootView.findViewById(R.id.current_weather_text);
+        mViewModel.getWeatherData().observe(getViewLifecycleOwner(),
+                weather -> currentWeatherTextView.setText(String.format("Weather: %s", weather.main)));
+
         Button selectLakeBtn = rootView.findViewById(R.id.select_lake_btn);
         selectLakeBtn.setOnClickListener(this::onClickSelectLakeBtn);
         return rootView;

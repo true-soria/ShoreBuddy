@@ -4,7 +4,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 // TODO: Implement as a Room model
 public class Lake {
-    public String name;
+    public final String name;
 
     public Lake(String n) {
         name = n;
