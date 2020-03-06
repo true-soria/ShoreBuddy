@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel;
 import com.example.shorebuddy.data.lakes.Lake;
 import com.example.shorebuddy.data.lakes.LakeRepository;
 import com.example.shorebuddy.data.solunar.Solunar;
+import com.example.shorebuddy.data.weather.DefaultWeatherRepository;
 import com.example.shorebuddy.data.weather.Weather;
 import com.example.shorebuddy.data.weather.WeatherRepository;
 import com.example.shorebuddy.utilities.Event;
@@ -18,7 +19,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.example.shorebuddy.data.solunar.SolunarRepository;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Vector;
 
 public class MainViewModel extends ViewModel {
@@ -43,7 +43,7 @@ public class MainViewModel extends ViewModel {
     public MainViewModel() {
         //Stubs
         mLakeRepo = new LakeRepoStub();
-        mWeatherRepo = new WeatherRepoStub();
+        mWeatherRepo = new DefaultWeatherRepository();
         mSolunarRepo = new SolunarRepoStub();
 
         mSearchStr.setValue("");
@@ -89,19 +89,6 @@ public class MainViewModel extends ViewModel {
 
     public void updateWeatherData() {
         mUpdateWeatherDataEvent.setValue(new Event<>(true));
-    }
-
-    private static class WeatherRepoStub implements WeatherRepository {
-        @Override
-        public LiveData<Weather> getWeatherData(LatLng location) {
-            MutableLiveData<Weather> data = new MutableLiveData<>();
-            data.setValue(new Weather());
-            return data;
-        }
-
-        @Override
-        public void updateWeatherData() {
-        }
     }
 
     private static class LakeRepoStub implements LakeRepository {
