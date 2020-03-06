@@ -37,41 +37,27 @@ public class MainViewModel extends ViewModel {
             return mLakeRepo.getFilteredLakes(new SearchQuery(query));
         }
     });
-    private final LiveData<Solunar> mSolunar = Transformations.switchMap(mCurrentSelectedLake, currentLake -> mSolunarRepo.getSolunarData(currentLake.getLocation()));
+    private final LiveData<Solunar> mSolunar = Transformations.switchMap(mCurrentSelectedLake, currentLake -> mSolunarRepo.getSolunarData(currentLake.location));
     private final MediatorLiveData<Weather> mWeather = new MediatorLiveData<>();
 
     public MainViewModel() {
         //Stubs
         mSearchStr.setValue("");
         mCurrentSelectedLake.setValue(new Lake("Casitas"));
-        LiveData<Weather> mWeatherInternal = Transformations.switchMap(mCurrentSelectedLake, currentLake -> mWeatherRepo.getWeatherData(currentLake.getLocation()));
+        LiveData<Weather> mWeatherInternal = Transformations.switchMap(mCurrentSelectedLake, currentLake -> mWeatherRepo.getWeatherData(currentLake.location));
         mWeather.addSource(mWeatherInternal, mWeather::setValue);
         mWeather.addSource(mUpdateWeatherDataEvent, updateEvent -> mWeatherRepo.updateWeatherData());
     }
 
-    public LiveData<Lake> getCurrentlySelectedLake() {
-        return mCurrentSelectedLake;
-    }
+    public LiveData<Lake> getCurrentlySelectedLake() { return mCurrentSelectedLake; }
 
-    public LiveData<List<Lake>> getAllLakes() {
-        return mAllLakes;
-    }
+    public LiveData<List<Lake>> getFilteredLakes() { return mFilteredLakes; }
 
-    public LiveData<List<Lake>> getFilteredLakes() {
-        return mFilteredLakes;
-    }
+    public LiveData<Weather> getWeatherData() { return mWeather; }
 
-    public LiveData<Weather> getWeatherData() {
-        return mWeather;
-    }
+    public void requestWeatherUpdate() { mUpdateWeatherDataEvent.setValue(new Event<>(true)); }
 
-    public LiveData<Solunar> getSolunarData() {
-        return mSolunar;
-    }
-
-    public void setCurrentSelectedLake(Lake lake) {
-        mCurrentSelectedLake.setValue(lake);
-    }
+    public void setCurrentSelectedLake(Lake lake) { mCurrentSelectedLake.setValue(lake); }
 
     public void setCurrentSelectedLakeFromFilteredPosition(int position) {
         assert mFilteredLakes.getValue() != null;
@@ -82,19 +68,22 @@ public class MainViewModel extends ViewModel {
         mSearchStr.setValue(query);
     }
 
-    public void updateWeatherData() {
-        mUpdateWeatherDataEvent.setValue(new Event<>(true));
-    }
+    //TODO implement solunar data
+    //public LiveData<Solunar> getSolunarData() { return mSolunar; }
 
     private static class LakeRepoStub implements LakeRepository {
+        private final Vector<Lake> mLakes = new Vector<>();
         private final MutableLiveData<List<Lake>> mFilteredLakes = new MutableLiveData<>();
         private final MutableLiveData<List<Lake>> mAllLakes = new MutableLiveData<>();
 
         LakeRepoStub() {
-            Vector<Lake> vec = new Vector<>();
-            vec.add(new Lake("Casitas"));
-            vec.add(new Lake("Pinecrest"));
-            mAllLakes.setValue(vec);
+            Lake casitas = new Lake("Casitas");
+            casitas.location = new LatLng(34.3924, 119.3346);
+            Lake pinecrest = new Lake("Pinecrest");
+            pinecrest.location = new LatLng(38.1999165, 119.9887948);
+            mLakes.add(casitas);
+            mLakes.add(pinecrest);
+            mAllLakes.setValue(mLakes);
         }
 
         @Override
@@ -104,9 +93,7 @@ public class MainViewModel extends ViewModel {
 
         @Override
         public LiveData<List<Lake>> getFilteredLakes(SearchQuery query) {
-            Vector<Lake> vec = new Vector<>();
-            vec.add(new Lake("Casitas"));
-            vec.add(new Lake("Pinecrest"));
+            Vector<Lake> vec = mLakes;
             vec.removeIf(lake -> !lake.name.toLowerCase().contains(query.getRawString().toLowerCase()));
             mFilteredLakes.setValue(vec);
             return mFilteredLakes;
@@ -122,5 +109,4 @@ public class MainViewModel extends ViewModel {
         }
     }
 }
-
 

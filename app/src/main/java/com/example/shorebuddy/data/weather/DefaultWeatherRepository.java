@@ -47,6 +47,7 @@ public class DefaultWeatherRepository implements WeatherRepository {
             }, error -> {
                 //TODO
             });
+            weatherRequest.setShouldCache(false);
 
             mNetworkAccessor.addToRequestQueue(weatherRequest);
         }

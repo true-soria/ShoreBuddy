@@ -1,5 +1,6 @@
 package com.example.shorebuddy.data.weather;
 
+import com.example.shorebuddy.utilities.Converters;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONException;
@@ -19,7 +20,7 @@ class JSONWeatherParser {
             weather.main = weatherInfo.getString("main");
             weather.description = weatherInfo.getString("description");
             weather.iconPath = weatherInfo.getString("icon");
-            weather.temperature = mainInfo.getDouble("temp");
+            weather.temperature = Converters.kelvinToFahrenheit(mainInfo.getDouble("temp"));
             weather.pressure = mainInfo.getDouble("pressure");
             weather.humidity = mainInfo.getDouble("humidity");
             weather.windSpeed = windInfo.getDouble("speed");

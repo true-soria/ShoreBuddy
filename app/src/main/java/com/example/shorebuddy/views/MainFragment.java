@@ -15,21 +15,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.shorebuddy.views.MainFragmentDirections;
 import com.example.shorebuddy.R;
 import com.example.shorebuddy.viewmodels.MainViewModel;
 
+import java.util.Locale;
 import java.util.Objects;
 
 import static androidx.navigation.fragment.NavHostFragment.findNavController;
 
-public class MainFragment extends Fragment {
+class MainFragment extends Fragment {
 
     private MainViewModel mViewModel;
-
-    public static MainFragment newInstance() {
-        return new MainFragment();
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,10 +45,14 @@ public class MainFragment extends Fragment {
 
         TextView currentWeatherTextView = rootView.findViewById(R.id.current_weather_text);
         mViewModel.getWeatherData().observe(getViewLifecycleOwner(),
-                weather -> currentWeatherTextView.setText(String.format("Weather: %s", weather.main)));
+                weather -> currentWeatherTextView.setText(String.format(Locale.US, "Weather: %s\nTemperature: %.2f F\nTimestamp: %s",
+                                                                        weather.main, weather.temperature, weather.getTimeStamp().getTime())));
 
         Button selectLakeBtn = rootView.findViewById(R.id.select_lake_btn);
         selectLakeBtn.setOnClickListener(this::onClickSelectLakeBtn);
+
+        Button refreshWeatherUpdateBtn = rootView.findViewById(R.id.weather_refresh_btn);
+        refreshWeatherUpdateBtn.setOnClickListener(view -> mViewModel.requestWeatherUpdate());
         return rootView;
     }
 

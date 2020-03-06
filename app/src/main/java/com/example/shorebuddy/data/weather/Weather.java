@@ -13,7 +13,7 @@ public class Weather {
     public Weather(LatLng location) {
         mLatitude = location.latitude;
         mLongitude = location.longitude;
-        Calendar timeStamp = Calendar.getInstance();
+        mTimeStamp = Calendar.getInstance();
         temperature = 0;
         pressure = 0;
         humidity = 0;
@@ -26,6 +26,8 @@ public class Weather {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
+
+    private final Calendar mTimeStamp;
 
     @ColumnInfo(name = "latitude")
     private final double mLatitude;
@@ -60,9 +62,8 @@ public class Weather {
         return new LatLng(mLatitude, mLongitude);
     }
 
-    public boolean isValid() {
-        boolean isValid = true;
-        return isValid;
+    public Calendar getTimeStamp() {
+        return mTimeStamp;
     }
 }
 
