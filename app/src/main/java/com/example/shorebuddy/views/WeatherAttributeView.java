@@ -44,6 +44,9 @@ public class WeatherAttributeView extends ConstraintLayout {
         iconView.setImageDrawable(icon);
         TextView staticTitleView = findViewById(R.id.static_label_text);
         staticTitleView.setText(labelText);
+        if (labelText.equals(getResources().getString(R.string.wind_speed))) {
+            staticTitleView.setMaxLines(2);
+        }
     }
 
     public void setData(String data) {

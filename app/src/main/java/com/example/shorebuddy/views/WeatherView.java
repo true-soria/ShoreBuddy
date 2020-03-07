@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.example.shorebuddy.R;
@@ -14,7 +16,7 @@ import com.example.shorebuddy.utilities.NetworkAccessor;
 
 import java.util.Locale;
 
-public class WeatherView extends LinearLayout {
+public class WeatherView extends ConstraintLayout {
     private final ImageLoader mImageLoader;
     public WeatherView(Context context) {
         this(context, null);
@@ -28,7 +30,6 @@ public class WeatherView extends LinearLayout {
         super(context, attrs, defStyleAttr);
         mImageLoader = NetworkAccessor.getInstance().getImageLoader();
         inflate(getContext(), R.layout.weather_control_layout, this);
-        setOrientation(VERTICAL);
     }
 
     public void set_weather(Weather new_weather) {

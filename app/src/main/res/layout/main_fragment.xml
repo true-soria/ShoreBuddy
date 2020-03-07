@@ -20,7 +20,7 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/weather_guideline"
         app:layout_constraintEnd_toStartOf="@id/current_weather_text"
-        app:layout_constraintHorizontal_weight=".5"
+        app:layout_constraintHorizontal_weight=".8"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -38,6 +38,7 @@
         android:id="@+id/last_updated_weather_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
         app:layout_constraintBottom_toTopOf="@id/weather_refresh_btn"/>
 
     <Button

@@ -4,86 +4,93 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:parentTag="android.widget.LinearLayout">
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight=".7">
+    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".24"/>
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".43"/>
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".62"/>
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".81"/>
 
         <com.android.volley.toolbox.NetworkImageView
             android:id="@+id/weather_icon_image_view"
+            android:layout_height="0dp"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
             android:layout_margin="8dp"
-            android:layout_weight="1"
             android:src="@drawable/ic_atmospheric_pressure"
             app:layout_constraintEnd_toStartOf="@+id/temp_text_view"
             app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintBottom_toTopOf="@id/guide1"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteY="16dp" />
-
         <TextView
             android:id="@+id/temp_text_view"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="16dp"
+            android:layout_height="0dp"
             android:gravity="center"
             android:autoSizeTextType="uniform"
             android:autoSizeMaxTextSize="100sp"
             android:autoSizeMinTextSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:maxLines="1"
+            app:layout_constraintBottom_toTopOf="@id/guide1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/weather_icon_image_view"
             app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
         <com.example.shorebuddy.views.WeatherAttributeView
             android:id="@+id/pressure_view"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="8dp"
             app:icon="@drawable/ic_atmospheric_pressure"
             app:label="@string/pressure"
-            android:layout_margin="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/humidity_view"/>
+            app:layout_constraintTop_toTopOf="@id/guide1"
+            app:layout_constraintBottom_toTopOf="@id/guide2"/>
         <com.example.shorebuddy.views.WeatherAttributeView
             android:id="@+id/humidity_view"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
             android:layout_margin="8dp"
+            android:layout_height="0dp"
             app:label="@string/humidity"
             app:icon="@drawable/ic_humidity"
-            app:layout_constraintStart_toEndOf="@id/pressure_view"
-            app:layout_constraintEnd_toEndOf="parent"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+            app:layout_constraintTop_toTopOf="@id/guide2"
+            app:layout_constraintBottom_toTopOf="@id/guide3"/>
         <com.example.shorebuddy.views.WeatherAttributeView
             android:id="@+id/wind_speed_view"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
             android:layout_margin="8dp"
+            android:layout_height="0dp"
             app:label="@string/wind_speed"
             app:icon="@drawable/ic_weather_windy"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/wind_dir_view" />
-
+            app:layout_constraintTop_toTopOf="@id/guide3"
+            app:layout_constraintBottom_toTopOf="@id/guide4"/>
         <com.example.shorebuddy.views.WeatherAttributeView
             android:id="@+id/wind_dir_view"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_margin="8dp"
+            android:layout_height="0dp"
             android:layout_weight="1"
             app:label="@string/wind_direction"
             app:icon="@drawable/ic_compass_rose"
-            app:layout_constraintStart_toEndOf="@id/wind_speed_view"
-            android:layout_margin="8dp"
-            app:layout_constraintEnd_toEndOf="parent"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintTop_toTopOf="@id/guide4"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 </merge>
