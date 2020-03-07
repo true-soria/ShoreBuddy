@@ -1,7 +1,5 @@
 package com.example.shorebuddy.data.weather;
 
-import android.annotation.SuppressLint;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -11,19 +9,26 @@ import com.example.shorebuddy.BuildConfig;
 import com.example.shorebuddy.utilities.NetworkAccessor;
 import com.google.android.gms.maps.model.LatLng;
 
-// TODO
+import org.json.JSONException;
+
+import java.util.Locale;
+
 public class DefaultWeatherRepository implements WeatherRepository {
+    public interface OnAPIErrorHandler {
+        void onApiError(Exception e);
+    }
+
+    private final OnAPIErrorHandler mErrorHandler;
     private final NetworkAccessor mNetworkAccessor;
     private final MutableLiveData<Weather> weatherData;
     private LatLng currentLoc;
 
-    public DefaultWeatherRepository() {
+    public DefaultWeatherRepository(OnAPIErrorHandler errorHandler) {
+        mErrorHandler = errorHandler;
         mNetworkAccessor = NetworkAccessor.getInstance();
         weatherData = new MutableLiveData<>();
-        Weather fetchingWeather = new Weather(new LatLng(0, 0));
-        fetchingWeather.main = "Fetching Weather";
-
-        weatherData.setValue(fetchingWeather);
+        Weather defaultWeather = new Weather(new LatLng(0, 0));
+        weatherData.setValue(defaultWeather);
     }
 
 
@@ -37,18 +42,20 @@ public class DefaultWeatherRepository implements WeatherRepository {
     @Override
     public void updateWeatherData() {
         if (currentLoc != null) {
-
-            @SuppressLint("DefaultLocale")
-            String url = String.format("https://api.openweathermap.org/data/2.5/weather?lat=%f&lon=%f&units=imperial&appid=%s", currentLoc.latitude, currentLoc.longitude, BuildConfig.WEATHER_API_KEY);
-
+            String url = String.format(Locale.US,
+                    "https://api.openweathermap.org/data/2.5/weather?lat=%f&lon=%f&units=imperial&appid=%s",
+                    currentLoc.latitude,
+                    currentLoc.longitude,
+                    BuildConfig.WEATHER_API_KEY);
             StringRequest weatherRequest = new StringRequest(Request.Method.GET, url, response -> {
-                Weather weather = JSONWeatherParser.parse(response);
-                weatherData.setValue(weather);
-            }, error -> {
-                //TODO
-            });
+                try {
+                    Weather weather = JSONWeatherParser.parse(response);
+                    weatherData.setValue(weather);
+                } catch (JSONException e) {
+                    mErrorHandler.onApiError(e);
+                }
+            }, mErrorHandler::onApiError);
             weatherRequest.setShouldCache(false);
-
             mNetworkAccessor.addToRequestQueue(weatherRequest);
         }
     }
