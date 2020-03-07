@@ -19,6 +19,8 @@ import com.google.android.gms.maps.model.LatLng;
 
 import com.example.shorebuddy.data.solunar.SolunarRepository;
 
+import org.json.JSONException;
+
 import java.util.List;
 import java.util.Vector;
 
@@ -73,7 +75,12 @@ public class MainViewModel extends ViewModel implements DefaultWeatherRepository
 
     @Override
     public void onApiError(Exception e) {
-        mToast.setValue(R.string.weather_error);
+        // TODO proper handling instead of instanceOf
+        if (e instanceof JSONException) {
+            mToast.setValue(R.string.weather_parse_error);
+        } else {
+            mToast.setValue(R.string.weather_fetch_error);
+        }
     }
 
     //TODO implement solunar data

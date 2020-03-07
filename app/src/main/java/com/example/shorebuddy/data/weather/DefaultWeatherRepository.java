@@ -9,6 +9,8 @@ import com.example.shorebuddy.BuildConfig;
 import com.example.shorebuddy.utilities.NetworkAccessor;
 import com.google.android.gms.maps.model.LatLng;
 
+import org.json.JSONException;
+
 import java.util.Locale;
 
 public class DefaultWeatherRepository implements WeatherRepository {
@@ -46,8 +48,12 @@ public class DefaultWeatherRepository implements WeatherRepository {
                     currentLoc.longitude,
                     BuildConfig.WEATHER_API_KEY);
             StringRequest weatherRequest = new StringRequest(Request.Method.GET, url, response -> {
-                Weather weather = JSONWeatherParser.parse(response);
-                weatherData.setValue(weather);
+                try {
+                    Weather weather = JSONWeatherParser.parse(response);
+                    weatherData.setValue(weather);
+                } catch (JSONException e) {
+                    mErrorHandler.onApiError(e);
+                }
             }, mErrorHandler::onApiError);
             weatherRequest.setShouldCache(false);
             mNetworkAccessor.addToRequestQueue(weatherRequest);

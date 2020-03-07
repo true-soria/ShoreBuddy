@@ -6,9 +6,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 class JSONWeatherParser {
-    public static Weather parse(String str) {
+    public static Weather parse(String str) throws JSONException {
         Weather weather;
-        try {
             JSONObject root = new JSONObject(str);
             JSONObject weatherInfo = root.getJSONArray("weather").getJSONObject(0);
             JSONObject coords = root.getJSONObject("coord");
@@ -24,10 +23,6 @@ class JSONWeatherParser {
             weather.humidity = mainInfo.getInt("humidity");
             weather.windSpeed = windInfo.getDouble("speed");
             weather.windDirection = windInfo.getInt("deg");
-        } catch (JSONException e) {
-            weather = new Weather(new LatLng(0,0));
-            weather.main = "Error parsing weather data";
-        }
         return weather;
     }
 }
