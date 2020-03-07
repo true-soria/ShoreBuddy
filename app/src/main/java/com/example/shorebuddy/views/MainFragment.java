@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.shorebuddy.R;
 import com.example.shorebuddy.viewmodels.MainViewModel;
@@ -50,6 +51,9 @@ public class MainFragment extends Fragment {
             currentWeatherTextView.setText(String.format(Locale.US, "Weather Timestamp: %s", weather.getTimeStamp().getTime()));
             weatherView.set_weather(weather);
         });
+
+        mViewModel.getToastData().observe(getViewLifecycleOwner(),
+                resourceId -> Toast.makeText(getContext(), getResources().getString(resourceId), Toast.LENGTH_LONG).show());
 
 
         Button selectLakeBtn = rootView.findViewById(R.id.select_lake_btn);

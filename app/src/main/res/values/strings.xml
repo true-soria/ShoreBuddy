@@ -14,4 +14,5 @@
     <string name="wind_direction">Heading:</string>
     <string name="compassicon">CompassIcon</string>
     <string name="missing_icon">Missing Icon</string>
+    <string name="weather_error">Error fetching weather data.</string>
 </resources>

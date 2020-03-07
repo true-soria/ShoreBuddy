@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
+import com.example.shorebuddy.R;
 import com.example.shorebuddy.data.lakes.Lake;
 import com.example.shorebuddy.data.lakes.LakeRepository;
 import com.example.shorebuddy.data.solunar.Solunar;
@@ -21,9 +22,9 @@ import com.example.shorebuddy.data.solunar.SolunarRepository;
 import java.util.List;
 import java.util.Vector;
 
-public class MainViewModel extends ViewModel {
+public class MainViewModel extends ViewModel implements DefaultWeatherRepository.OnAPIErrorHandler {
     private final LakeRepository mLakeRepo = new LakeRepoStub();
-    private final WeatherRepository mWeatherRepo = new DefaultWeatherRepository();
+    private final WeatherRepository mWeatherRepo = new DefaultWeatherRepository(this);
     private final SolunarRepository mSolunarRepo = new SolunarRepoStub();
 
     private final MutableLiveData<Lake> mCurrentSelectedLake = new MutableLiveData<>();
@@ -39,9 +40,9 @@ public class MainViewModel extends ViewModel {
     });
     private final LiveData<Solunar> mSolunar = Transformations.switchMap(mCurrentSelectedLake, currentLake -> mSolunarRepo.getSolunarData(currentLake.location));
     private final MediatorLiveData<Weather> mWeather = new MediatorLiveData<>();
+    private final MutableLiveData<Integer> mToast = new MutableLiveData<>();
 
     public MainViewModel() {
-        //Stubs
         mSearchStr.setValue("");
         mCurrentSelectedLake.setValue(new Lake("Casitas"));
         LiveData<Weather> mWeatherInternal = Transformations.switchMap(mCurrentSelectedLake, currentLake -> mWeatherRepo.getWeatherData(currentLake.location));
@@ -57,6 +58,8 @@ public class MainViewModel extends ViewModel {
 
     public void requestWeatherUpdate() { mUpdateWeatherDataEvent.setValue(new Event<>(true)); }
 
+    public LiveData<Integer> getToastData() { return mToast; }
+
     public void setCurrentSelectedLake(Lake lake) { mCurrentSelectedLake.setValue(lake); }
 
     public void setCurrentSelectedLakeFromFilteredPosition(int position) {
@@ -66,6 +69,11 @@ public class MainViewModel extends ViewModel {
 
     public void setSearchQuery(String query) {
         mSearchStr.setValue(query);
+    }
+
+    @Override
+    public void onApiError(Exception e) {
+        mToast.setValue(R.string.weather_error);
     }
 
     //TODO implement solunar data
