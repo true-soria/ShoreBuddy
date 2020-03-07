@@ -18,45 +18,45 @@ public class DefaultWeatherRepository implements WeatherRepository {
         void onApiError(Exception e);
     }
 
-    private final OnAPIErrorHandler mErrorHandler;
-    private final NetworkAccessor mNetworkAccessor;
-    private final MutableLiveData<Weather> mWeatherData;
-    private LatLng mCurrentLoc;
+    private final OnAPIErrorHandler errorHandler;
+    private final NetworkAccessor networkAccessor;
+    private final MutableLiveData<Weather> weatherData;
+    private LatLng currentLocation;
 
     public DefaultWeatherRepository(OnAPIErrorHandler errorHandler) {
-        mErrorHandler = errorHandler;
-        mNetworkAccessor = NetworkAccessor.getInstance();
-        mWeatherData = new MutableLiveData<>();
+        this.errorHandler = errorHandler;
+        networkAccessor = NetworkAccessor.getInstance();
+        weatherData = new MutableLiveData<>();
         Weather defaultWeather = new Weather(new LatLng(0, 0));
-        mWeatherData.setValue(defaultWeather);
+        weatherData.setValue(defaultWeather);
     }
 
 
     @Override
     public LiveData<Weather> getWeatherData(LatLng location) {
-        mCurrentLoc = location;
+        currentLocation = location;
         updateWeatherData();
-        return mWeatherData;
+        return weatherData;
     }
 
     @Override
     public void updateWeatherData() {
-        if (mCurrentLoc != null) {
+        if (currentLocation != null) {
             String url = String.format(Locale.US,
                     "https://api.openweathermap.org/data/2.5/weather?lat=%f&lon=%f&units=imperial&appid=%s",
-                    mCurrentLoc.latitude,
-                    mCurrentLoc.longitude,
+                    currentLocation.latitude,
+                    currentLocation.longitude,
                     BuildConfig.WEATHER_API_KEY);
             StringRequest weatherRequest = new StringRequest(Request.Method.GET, url, response -> {
                 try {
                     Weather weather = JSONWeatherParser.parse(response);
-                    mWeatherData.setValue(weather);
+                    weatherData.setValue(weather);
                 } catch (JSONException e) {
-                    mErrorHandler.onApiError(e);
+                    errorHandler.onApiError(e);
                 }
-            }, mErrorHandler::onApiError);
+            }, errorHandler::onApiError);
             weatherRequest.setShouldCache(false);
-            mNetworkAccessor.addToRequestQueue(weatherRequest);
+            networkAccessor.addToRequestQueue(weatherRequest);
         }
     }
 }

@@ -12,7 +12,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.example.shorebuddy.R;
 
 public class WeatherAttributeView extends ConstraintLayout {
-    private final TextView mDataText;
+    private final TextView dataText;
 
     public WeatherAttributeView(Context context) {
         this(context, null);
@@ -39,7 +39,7 @@ public class WeatherAttributeView extends ConstraintLayout {
 
         inflate(getContext(), R.layout.weather_attribute_layout, this);
         setBackground(getResources().getDrawable(R.drawable.rounded_square, null));
-        mDataText = findViewById(R.id.data_text_view);
+        dataText = findViewById(R.id.data_text_view);
         ImageView iconView = findViewById(R.id.icon);
         iconView.setImageDrawable(icon);
         TextView staticTitleView = findViewById(R.id.static_label_text);
@@ -50,6 +50,6 @@ public class WeatherAttributeView extends ConstraintLayout {
     }
 
     public void setData(String data) {
-        mDataText.setText(data);
+        dataText.setText(data);
     }
 }

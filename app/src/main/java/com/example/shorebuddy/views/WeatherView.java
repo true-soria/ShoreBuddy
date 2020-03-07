@@ -3,7 +3,6 @@ package com.example.shorebuddy.views;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -17,7 +16,7 @@ import com.example.shorebuddy.utilities.NetworkAccessor;
 import java.util.Locale;
 
 public class WeatherView extends ConstraintLayout {
-    private final ImageLoader mImageLoader;
+    private final ImageLoader imageLoader;
     public WeatherView(Context context) {
         this(context, null);
     }
@@ -28,7 +27,7 @@ public class WeatherView extends ConstraintLayout {
 
     public WeatherView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        mImageLoader = NetworkAccessor.getInstance().getImageLoader();
+        imageLoader = NetworkAccessor.getInstance().getImageLoader();
         inflate(getContext(), R.layout.weather_control_layout, this);
     }
 
@@ -50,7 +49,7 @@ public class WeatherView extends ConstraintLayout {
         if (!new_weather.iconPath.isEmpty()) {
             String s = String.format("https://openweathermap.org/img/wn/%s@2x.png", new_weather.iconPath);
             weatherIcon.setBackground(getResources().getDrawable(R.drawable.rounded_square, null));
-            weatherIcon.setImageUrl(s, mImageLoader);
+            weatherIcon.setImageUrl(s, imageLoader);
         }
     }
 }

@@ -10,10 +10,10 @@ import java.util.Calendar;
 
 @Entity(tableName = "weather_cache")
 public class Weather {
-    public Weather(LatLng location) {
-        mLatitude = location.latitude;
-        mLongitude = location.longitude;
-        mTimeStamp = Calendar.getInstance();
+    Weather(LatLng location) {
+        latitude = location.latitude;
+        longitude = location.longitude;
+        timeStamp = Calendar.getInstance();
         temperature = 0;
         pressure = 0;
         humidity = 0;
@@ -27,13 +27,13 @@ public class Weather {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
-    private final Calendar mTimeStamp;
+    private final Calendar timeStamp;
 
     @ColumnInfo(name = "latitude")
-    private final double mLatitude;
+    private final double latitude;
 
     @ColumnInfo(name = "longitude")
-    private final double mLongitude;
+    private final double longitude;
 
     @ColumnInfo(name = "temperature")
     public double temperature;
@@ -59,11 +59,11 @@ public class Weather {
     public String iconPath;
 
     public LatLng getLocation() {
-        return new LatLng(mLatitude, mLongitude);
+        return new LatLng(latitude, longitude);
     }
 
     public Calendar getTimeStamp() {
-        return mTimeStamp;
+        return timeStamp;
     }
 }
 
