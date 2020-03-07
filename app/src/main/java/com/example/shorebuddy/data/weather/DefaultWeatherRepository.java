@@ -39,7 +39,7 @@ public class DefaultWeatherRepository implements WeatherRepository {
         if (currentLoc != null) {
 
             @SuppressLint("DefaultLocale")
-            String url = String.format("https://api.openweathermap.org/data/2.5/weather?lat=%f&lon=%f&appid=%s", currentLoc.latitude, currentLoc.longitude, BuildConfig.WEATHER_API_KEY);
+            String url = String.format("https://api.openweathermap.org/data/2.5/weather?lat=%f&lon=%f&units=imperial&appid=%s", currentLoc.latitude, currentLoc.longitude, BuildConfig.WEATHER_API_KEY);
 
             StringRequest weatherRequest = new StringRequest(Request.Method.GET, url, response -> {
                 Weather weather = JSONWeatherParser.parse(response);

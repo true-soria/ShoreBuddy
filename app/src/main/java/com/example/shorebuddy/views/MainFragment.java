@@ -23,7 +23,7 @@ import java.util.Objects;
 
 import static androidx.navigation.fragment.NavHostFragment.findNavController;
 
-class MainFragment extends Fragment {
+public class MainFragment extends Fragment {
 
     private MainViewModel mViewModel;
 
@@ -43,10 +43,14 @@ class MainFragment extends Fragment {
         mViewModel.getCurrentlySelectedLake().observe(getViewLifecycleOwner(),
                 lake -> currentLakeTextView.setText(String.format("%s%s", getString(R.string.current_lake_text), lake.name)));
 
-        TextView currentWeatherTextView = rootView.findViewById(R.id.current_weather_text);
-        mViewModel.getWeatherData().observe(getViewLifecycleOwner(),
-                weather -> currentWeatherTextView.setText(String.format(Locale.US, "Weather: %s\nTemperature: %.2f F\nTimestamp: %s",
-                                                                        weather.main, weather.temperature, weather.getTimeStamp().getTime())));
+        //TODO remove timestamp
+        TextView currentWeatherTextView = rootView.findViewById(R.id.last_updated_weather_text);
+        WeatherView weatherView = rootView.findViewById(R.id.current_weather_text);
+        mViewModel.getWeatherData().observe(getViewLifecycleOwner(), weather -> {
+            currentWeatherTextView.setText(String.format(Locale.US, "Weather Timestamp: %s", weather.getTimeStamp().getTime()));
+            weatherView.set_weather(weather);
+        });
+
 
         Button selectLakeBtn = rootView.findViewById(R.id.select_lake_btn);
         selectLakeBtn.setOnClickListener(this::onClickSelectLakeBtn);

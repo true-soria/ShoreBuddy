@@ -39,10 +39,10 @@ public class Weather {
     public double temperature;
 
     @ColumnInfo(name = "pressure")
-    public double pressure;
+    public int pressure;
 
     @ColumnInfo(name = "humidity")
-    public double humidity;
+    public int humidity;
 
     @ColumnInfo(name = "main")
     public String main;
@@ -54,7 +54,7 @@ public class Weather {
     public double windSpeed;
 
     @ColumnInfo(name = "windDirection")
-    public double windDirection;
+    public int windDirection;
 
     public String iconPath;
 
