@@ -18,20 +18,18 @@ import java.util.List;
 public class LakeListAdapter extends RecyclerView.Adapter<LakeListAdapter.LakeViewHolder> {
     public static class LakeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private Lake mLake;
-        private final TextView lakeItemView;
-        private final OnLakeListener onLakeListener;
+        private final TextView mLakeItemView;
+        private final OnLakeListener mOnLakeListener;
 
         private LakeViewHolder(View itemView, OnLakeListener onLakeListener) {
             super(itemView);
-            lakeItemView = itemView.findViewById(R.id.lakeListTextView);
-            this.onLakeListener = onLakeListener;
-            lakeItemView.setOnClickListener(this);
+            mLakeItemView = itemView.findViewById(R.id.lakeListTextView);
+            mOnLakeListener = onLakeListener;
+            mLakeItemView.setOnClickListener(this);
         }
 
         @Override
-        public void onClick(View v) {
-            this.onLakeListener.onLakeSelected(mLake);
-        }
+        public void onClick(View v) { mOnLakeListener.onLakeSelected(mLake); }
     }
 
     private final LayoutInflater mInflater;
@@ -40,7 +38,7 @@ public class LakeListAdapter extends RecyclerView.Adapter<LakeListAdapter.LakeVi
 
     public LakeListAdapter(Context context, OnLakeListener onLakeListener) {
         mInflater = LayoutInflater.from(context);
-        this.mOnLakeListener = onLakeListener;
+        mOnLakeListener = onLakeListener;
     }
 
     @NotNull
@@ -54,7 +52,7 @@ public class LakeListAdapter extends RecyclerView.Adapter<LakeListAdapter.LakeVi
     public void onBindViewHolder(@NotNull LakeViewHolder holder, int position) {
         if (mLakes != null) {
             Lake current_lake = mLakes.get(position);
-            holder.lakeItemView.setText(current_lake.name);
+            holder.mLakeItemView.setText(current_lake.name);
             holder.mLake = current_lake;
         }
     }

@@ -12,7 +12,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.example.shorebuddy.R;
 
 public class WeatherAttributeView extends ConstraintLayout {
-    private final TextView dataText;
+    private final TextView mDataText;
 
     public WeatherAttributeView(Context context) {
         this(context, null);
@@ -27,9 +27,9 @@ public class WeatherAttributeView extends ConstraintLayout {
         String labelText;
         Drawable icon;
         if (attrs != null) {
-            TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.WeatherAttributeViewOptions, defStyleAttr, 0);
-            labelText = a.getString(R.styleable.WeatherAttributeViewOptions_label);
-            icon = a.getDrawable(R.styleable.WeatherAttributeViewOptions_icon);
+            TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.WeatherAttributeView, defStyleAttr, 0);
+            labelText = a.getString(R.styleable.WeatherAttributeView_label);
+            icon = a.getDrawable(R.styleable.WeatherAttributeView_icon);
             a.recycle();
         }
         else {
@@ -39,7 +39,7 @@ public class WeatherAttributeView extends ConstraintLayout {
 
         inflate(getContext(), R.layout.weather_attribute_layout, this);
         setBackground(getResources().getDrawable(R.drawable.rounded_square, null));
-        dataText = findViewById(R.id.data_text_view);
+        mDataText = findViewById(R.id.data_text_view);
         ImageView iconView = findViewById(R.id.icon);
         iconView.setImageDrawable(icon);
         TextView staticTitleView = findViewById(R.id.static_label_text);
@@ -50,6 +50,6 @@ public class WeatherAttributeView extends ConstraintLayout {
     }
 
     public void setData(String data) {
-        dataText.setText(data);
+        mDataText.setText(data);
     }
 }

@@ -20,37 +20,37 @@ public class DefaultWeatherRepository implements WeatherRepository {
 
     private final OnAPIErrorHandler mErrorHandler;
     private final NetworkAccessor mNetworkAccessor;
-    private final MutableLiveData<Weather> weatherData;
-    private LatLng currentLoc;
+    private final MutableLiveData<Weather> mWeatherData;
+    private LatLng mCurrentLoc;
 
     public DefaultWeatherRepository(OnAPIErrorHandler errorHandler) {
         mErrorHandler = errorHandler;
         mNetworkAccessor = NetworkAccessor.getInstance();
-        weatherData = new MutableLiveData<>();
+        mWeatherData = new MutableLiveData<>();
         Weather defaultWeather = new Weather(new LatLng(0, 0));
-        weatherData.setValue(defaultWeather);
+        mWeatherData.setValue(defaultWeather);
     }
 
 
     @Override
     public LiveData<Weather> getWeatherData(LatLng location) {
-        currentLoc = location;
+        mCurrentLoc = location;
         updateWeatherData();
-        return weatherData;
+        return mWeatherData;
     }
 
     @Override
     public void updateWeatherData() {
-        if (currentLoc != null) {
+        if (mCurrentLoc != null) {
             String url = String.format(Locale.US,
                     "https://api.openweathermap.org/data/2.5/weather?lat=%f&lon=%f&units=imperial&appid=%s",
-                    currentLoc.latitude,
-                    currentLoc.longitude,
+                    mCurrentLoc.latitude,
+                    mCurrentLoc.longitude,
                     BuildConfig.WEATHER_API_KEY);
             StringRequest weatherRequest = new StringRequest(Request.Method.GET, url, response -> {
                 try {
                     Weather weather = JSONWeatherParser.parse(response);
-                    weatherData.setValue(weather);
+                    mWeatherData.setValue(weather);
                 } catch (JSONException e) {
                     mErrorHandler.onApiError(e);
                 }
