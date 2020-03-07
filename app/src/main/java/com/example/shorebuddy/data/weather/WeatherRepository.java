@@ -11,5 +11,3 @@ public interface WeatherRepository {
     // Invalidate cache entry and fetch fresh weather data.
     void updateWeatherData();
 }
-
-// TODO: Implement WeatherRepository interface

@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".views.LakeSelectFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <android.widget.SearchView
         android:id="@+id/lakes_search_view"
         android:layout_width="match_parent"
