@@ -1,7 +1,7 @@
 package com.example.shorebuddy.utilities;
 
 public class SearchQuery {
-    private String mString;
+    private final String mString;
 
     public SearchQuery(String s) {
         mString = s;

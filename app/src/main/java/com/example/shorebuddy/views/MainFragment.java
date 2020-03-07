@@ -1,4 +1,4 @@
-package com.example.shorebuddy;
+package com.example.shorebuddy.views;
 
 import androidx.lifecycle.ViewModelProvider;
 
@@ -15,8 +15,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.shorebuddy.R;
 import com.example.shorebuddy.viewmodels.MainViewModel;
 
+import java.util.Locale;
 import java.util.Objects;
 
 import static androidx.navigation.fragment.NavHostFragment.findNavController;
@@ -25,14 +27,9 @@ public class MainFragment extends Fragment {
 
     private MainViewModel mViewModel;
 
-    public static MainFragment newInstance() {
-        return new MainFragment();
-    }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         mViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity())).get(MainViewModel.class);
     }
 
@@ -43,11 +40,23 @@ public class MainFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.main_fragment, container, false);
 
         TextView currentLakeTextView = rootView.findViewById(R.id.current_lake_text);
-        mViewModel.getCurrentlySelectedLake().observe(getViewLifecycleOwner(), lake -> {
-            currentLakeTextView.setText(String.format("%s%s", getString(R.string.current_lake_text), lake.name));
+        mViewModel.getCurrentlySelectedLake().observe(getViewLifecycleOwner(),
+                lake -> currentLakeTextView.setText(String.format("%s%s", getString(R.string.current_lake_text), lake.name)));
+
+        //TODO remove timestamp
+        TextView currentWeatherTextView = rootView.findViewById(R.id.last_updated_weather_text);
+        WeatherView weatherView = rootView.findViewById(R.id.current_weather_text);
+        mViewModel.getWeatherData().observe(getViewLifecycleOwner(), weather -> {
+            currentWeatherTextView.setText(String.format(Locale.US, "Weather Timestamp: %s", weather.getTimeStamp().getTime()));
+            weatherView.set_weather(weather);
         });
+
+
         Button selectLakeBtn = rootView.findViewById(R.id.select_lake_btn);
         selectLakeBtn.setOnClickListener(this::onClickSelectLakeBtn);
+
+        Button refreshWeatherUpdateBtn = rootView.findViewById(R.id.weather_refresh_btn);
+        refreshWeatherUpdateBtn.setOnClickListener(view -> mViewModel.requestWeatherUpdate());
         return rootView;
     }
 

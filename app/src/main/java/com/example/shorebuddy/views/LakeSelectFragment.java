@@ -1,4 +1,4 @@
-package com.example.shorebuddy;
+package com.example.shorebuddy.views;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -14,35 +14,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
 
+import com.example.shorebuddy.R;
 import com.example.shorebuddy.adapters.LakeListAdapter;
-import com.example.shorebuddy.data.Lake;
+import com.example.shorebuddy.data.lakes.Lake;
 import com.example.shorebuddy.viewmodels.MainViewModel;
 
 import java.util.Objects;
 
 import static androidx.navigation.fragment.NavHostFragment.findNavController;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link LakeSelectFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class LakeSelectFragment extends Fragment implements LakeListAdapter.OnLakeListener {
 
     private MainViewModel mViewModel;
 
-    public LakeSelectFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment LakeSelectFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static LakeSelectFragment newInstance() {
+    private static LakeSelectFragment newInstance() {
         LakeSelectFragment fragment = new LakeSelectFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);

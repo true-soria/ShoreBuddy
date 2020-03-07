@@ -1,4 +1,4 @@
-package com.example.shorebuddy.data;
+package com.example.shorebuddy.utilities;
 
 import androidx.room.TypeConverter;
 
@@ -13,5 +13,9 @@ public class Converters {
     @TypeConverter
     public static Long dateToTimestamp(Date date) {
         return date == null ? null : date.getTime();
+    }
+
+    public static double kelvinToFahrenheit(double kelvinTemp) {
+        return (((kelvinTemp - 273.15) * (9./5.)) + 32);
     }
 }
