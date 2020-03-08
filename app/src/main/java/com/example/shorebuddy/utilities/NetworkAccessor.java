@@ -12,8 +12,8 @@ import com.android.volley.toolbox.NoCache;
 
 public class NetworkAccessor {
     private static NetworkAccessor INSTANCE;
-    private final RequestQueue mRequestQueue;
-    private final ImageLoader mImageLoader;
+    private final RequestQueue requestQueue;
+    private final ImageLoader imageLoader;
 
     public static synchronized NetworkAccessor getInstance() {
         if (INSTANCE == null) {
@@ -23,8 +23,8 @@ public class NetworkAccessor {
     }
 
     private NetworkAccessor() {
-        mRequestQueue = new RequestQueue(new NoCache(), new BasicNetwork(new HurlStack()));
-        mImageLoader = new ImageLoader(mRequestQueue, new ImageLoader.ImageCache() {
+        requestQueue = new RequestQueue(new NoCache(), new BasicNetwork(new HurlStack()));
+        imageLoader = new ImageLoader(requestQueue, new ImageLoader.ImageCache() {
             private final LruCache<String, Bitmap> mCache = new LruCache<>(10);
             @Override
             public Bitmap getBitmap(String url) {
@@ -37,14 +37,14 @@ public class NetworkAccessor {
             }
         });
 
-        mRequestQueue.start();
+        requestQueue.start();
     }
 
     public ImageLoader getImageLoader() {
-        return this.mImageLoader;
+        return imageLoader;
     }
 
     public <T> void addToRequestQueue(Request<T> req) {
-        mRequestQueue.add(req);
+        requestQueue.add(req);
     }
 }

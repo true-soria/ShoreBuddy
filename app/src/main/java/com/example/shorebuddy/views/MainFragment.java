@@ -26,12 +26,12 @@ import static androidx.navigation.fragment.NavHostFragment.findNavController;
 
 public class MainFragment extends Fragment {
 
-    private MainViewModel mViewModel;
+    private MainViewModel mainViewModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity())).get(MainViewModel.class);
+        mainViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity())).get(MainViewModel.class);
     }
 
     @Nullable
@@ -41,18 +41,18 @@ public class MainFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.main_fragment, container, false);
 
         TextView currentLakeTextView = rootView.findViewById(R.id.current_lake_text);
-        mViewModel.getCurrentlySelectedLake().observe(getViewLifecycleOwner(),
+        mainViewModel.getCurrentlySelectedLake().observe(getViewLifecycleOwner(),
                 lake -> currentLakeTextView.setText(String.format("%s%s", getString(R.string.current_lake_text), lake.name)));
 
         //TODO remove timestamp
         TextView currentWeatherTextView = rootView.findViewById(R.id.last_updated_weather_text);
         WeatherView weatherView = rootView.findViewById(R.id.current_weather_text);
-        mViewModel.getWeatherData().observe(getViewLifecycleOwner(), weather -> {
+        mainViewModel.getWeatherData().observe(getViewLifecycleOwner(), weather -> {
             currentWeatherTextView.setText(String.format(Locale.US, "Weather Timestamp: %s", weather.getTimeStamp().getTime()));
             weatherView.set_weather(weather);
         });
 
-        mViewModel.getToastData().observe(getViewLifecycleOwner(),
+        mainViewModel.getToastData().observe(getViewLifecycleOwner(),
                 resourceId -> Toast.makeText(getContext(), getResources().getString(resourceId), Toast.LENGTH_LONG).show());
 
 
@@ -60,7 +60,7 @@ public class MainFragment extends Fragment {
         selectLakeBtn.setOnClickListener(this::onClickSelectLakeBtn);
 
         Button refreshWeatherUpdateBtn = rootView.findViewById(R.id.weather_refresh_btn);
-        refreshWeatherUpdateBtn.setOnClickListener(view -> mViewModel.requestWeatherUpdate());
+        refreshWeatherUpdateBtn.setOnClickListener(view -> mainViewModel.requestWeatherUpdate());
         return rootView;
     }
 

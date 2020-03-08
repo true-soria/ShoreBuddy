@@ -25,7 +25,7 @@ import static androidx.navigation.fragment.NavHostFragment.findNavController;
 
 public class LakeSelectFragment extends Fragment implements LakeListAdapter.OnLakeListener {
 
-    private MainViewModel mViewModel;
+    private MainViewModel mainViewModel;
 
     private static LakeSelectFragment newInstance() {
         LakeSelectFragment fragment = new LakeSelectFragment();
@@ -37,7 +37,7 @@ public class LakeSelectFragment extends Fragment implements LakeListAdapter.OnLa
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity())).get(MainViewModel.class);
+        mainViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity())).get(MainViewModel.class);
     }
 
     @Override
@@ -52,18 +52,18 @@ public class LakeSelectFragment extends Fragment implements LakeListAdapter.OnLa
         lakesRecyclerView.setLayoutManager(new LinearLayoutManager(activity));
 
         assert activity != null;
-        mViewModel.setSearchQuery("");
-        mViewModel.getFilteredLakes().observe(getViewLifecycleOwner(), lakesAdapter::setLakes);
+        mainViewModel.setSearchQuery("");
+        mainViewModel.getFilteredLakes().observe(getViewLifecycleOwner(), lakesAdapter::setLakes);
 
         SearchView lakesSearchView = rootView.findViewById(R.id.lakes_search_view);
         lakesSearchView.setOnCloseListener(() -> {
-            mViewModel.setSearchQuery("");
+            mainViewModel.setSearchQuery("");
             return false;
         });
         lakesSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                mViewModel.setCurrentSelectedLakeFromFilteredPosition(0);
+                mainViewModel.setCurrentSelectedLakeFromFilteredPosition(0);
                 NavDirections action = LakeSelectFragmentDirections.actionLakeSelectFragmentToMainFragment();
                 findNavController(LakeSelectFragment.this).navigate(action);
                 return false;
@@ -71,7 +71,7 @@ public class LakeSelectFragment extends Fragment implements LakeListAdapter.OnLa
 
             @Override
             public boolean onQueryTextChange(String newQuery) {
-                mViewModel.setSearchQuery(newQuery);
+                mainViewModel.setSearchQuery(newQuery);
                 return false;
             }
         });
@@ -80,7 +80,7 @@ public class LakeSelectFragment extends Fragment implements LakeListAdapter.OnLa
 
     @Override
     public void onLakeSelected(Lake lake) {
-        mViewModel.setCurrentSelectedLake(lake);
+        mainViewModel.setCurrentSelectedLake(lake);
         NavDirections action = LakeSelectFragmentDirections.actionLakeSelectFragmentToMainFragment();
         findNavController(this).navigate(action);
     }

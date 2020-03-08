@@ -27,9 +27,9 @@ public class WeatherAttributeView extends ConstraintLayout {
         String labelText;
         Drawable icon;
         if (attrs != null) {
-            TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.WeatherAttributeViewOptions, defStyleAttr, 0);
-            labelText = a.getString(R.styleable.WeatherAttributeViewOptions_label);
-            icon = a.getDrawable(R.styleable.WeatherAttributeViewOptions_icon);
+            TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.WeatherAttributeView, defStyleAttr, 0);
+            labelText = a.getString(R.styleable.WeatherAttributeView_label);
+            icon = a.getDrawable(R.styleable.WeatherAttributeView_icon);
             a.recycle();
         }
         else {

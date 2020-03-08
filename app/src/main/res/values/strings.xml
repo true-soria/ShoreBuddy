@@ -1,18 +1,16 @@
 <resources>
     <string name="app_name">ShoreBuddy</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="current_lake_text">Currently Selected Lake: </string>
     <string name="select_lake">Select Lake</string>
     <string name="update_weather">Update Weather</string>
     <string name="pressure">Pressure:</string>
     <string name="humidity">Humidity:</string>
     <string name="wind_speed">Wind Speed:</string>
-    <string name="pressureicon">PressureIcon</string>
-    <string name="humidityicon">HumidityIcon</string>
-    <string name="windspeedicon">WindSpeedIcon</string>
+    <string name="pressure_icon">PressureIcon</string>
+    <string name="humidity_icon">HumidityIcon</string>
+    <string name="wind_speed_icon">WindSpeedIcon</string>
     <string name="wind_direction">Heading:</string>
-    <string name="compassicon">CompassIcon</string>
+    <string name="compass_icon">CompassIcon</string>
     <string name="missing_icon">Missing Icon</string>
     <string name="weather_fetch_error">Error fetching weather data.</string>
     <string name="weather_parse_error">Error parsing weather data</string>
