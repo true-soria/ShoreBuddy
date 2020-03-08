@@ -1,4 +1,4 @@
-package com.example.shorebuddy.data;
+package com.example.shorebuddy.data.solunar;
 
 import com.google.android.gms.maps.model.LatLng;
 

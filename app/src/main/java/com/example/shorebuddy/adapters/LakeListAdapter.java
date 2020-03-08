@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shorebuddy.R;
-import com.example.shorebuddy.data.Lake;
+import com.example.shorebuddy.data.lakes.Lake;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -17,9 +17,9 @@ import java.util.List;
 
 public class LakeListAdapter extends RecyclerView.Adapter<LakeListAdapter.LakeViewHolder> {
     public static class LakeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private Lake mLake;
+        private Lake lake;
         private final TextView lakeItemView;
-        private OnLakeListener onLakeListener;
+        private final OnLakeListener onLakeListener;
 
         private LakeViewHolder(View itemView, OnLakeListener onLakeListener) {
             super(itemView);
@@ -29,45 +29,43 @@ public class LakeListAdapter extends RecyclerView.Adapter<LakeListAdapter.LakeVi
         }
 
         @Override
-        public void onClick(View v) {
-            this.onLakeListener.onLakeSelected(mLake);
-        }
+        public void onClick(View v) { onLakeListener.onLakeSelected(lake); }
     }
 
-    private final LayoutInflater mInflater;
-    private OnLakeListener mOnLakeListener;
-    private List<Lake> mLakes;
+    private final LayoutInflater inflater;
+    private final OnLakeListener onLakeListener;
+    private List<Lake> lakes;
 
     public LakeListAdapter(Context context, OnLakeListener onLakeListener) {
-        mInflater = LayoutInflater.from(context);
-        this.mOnLakeListener = onLakeListener;
+        inflater = LayoutInflater.from(context);
+        this.onLakeListener = onLakeListener;
     }
 
     @NotNull
     @Override
     public LakeViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
-        View itemView = mInflater.inflate(R.layout.lake_recyclerview_item, parent, false);
-        return new LakeViewHolder(itemView, mOnLakeListener);
+        View itemView = inflater.inflate(R.layout.lake_recyclerview_item, parent, false);
+        return new LakeViewHolder(itemView, onLakeListener);
     }
 
     @Override
     public void onBindViewHolder(@NotNull LakeViewHolder holder, int position) {
-        if (mLakes != null) {
-            Lake current_lake = mLakes.get(position);
+        if (lakes != null) {
+            Lake current_lake = lakes.get(position);
             holder.lakeItemView.setText(current_lake.name);
-            holder.mLake = current_lake;
+            holder.lake = current_lake;
         }
     }
 
     public void setLakes(List<Lake> lakes) {
-        mLakes = lakes;
+        this.lakes = lakes;
         notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        if (mLakes != null) {
-            return mLakes.size();
+        if (lakes != null) {
+            return lakes.size();
         }
         else return 0;
     }

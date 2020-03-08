@@ -1,4 +1,4 @@
-package com.example.shorebuddy;
+package com.example.shorebuddy.views;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -14,35 +14,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
 
+import com.example.shorebuddy.R;
 import com.example.shorebuddy.adapters.LakeListAdapter;
-import com.example.shorebuddy.data.Lake;
+import com.example.shorebuddy.data.lakes.Lake;
 import com.example.shorebuddy.viewmodels.MainViewModel;
 
 import java.util.Objects;
 
 import static androidx.navigation.fragment.NavHostFragment.findNavController;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link LakeSelectFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class LakeSelectFragment extends Fragment implements LakeListAdapter.OnLakeListener {
 
-    private MainViewModel mViewModel;
+    private MainViewModel mainViewModel;
 
-    public LakeSelectFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment LakeSelectFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static LakeSelectFragment newInstance() {
+    private static LakeSelectFragment newInstance() {
         LakeSelectFragment fragment = new LakeSelectFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
@@ -52,7 +37,7 @@ public class LakeSelectFragment extends Fragment implements LakeListAdapter.OnLa
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity())).get(MainViewModel.class);
+        mainViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity())).get(MainViewModel.class);
     }
 
     @Override
@@ -67,18 +52,18 @@ public class LakeSelectFragment extends Fragment implements LakeListAdapter.OnLa
         lakesRecyclerView.setLayoutManager(new LinearLayoutManager(activity));
 
         assert activity != null;
-        mViewModel.setSearchQuery("");
-        mViewModel.getFilteredLakes().observe(getViewLifecycleOwner(), lakesAdapter::setLakes);
+        mainViewModel.setSearchQuery("");
+        mainViewModel.getFilteredLakes().observe(getViewLifecycleOwner(), lakesAdapter::setLakes);
 
         SearchView lakesSearchView = rootView.findViewById(R.id.lakes_search_view);
         lakesSearchView.setOnCloseListener(() -> {
-            mViewModel.setSearchQuery("");
+            mainViewModel.setSearchQuery("");
             return false;
         });
         lakesSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                mViewModel.setCurrentSelectedLakeFromFilteredPosition(0);
+                mainViewModel.setCurrentSelectedLakeFromFilteredPosition(0);
                 NavDirections action = LakeSelectFragmentDirections.actionLakeSelectFragmentToMainFragment();
                 findNavController(LakeSelectFragment.this).navigate(action);
                 return false;
@@ -86,7 +71,7 @@ public class LakeSelectFragment extends Fragment implements LakeListAdapter.OnLa
 
             @Override
             public boolean onQueryTextChange(String newQuery) {
-                mViewModel.setSearchQuery(newQuery);
+                mainViewModel.setSearchQuery(newQuery);
                 return false;
             }
         });
@@ -95,7 +80,7 @@ public class LakeSelectFragment extends Fragment implements LakeListAdapter.OnLa
 
     @Override
     public void onLakeSelected(Lake lake) {
-        mViewModel.setCurrentSelectedLake(lake);
+        mainViewModel.setCurrentSelectedLake(lake);
         NavDirections action = LakeSelectFragmentDirections.actionLakeSelectFragmentToMainFragment();
         findNavController(this).navigate(action);
     }

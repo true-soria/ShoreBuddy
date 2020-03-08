@@ -2,16 +2,17 @@ package com.example.shorebuddy.utilities;
 
 public class Event<T> {
     private boolean hasBeenHandled = false;
-    private T content;
+    private final T content;
 
     public Event(T value) {
         content = value;
     }
 
-    public T getContentIfNotHandled() {
-        if (hasBeenHandled) {
+    public T getContentIfNotHandled(boolean hasBeenHandled) {
+        if (this.hasBeenHandled) {
             return null;
         } else {
+            this.hasBeenHandled = hasBeenHandled;
             return content;
         }
     }

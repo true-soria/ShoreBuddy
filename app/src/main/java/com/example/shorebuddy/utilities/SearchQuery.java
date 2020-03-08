@@ -1,17 +1,17 @@
 package com.example.shorebuddy.utilities;
 
 public class SearchQuery {
-    private String mString;
+    private final String string;
 
     public SearchQuery(String s) {
-        mString = s;
+        string = s;
     }
 
     public String getQuery() {
-        return "%" + mString + "%";
+        return "%" + string + "%";
     }
 
     public String getRawString() {
-        return mString;
+        return string;
     }
 }
