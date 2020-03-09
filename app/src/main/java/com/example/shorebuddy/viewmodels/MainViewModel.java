@@ -10,6 +10,7 @@ import com.example.shorebuddy.R;
 import com.example.shorebuddy.data.lakes.Lake;
 import com.example.shorebuddy.data.lakes.LakeRepository;
 import com.example.shorebuddy.data.solunar.Solunar;
+import com.example.shorebuddy.data.solunar.SolunarAPIRepository;
 import com.example.shorebuddy.data.weather.DefaultWeatherRepository;
 import com.example.shorebuddy.data.weather.Weather;
 import com.example.shorebuddy.data.weather.WeatherRepository;
@@ -24,10 +25,10 @@ import org.json.JSONException;
 import java.util.List;
 import java.util.Vector;
 
-public class MainViewModel extends ViewModel implements DefaultWeatherRepository.OnAPIErrorHandler {
+public class MainViewModel extends ViewModel implements DefaultWeatherRepository.OnAPIErrorHandler, SolunarAPIRepository.OnSolAPIErrorHandler {
     private final LakeRepository lakeRepo = new LakeRepoStub();
     private final WeatherRepository weatherRepo = new DefaultWeatherRepository(this);
-    private final SolunarRepository solunarRepo = new SolunarRepoStub();
+    private final SolunarRepository solunarRepo = new SolunarAPIRepository(this);
 
     private final MutableLiveData<Lake> currentSelectedLake = new MutableLiveData<>();
     private final MutableLiveData<String> searchStr = new MutableLiveData<>();
@@ -40,7 +41,6 @@ public class MainViewModel extends ViewModel implements DefaultWeatherRepository
             return lakeRepo.getFilteredLakes(new SearchQuery(query));
         }
     });
-    private final LiveData<Solunar> solunarData = Transformations.switchMap(currentSelectedLake, currentLake -> solunarRepo.getSolunarData(currentLake.location));
     private final MediatorLiveData<Weather> weatherData = new MediatorLiveData<>();
     private final MutableLiveData<Integer> toastData = new MutableLiveData<>();
 
@@ -83,6 +83,17 @@ public class MainViewModel extends ViewModel implements DefaultWeatherRepository
         }
     }
 
+    @Override
+    public void onSolAPIError(Exception e) {
+        if (e instanceof JSONException)
+        {
+            toastData.setValue(R.string.solunar_parse_error);
+        }
+        else {
+            toastData.setValue(R.string.solunar_fetch_error);
+        }
+    }
+
     //TODO implement solunar data
     //public LiveData<Solunar> getSolunarData() { return mSolunar; }
 
@@ -112,15 +123,6 @@ public class MainViewModel extends ViewModel implements DefaultWeatherRepository
             vec.removeIf(lake -> !lake.name.toLowerCase().contains(query.getRawString().toLowerCase()));
             filteredLakes.setValue(vec);
             return filteredLakes;
-        }
-    }
-
-    private static class SolunarRepoStub implements SolunarRepository {
-        @Override
-        public LiveData<Solunar> getSolunarData(LatLng location) {
-            MutableLiveData<Solunar> data = new MutableLiveData<>();
-            data.setValue(new Solunar());
-            return data;
         }
     }
 }
