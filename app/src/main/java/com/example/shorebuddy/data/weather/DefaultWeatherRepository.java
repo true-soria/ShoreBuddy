@@ -50,6 +50,7 @@ public class DefaultWeatherRepository implements WeatherRepository {
             StringRequest weatherRequest = new StringRequest(Request.Method.GET, url, response -> {
                 try {
                     Weather weather = JSONWeatherParser.parse(response);
+                    weather.setLocation(currentLocation);
                     weatherData.setValue(weather);
                 } catch (JSONException e) {
                     errorHandler.onApiError(e);

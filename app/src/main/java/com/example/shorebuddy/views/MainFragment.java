@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavDirections;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,9 +48,11 @@ public class MainFragment extends Fragment {
         //TODO remove timestamp
         TextView currentWeatherTextView = rootView.findViewById(R.id.last_updated_weather_text);
         WeatherView weatherView = rootView.findViewById(R.id.current_weather_text);
+        SwipeRefreshLayout refreshLayout = rootView.findViewById(R.id.refresh_layout);
         mainViewModel.getWeatherData().observe(getViewLifecycleOwner(), weather -> {
             currentWeatherTextView.setText(String.format(Locale.US, "Weather Timestamp: %s", weather.getTimeStamp().getTime()));
             weatherView.set_weather(weather);
+            refreshLayout.setRefreshing(false);
         });
 
         mainViewModel.getToastData().observe(getViewLifecycleOwner(),
@@ -59,8 +62,10 @@ public class MainFragment extends Fragment {
         Button selectLakeBtn = rootView.findViewById(R.id.select_lake_btn);
         selectLakeBtn.setOnClickListener(this::onClickSelectLakeBtn);
 
-        Button refreshWeatherUpdateBtn = rootView.findViewById(R.id.weather_refresh_btn);
-        refreshWeatherUpdateBtn.setOnClickListener(view -> mainViewModel.requestWeatherUpdate());
+        refreshLayout.setOnRefreshListener(() -> {
+            refreshLayout.setRefreshing(true);
+            mainViewModel.requestWeatherUpdate();
+        });
         return rootView;
     }
 
