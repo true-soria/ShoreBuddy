@@ -108,7 +108,7 @@ public class MainViewModel extends ViewModel implements DefaultWeatherRepository
 
         @Override
         public LiveData<List<Lake>> getFilteredLakes(SearchQuery query) {
-            Vector<Lake> vec = lakes;
+            Vector<Lake> vec = (Vector<Lake>) lakes.clone();
             vec.removeIf(lake -> !lake.name.toLowerCase().contains(query.getRawString().toLowerCase()));
             filteredLakes.setValue(vec);
             return filteredLakes;
