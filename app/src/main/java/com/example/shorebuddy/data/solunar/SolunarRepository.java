@@ -4,8 +4,12 @@ import androidx.lifecycle.LiveData;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.Calendar;
+
 public interface SolunarRepository {
-    LiveData<Solunar> getSolunarData(LatLng location);
+    LiveData<Solunar> getSolunarData(LatLng location, Calendar date);
+
+    void updateSolunarData();
 }
 
 // TODO: Implement SolunarRepository interface;
