@@ -30,10 +30,10 @@ public class Weather {
     private final Calendar timeStamp;
 
     @ColumnInfo(name = "latitude")
-    private final double latitude;
+    private double latitude;
 
     @ColumnInfo(name = "longitude")
-    private final double longitude;
+    private double longitude;
 
     @ColumnInfo(name = "temperature")
     public double temperature;
@@ -60,6 +60,11 @@ public class Weather {
 
     public LatLng getLocation() {
         return new LatLng(latitude, longitude);
+    }
+
+    void setLocation(LatLng location) {
+        latitude = location.latitude;
+        longitude = location.longitude;
     }
 
     public Calendar getTimeStamp() {
