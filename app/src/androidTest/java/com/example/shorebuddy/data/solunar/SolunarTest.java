@@ -1,23 +1,33 @@
-package com.example.shorebuddy.data;
+package com.example.shorebuddy.data.solunar;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import static org.junit.Assert.*;
 
+@RunWith(AndroidJUnit4.class)
 public class SolunarTest {
 
-    Solunar testSolunar1 = new Solunar();
+    private Solunar solunarTest1 = new Solunar();
+    private int[] hourlyRatingTest = {0, 0, 0, 20, 20, 0, 0, 0,
+                                        20, 20, 40, 40, 0, 0, 20, 20,
+                                        0, 0, 0, 20, 20, 40, 40, 0};
+
     @Test
     public void getMoonCycle() {
-        assertEquals("Waxing Gibbous", testSolunar1.getMoonCycle());
+        assertEquals("Waxing Crescent", solunarTest1.getMoonCycle());
     }
 
     @Test
     public void getMoonRise() {
+        assertEquals("14:22", solunarTest1.getMoonRise());
     }
 
     @Test
     public void getMoonRiseDouble() {
+        assertEquals(14.366666666666667, solunarTest1.getMoonRiseDouble(), 0.1);
     }
 
     @Test
@@ -78,5 +88,6 @@ public class SolunarTest {
 
     @Test
     public void getHourlyRating() {
+        assertArrayEquals( hourlyRatingTest, solunarTest1.getHourlyRating());
     }
 }
