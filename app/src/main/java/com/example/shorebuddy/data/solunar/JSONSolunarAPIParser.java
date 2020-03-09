@@ -8,13 +8,13 @@ import org.json.JSONObject;
 import java.util.Calendar;
 
 class JSONSolunarAPIParser {
-    public static Solunar parse(String str, LatLng location, Calendar date) throws JSONException {
+    public static Solunar parse(String str, LatLng location) throws JSONException {
         Solunar solunar;
 
         JSONObject root = new JSONObject(str);
         JSONObject hourlyRatingInfo = root.getJSONObject("hourlyRating");
 
-        solunar = new Solunar(location, date);
+        solunar = new Solunar(location);
         solunar.moonCycle = root.getString("moonPhase");
         solunar.moonRise = root.getString("moonRise");
         solunar.moonRiseDouble = root.getDouble("moonRiseDec");

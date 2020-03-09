@@ -9,13 +9,15 @@ import androidx.room.PrimaryKey;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.Calendar;
+import java.util.Scanner;
 
 @Entity(tableName = "solunar_cache")
 public class Solunar{
-    public Solunar(LatLng location, Calendar date) {
+    public Solunar(LatLng location) {
         latitude = location.latitude;
         longitude = location.longitude;
-        dateReference = simpleDateFormat.format(date.getTime());
+        dateReference = "01/01/2000";
+//        dateReference.set(2000, 0, 0);
         timestamp = Calendar.getInstance();
 
         moonCycle = "";
@@ -49,14 +51,15 @@ public class Solunar{
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/DD/YYYY");
     static final int HOURS_PER_DAY = 24;
 
-    @ColumnInfo(name = "date")
-    private String dateReference;
-
     @ColumnInfo(name = "latitude")
     private double latitude;
 
     @ColumnInfo(name = "longitude")
     private double longitude;
+
+    // Day to which this Solunar object refers to
+    @ColumnInfo(name = "date")
+    private String dateReference;
 
     // Moon phase as a descriptive string (e.g. "Waning Gibbous")
     @ColumnInfo(name = "moonCycle")
@@ -112,12 +115,40 @@ public class Solunar{
     @ColumnInfo(name = "moonIllumination")
     public double moonIllumination;
 
-    // I don't know, but seems importnant TODO: ask Shaun
+    // I don't know, but seems important
     @ColumnInfo(name = "dayRating")
     public int dayRating;
 
     @ColumnInfo(name = "hourlyRating")
     public int[] hourlyRating;
+
+    public LatLng getLocation() {
+        return new LatLng(latitude, longitude);
+    }
+
+    public void setLocation(LatLng location) {
+        latitude = location.latitude;
+        longitude = location.longitude;
+    }
+
+    public Calendar getDateReference() {
+        Calendar dateReferenceObj = Calendar.getInstance();
+        Scanner scanner = new Scanner(this.dateReference);
+        int month = scanner.nextInt() - 1;
+        int day = scanner.nextInt() - 1;
+        int year = scanner.nextInt();
+
+        dateReferenceObj.set(year, month, day);
+        return dateReferenceObj;
+    }
+
+    public void setDateReference (Calendar date) {
+        dateReference = simpleDateFormat.format(date);
+    }
+
+    public Calendar getTimestamp() {
+        return timestamp;
+    }
 
     // TODO: Do we need Major and Minor... hunt times?
 }
