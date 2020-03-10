@@ -6,10 +6,14 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.util.Calendar;
 
-public interface SolunarRepository {
-    LiveData<Solunar> getSolunarData(LatLng location, Calendar date);
+public abstract class SolunarRepository {
+    public abstract LiveData<Solunar> getSolunarData(LatLng location, Calendar date);
 
-    void updateSolunarData();
+    public LiveData<Solunar> getSolunarData(LatLng location) {
+        return getSolunarData(location, Calendar.getInstance());
+    }
+
+    public abstract void updateSolunarData();
 }
 
 // TODO: Implement SolunarRepository interface;

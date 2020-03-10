@@ -44,7 +44,7 @@ public class LakeSelectFragment extends Fragment implements LakeListAdapter.OnLa
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_lake_select, container, false);
+        View rootView = inflater.inflate(R.layout.lake_select_fragment, container, false);
         Activity activity = getActivity();
         RecyclerView lakesRecyclerView = rootView.findViewById(R.id.lakes_recycler_view);
         final LakeListAdapter lakesAdapter = new LakeListAdapter(activity, this);

@@ -48,11 +48,20 @@ public class MainFragment extends Fragment {
         //TODO remove timestamp
         TextView currentWeatherTextView = rootView.findViewById(R.id.last_updated_weather_text);
         WeatherView weatherView = rootView.findViewById(R.id.current_weather_text);
+        SolunarDisplayView solunarView = rootView.findViewById(R.id.current_solunar);
         SwipeRefreshLayout refreshLayout = rootView.findViewById(R.id.refresh_layout);
+
+        mainViewModel.getUpdatingStatus().observe(getViewLifecycleOwner(), refreshLayout::setRefreshing);
+
         mainViewModel.getWeatherData().observe(getViewLifecycleOwner(), weather -> {
             currentWeatherTextView.setText(String.format(Locale.US, "Weather Timestamp: %s", weather.getTimeStamp().getTime()));
             weatherView.set_weather(weather);
-            refreshLayout.setRefreshing(false);
+            mainViewModel.weatherUpdated();
+        });
+
+        mainViewModel.getSolunarData().observe(getViewLifecycleOwner(), solunar -> {
+            solunarView.setSolunar(solunar);
+            mainViewModel.solunarUpdated();
         });
 
         mainViewModel.getToastData().observe(getViewLifecycleOwner(),
@@ -63,9 +72,10 @@ public class MainFragment extends Fragment {
         selectLakeBtn.setOnClickListener(this::onClickSelectLakeBtn);
 
         refreshLayout.setOnRefreshListener(() -> {
-            refreshLayout.setRefreshing(true);
             mainViewModel.requestWeatherUpdate();
+            mainViewModel.requestSolunarUpdate();
         });
+
         return rootView;
     }
 

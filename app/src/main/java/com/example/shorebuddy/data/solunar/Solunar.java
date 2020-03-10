@@ -16,7 +16,7 @@ public class Solunar{
     public Solunar(LatLng location) {
         latitude = location.latitude;
         longitude = location.longitude;
-        dateReference = "01/01/2000";
+        //dateReference = "01/01/2000";
 //        dateReference.set(2000, 0, 0);
         timestamp = Calendar.getInstance();
 
@@ -47,7 +47,7 @@ public class Solunar{
     @PrimaryKey(autoGenerate = true)
     private int id;
 
-    private final Calendar timestamp;
+    private Calendar timestamp;
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/DD/YYYY");
     static final int HOURS_PER_DAY = 24;
 
@@ -58,8 +58,8 @@ public class Solunar{
     private double longitude;
 
     // Day to which this Solunar object refers to
-    @ColumnInfo(name = "date")
-    private String dateReference;
+    //@ColumnInfo(name = "date")
+    //private String dateReference;
 
     // Moon phase as a descriptive string (e.g. "Waning Gibbous")
     @ColumnInfo(name = "moonCycle")
@@ -131,7 +131,7 @@ public class Solunar{
         longitude = location.longitude;
     }
 
-    public Calendar getDateReference() {
+    /*public Calendar getDateReference() {
         Calendar dateReferenceObj = Calendar.getInstance();
         Scanner scanner = new Scanner(this.dateReference);
         int month = scanner.nextInt() - 1;
@@ -144,10 +144,14 @@ public class Solunar{
 
     public void setDateReference (Calendar date) {
         dateReference = simpleDateFormat.format(date);
-    }
+    }*/
 
     public Calendar getTimestamp() {
         return timestamp;
+    }
+
+    public void setTimestamp(Calendar calendar) {
+        timestamp = calendar;
     }
 
     // TODO: Do we need Major and Minor... hunt times?

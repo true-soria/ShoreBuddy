@@ -10,12 +10,13 @@ import com.example.shorebuddy.R;
 import com.example.shorebuddy.data.lakes.Lake;
 import com.example.shorebuddy.data.lakes.LakeRepository;
 import com.example.shorebuddy.data.solunar.Solunar;
-import com.example.shorebuddy.data.solunar.SolunarAPIRepository;
+import com.example.shorebuddy.data.solunar.DefaultSolunarRepository;
 import com.example.shorebuddy.data.weather.DefaultWeatherRepository;
 import com.example.shorebuddy.data.weather.Weather;
 import com.example.shorebuddy.data.weather.WeatherRepository;
 import com.example.shorebuddy.utilities.Event;
 import com.example.shorebuddy.utilities.SearchQuery;
+import com.example.shorebuddy.utilities.UpdateManager;
 import com.google.android.gms.maps.model.LatLng;
 
 import com.example.shorebuddy.data.solunar.SolunarRepository;
@@ -25,14 +26,18 @@ import org.json.JSONException;
 import java.util.List;
 import java.util.Vector;
 
-public class MainViewModel extends ViewModel implements DefaultWeatherRepository.OnAPIErrorHandler, SolunarAPIRepository.OnSolAPIErrorHandler {
+public class MainViewModel extends ViewModel implements DefaultWeatherRepository.OnAPIErrorHandler, DefaultSolunarRepository.OnSolAPIErrorHandler {
     private final LakeRepository lakeRepo = new LakeRepoStub();
     private final WeatherRepository weatherRepo = new DefaultWeatherRepository(this);
-    private final SolunarRepository solunarRepo = new SolunarAPIRepository(this);
+    private final SolunarRepository solunarRepo = new DefaultSolunarRepository(this);
+
+    private final UpdateManager updateManager = new UpdateManager();
 
     private final MutableLiveData<Lake> currentSelectedLake = new MutableLiveData<>();
     private final MutableLiveData<String> searchStr = new MutableLiveData<>();
-    private final MutableLiveData<Event<Boolean>> updateWeatherDataEvent = new MutableLiveData<>();
+    private final MutableLiveData<Event<Boolean>> updateWeatherEvent = new MutableLiveData<>();
+    private final MutableLiveData<Event<Boolean>> updateSolunarEvent = new MutableLiveData<>();
+
     private final LiveData<List<Lake>> allLakes = lakeRepo.getAllLakes();
     private final LiveData<List<Lake>> filteredLakes = Transformations.switchMap(searchStr, query -> {
         if (query.isEmpty()) {
@@ -42,14 +47,28 @@ public class MainViewModel extends ViewModel implements DefaultWeatherRepository
         }
     });
     private final MediatorLiveData<Weather> weatherData = new MediatorLiveData<>();
+    private final MediatorLiveData<Solunar> solunarData = new MediatorLiveData<>();
     private final MutableLiveData<Integer> toastData = new MutableLiveData<>();
 
     public MainViewModel() {
         searchStr.setValue("");
         currentSelectedLake.setValue(new Lake("Casitas"));
-        LiveData<Weather> weatherInternal = Transformations.switchMap(currentSelectedLake, currentLake -> weatherRepo.getWeatherData(currentLake.location));
+
+        LiveData<Weather> weatherInternal = Transformations.switchMap(currentSelectedLake,
+                currentLake -> weatherRepo.getWeatherData(currentLake.location));
         weatherData.addSource(weatherInternal, weatherData::setValue);
-        weatherData.addSource(updateWeatherDataEvent, updateEvent -> weatherRepo.updateWeatherData());
+        weatherData.addSource(updateWeatherEvent, updateEvent -> {
+            updateManager.weatherUpdateStarted();
+            weatherRepo.updateWeatherData();
+        });
+
+        LiveData<Solunar> solunarInternal = Transformations.switchMap(currentSelectedLake,
+                currentLake -> solunarRepo.getSolunarData(currentLake.location));
+        solunarData.addSource(solunarInternal, solunarData::setValue);
+        solunarData.addSource(updateSolunarEvent, updateEvent -> {
+            updateManager.solunarUpdateStarted();
+            solunarRepo.updateSolunarData();
+        });
     }
 
     public LiveData<Lake> getCurrentlySelectedLake() { return currentSelectedLake; }
@@ -58,9 +77,11 @@ public class MainViewModel extends ViewModel implements DefaultWeatherRepository
 
     public LiveData<Weather> getWeatherData() { return weatherData; }
 
-    public void requestWeatherUpdate() { updateWeatherDataEvent.setValue(new Event<>(true)); }
+    public LiveData<Solunar> getSolunarData() { return solunarData; }
 
     public LiveData<Integer> getToastData() { return toastData; }
+
+    public LiveData<Boolean> getUpdatingStatus() { return updateManager.isUpdating(); }
 
     public void setCurrentSelectedLake(Lake lake) { currentSelectedLake.setValue(lake); }
 
@@ -69,9 +90,15 @@ public class MainViewModel extends ViewModel implements DefaultWeatherRepository
         currentSelectedLake.setValue(filteredLakes.getValue().get(position));
     }
 
-    public void setSearchQuery(String query) {
-        searchStr.setValue(query);
-    }
+    public void setSearchQuery(String query) { searchStr.setValue(query); }
+
+    public void requestWeatherUpdate() { updateWeatherEvent.setValue(new Event<>(true)); }
+
+    public void requestSolunarUpdate() { updateSolunarEvent.setValue(new Event<>(true)); }
+
+    public void weatherUpdated() { updateManager.weatherUpdateFinished(); }
+
+    public void solunarUpdated() { updateManager.solunarUpdateFinished(); }
 
     @Override
     public void onApiError(Exception e) {
@@ -93,9 +120,6 @@ public class MainViewModel extends ViewModel implements DefaultWeatherRepository
             toastData.setValue(R.string.solunar_fetch_error);
         }
     }
-
-    //TODO implement solunar data
-    //public LiveData<Solunar> getSolunarData() { return mSolunar; }
 
     private static class LakeRepoStub implements LakeRepository {
         private final Vector<Lake> lakes = new Vector<>();
@@ -119,8 +143,12 @@ public class MainViewModel extends ViewModel implements DefaultWeatherRepository
 
         @Override
         public LiveData<List<Lake>> getFilteredLakes(SearchQuery query) {
-            Vector<Lake> vec = (Vector<Lake>) lakes.clone();
-            vec.removeIf(lake -> !lake.name.toLowerCase().contains(query.getRawString().toLowerCase()));
+            Vector<Lake> vec = new Vector<>();
+            for (Lake lake: lakes) {
+                if (lake.name.toLowerCase().contains(query.getRawString().toLowerCase())) {
+                    vec.add(lake);
+                }
+            }
             filteredLakes.setValue(vec);
             return filteredLakes;
         }

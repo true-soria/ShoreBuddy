@@ -40,6 +40,14 @@
             app:layout_constraintStart_toEndOf="@id/current_lake_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+        <com.example.shorebuddy.views.SolunarDisplayView
+            android:id="@+id/current_solunar"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/current_weather_text"
+            app:layout_constraintBottom_toTopOf="@id/last_updated_weather_text"
+            app:layout_constraintStart_toStartOf="@id/current_weather_text"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
         <TextView
             android:id="@+id/last_updated_weather_text"
