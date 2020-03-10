@@ -1,16 +1,12 @@
 package com.example.shorebuddy.data.solunar;
 
 import android.icu.text.SimpleDateFormat;
-import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.example.shorebuddy.MainActivity;
 import com.example.shorebuddy.utilities.NetworkAccessor;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -19,7 +15,7 @@ import org.json.JSONException;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class SolunarAPIRepository implements SolunarRepository {
+public class DefaultSolunarRepository extends SolunarRepository {
     public interface OnSolAPIErrorHandler {
         void onSolAPIError (Exception e);
     }
@@ -32,7 +28,7 @@ public class SolunarAPIRepository implements SolunarRepository {
     private LatLng currentLocation;
     private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYYMMDD");
 
-    public SolunarAPIRepository(OnSolAPIErrorHandler errorHandler) {
+    public DefaultSolunarRepository(OnSolAPIErrorHandler errorHandler) {
         this.errorHandler = errorHandler;
         networkAccessor = NetworkAccessor.getInstance();
 
@@ -62,9 +58,9 @@ public class SolunarAPIRepository implements SolunarRepository {
                     timeZone);
             StringRequest solunarRequest = new StringRequest(Request.Method.GET, url, response -> {
                 try {
-                    Solunar solunar = JSONSolunarAPIParser.parse(response, currentLocation);
-                    solunar.setDateReference(currentDate);
+                    Solunar solunar = JSONSolunarParser.parse(response, currentLocation);
                     solunar.setLocation(currentLocation);
+                    solunar.setTimestamp(currentDate);
                     solunarData.setValue(solunar);
                 } catch (JSONException e) {
                     errorHandler.onSolAPIError(e);

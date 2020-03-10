@@ -7,7 +7,7 @@ import org.json.JSONObject;
 
 import java.util.Calendar;
 
-class JSONSolunarAPIParser {
+class JSONSolunarParser {
     public static Solunar parse(String str, LatLng location) throws JSONException {
         Solunar solunar;
 

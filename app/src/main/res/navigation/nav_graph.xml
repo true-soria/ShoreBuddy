@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/lakeSelectFragment"
         android:name="com.example.shorebuddy.views.LakeSelectFragment"
-        tools:layout="@layout/fragment_lake_select"
+        tools:layout="@layout/lake_select_fragment"
         android:label="LakeSelectFragment" >
         <action app:destination="@+id/mainFragment"
             android:id="@+id/action_lakeSelectFragment_to_mainFragment"/>
