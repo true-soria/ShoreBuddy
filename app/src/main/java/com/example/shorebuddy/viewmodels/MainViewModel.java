@@ -1,7 +1,6 @@
 package com.example.shorebuddy.viewmodels;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
@@ -14,7 +13,6 @@ import com.example.shorebuddy.data.solunar.DefaultSolunarRepository;
 import com.example.shorebuddy.data.weather.DefaultWeatherRepository;
 import com.example.shorebuddy.data.weather.Weather;
 import com.example.shorebuddy.data.weather.WeatherRepository;
-import com.example.shorebuddy.utilities.Event;
 import com.example.shorebuddy.utilities.SearchQuery;
 import com.example.shorebuddy.utilities.UpdateManager;
 import com.google.android.gms.maps.model.LatLng;
@@ -31,12 +29,10 @@ public class MainViewModel extends ViewModel implements DefaultWeatherRepository
     private final WeatherRepository weatherRepo = new DefaultWeatherRepository(this);
     private final SolunarRepository solunarRepo = new DefaultSolunarRepository(this);
 
-    private final UpdateManager updateManager = new UpdateManager();
+    private final UpdateManager updateStatusManager = new UpdateManager();
 
     private final MutableLiveData<Lake> currentSelectedLake = new MutableLiveData<>();
     private final MutableLiveData<String> searchStr = new MutableLiveData<>();
-    private final MutableLiveData<Event<Boolean>> updateWeatherEvent = new MutableLiveData<>();
-    private final MutableLiveData<Event<Boolean>> updateSolunarEvent = new MutableLiveData<>();
 
     private final LiveData<List<Lake>> allLakes = lakeRepo.getAllLakes();
     private final LiveData<List<Lake>> filteredLakes = Transformations.switchMap(searchStr, query -> {
@@ -46,29 +42,17 @@ public class MainViewModel extends ViewModel implements DefaultWeatherRepository
             return lakeRepo.getFilteredLakes(new SearchQuery(query));
         }
     });
-    private final MediatorLiveData<Weather> weatherData = new MediatorLiveData<>();
-    private final MediatorLiveData<Solunar> solunarData = new MediatorLiveData<>();
+
+    private final LiveData<Weather> weatherData = Transformations.switchMap(currentSelectedLake,
+            currentLake -> weatherRepo.getWeatherData(currentLake.location));
+    private final LiveData<Solunar> solunarData = Transformations.switchMap(currentSelectedLake,
+            currentLake -> solunarRepo.getSolunarData(currentLake.location));
+
     private final MutableLiveData<Integer> toastData = new MutableLiveData<>();
 
     public MainViewModel() {
         searchStr.setValue("");
         currentSelectedLake.setValue(new Lake("Casitas"));
-
-        LiveData<Weather> weatherInternal = Transformations.switchMap(currentSelectedLake,
-                currentLake -> weatherRepo.getWeatherData(currentLake.location));
-        weatherData.addSource(weatherInternal, weatherData::setValue);
-        weatherData.addSource(updateWeatherEvent, updateEvent -> {
-            updateManager.weatherUpdateStarted();
-            weatherRepo.updateWeatherData();
-        });
-
-        LiveData<Solunar> solunarInternal = Transformations.switchMap(currentSelectedLake,
-                currentLake -> solunarRepo.getSolunarData(currentLake.location));
-        solunarData.addSource(solunarInternal, solunarData::setValue);
-        solunarData.addSource(updateSolunarEvent, updateEvent -> {
-            updateManager.solunarUpdateStarted();
-            solunarRepo.updateSolunarData();
-        });
     }
 
     public LiveData<Lake> getCurrentlySelectedLake() { return currentSelectedLake; }
@@ -81,7 +65,7 @@ public class MainViewModel extends ViewModel implements DefaultWeatherRepository
 
     public LiveData<Integer> getToastData() { return toastData; }
 
-    public LiveData<Boolean> getUpdatingStatus() { return updateManager.isUpdating(); }
+    public LiveData<Boolean> getUpdatingStatus() { return updateStatusManager.isUpdating(); }
 
     public void setCurrentSelectedLake(Lake lake) { currentSelectedLake.setValue(lake); }
 
@@ -92,13 +76,19 @@ public class MainViewModel extends ViewModel implements DefaultWeatherRepository
 
     public void setSearchQuery(String query) { searchStr.setValue(query); }
 
-    public void requestWeatherUpdate() { updateWeatherEvent.setValue(new Event<>(true)); }
+    public void requestWeatherUpdate() {
+        updateStatusManager.weatherUpdateStarted();
+        weatherRepo.updateWeatherData();
+    }
 
-    public void requestSolunarUpdate() { updateSolunarEvent.setValue(new Event<>(true)); }
+    public void requestSolunarUpdate() {
+        updateStatusManager.solunarUpdateStarted();
+        solunarRepo.updateSolunarData();
+    }
 
-    public void weatherUpdated() { updateManager.weatherUpdateFinished(); }
+    public void weatherUpdated() { updateStatusManager.weatherUpdateFinished(); }
 
-    public void solunarUpdated() { updateManager.solunarUpdateFinished(); }
+    public void solunarUpdated() { updateStatusManager.solunarUpdateFinished(); }
 
     @Override
     public void onApiError(Exception e) {
