@@ -40,9 +40,7 @@ public class NetworkAccessor {
         requestQueue.start();
     }
 
-    public ImageLoader getImageLoader() {
-        return imageLoader;
-    }
+    public ImageLoader getImageLoader() { return imageLoader; }
 
     public <T> void addToRequestQueue(Request<T> req) {
         requestQueue.add(req);

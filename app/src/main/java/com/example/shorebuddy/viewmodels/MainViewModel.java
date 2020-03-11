@@ -121,8 +121,8 @@ public class MainViewModel extends ViewModel implements DefaultWeatherRepository
             casitas.setLatitude(34.3924);
             casitas.setLongitude(-119.3346);
             Lake pinecrest = new Lake("Pinecrest");
-            pinecrest.setLatitude(38.1999165);
-            pinecrest.setLongitude(-199.9887948);
+            pinecrest.setLatitude(38.19606115930);
+            pinecrest.setLongitude(-119.98234788600);
             lakes.add(casitas);
             lakes.add(pinecrest);
             allLakes.setValue(lakes);
