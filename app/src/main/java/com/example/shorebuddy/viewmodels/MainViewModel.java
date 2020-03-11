@@ -40,14 +40,14 @@ public class MainViewModel extends ViewModel implements DefaultWeatherRepository
             return lakeRepo.getFilteredLakes(new SearchQuery(query));
         }
     });
-    private final LiveData<Solunar> solunarData = Transformations.switchMap(currentSelectedLake, currentLake -> solunarRepo.getSolunarData(currentLake.location));
+    private final LiveData<Solunar> solunarData = Transformations.switchMap(currentSelectedLake, currentLake -> solunarRepo.getSolunarData(currentLake.getLakeLatLng()));
     private final MediatorLiveData<Weather> weatherData = new MediatorLiveData<>();
     private final MutableLiveData<Integer> toastData = new MutableLiveData<>();
 
     public MainViewModel() {
         searchStr.setValue("");
         currentSelectedLake.setValue(new Lake("Casitas"));
-        LiveData<Weather> weatherInternal = Transformations.switchMap(currentSelectedLake, currentLake -> weatherRepo.getWeatherData(currentLake.location));
+        LiveData<Weather> weatherInternal = Transformations.switchMap(currentSelectedLake, currentLake -> weatherRepo.getWeatherData(currentLake.getLakeLatLng()));
         weatherData.addSource(weatherInternal, weatherData::setValue);
         weatherData.addSource(updateWeatherDataEvent, updateEvent -> weatherRepo.updateWeatherData());
     }
@@ -93,9 +93,13 @@ public class MainViewModel extends ViewModel implements DefaultWeatherRepository
 
         LakeRepoStub() {
             Lake casitas = new Lake("Casitas");
-            casitas.location = new LatLng(34.3924, -119.3346);
+            casitas.setLatitude(34.3924);
+            casitas.setLongitude(-119.3346);
+            //casitas.setLakeCoordinates(34.3924, -119.3346);
             Lake pinecrest = new Lake("Pinecrest");
-            pinecrest.location = new LatLng(38.1999165, -119.9887948);
+            //pinecrest.setLakeCoordinates(38.1999165, -119.9887948);
+            pinecrest.setLatitude(38.1999165);
+            pinecrest.setLongitude(-199.9887948);
             lakes.add(casitas);
             lakes.add(pinecrest);
             allLakes.setValue(lakes);

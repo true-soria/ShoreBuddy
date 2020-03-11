@@ -4,9 +4,6 @@ package com.example.shorebuddy.data.lakes;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-import androidx.room.TypeConverters;
-
-import com.example.shorebuddy.utilities.Converters;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.jetbrains.annotations.NotNull;
@@ -19,20 +16,32 @@ public class Lake {
     @NotNull
     public final String name;
 
-    @ColumnInfo(name = "Coordinates")
-    @TypeConverters(Converters.class)
-    public LatLng location = new LatLng(0,0);
+    @ColumnInfo(name = "Latitude")
+    private double latitude;
 
+    @ColumnInfo(name = "Longitude")
+    private double longitude;
 
     public Lake(@NotNull String name) {
         this.name = name;
     }
+    public double getLatitude(){return this.latitude;}
+
+    public double getLongitude(){return this.longitude;}
+
+    public void setLatitude(double latitude){
+        this.latitude=latitude;
+    }
+    public void setLongitude(double longitude){
+        this.longitude=longitude;
+    }
+
+    public LatLng getLakeLatLng(){
+        return new LatLng(latitude,longitude);
+    }
 
     @NotNull
     public String getLakeName(){ return this.name;}
-
-    @NotNull
-    public LatLng getLakeCoor(){return this.location;}
 
     @ColumnInfo(name = "Elevation")
     public double elevation;
@@ -90,9 +99,5 @@ public class Lake {
 
     @ColumnInfo(name = "Trout")
     public boolean trout;
-
-
-    //Longitude,Latitude
-
 
 }
