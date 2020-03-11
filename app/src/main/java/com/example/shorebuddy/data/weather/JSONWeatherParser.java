@@ -21,8 +21,8 @@ class JSONWeatherParser {
             weather.temperature = mainInfo.getDouble("temp");
             weather.pressure = mainInfo.getInt("pressure");
             weather.humidity = mainInfo.getInt("humidity");
-            weather.windSpeed = windInfo.getDouble("speed");
-            weather.windDirection = windInfo.getInt("deg");
+            weather.windSpeed = windInfo.has("speed") ? windInfo.getDouble("speed") : 0;
+            weather.windDirection = windInfo.has("deg") ? windInfo.getInt("deg") : 0;
         return weather;
     }
 }
