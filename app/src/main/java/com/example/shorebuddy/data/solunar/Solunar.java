@@ -17,7 +17,6 @@ public class Solunar{
         latitude = location.latitude;
         longitude = location.longitude;
         //dateReference = "01/01/2000";
-//        dateReference.set(2000, 0, 0);
         timestamp = Calendar.getInstance();
 
         moonCycle = "";
@@ -30,6 +29,23 @@ public class Solunar{
         moonTransitDouble = 0;
         moonSetDouble = 0;
         moonUnderDouble = 0;
+
+        minor1Start = "";
+        minor1Stop = "";
+        minor2Start = "";
+        minor2Stop = "";
+        minor1StartDouble = 0;
+        minor1StopDouble = 0;
+        minor2StartDouble = 0;
+        minor2StopDouble = 0;
+        major1Start = "";
+        major1Stop = "";
+        major2Start = "";
+        major2Stop = "";
+        major1StartDouble = 0;
+        major1StopDouble = 0;
+        major2StartDouble = 0;
+        major2StopDouble = 0;
 
         sunRise = "";
         sunTransit = "";
@@ -90,6 +106,57 @@ public class Solunar{
 
     @ColumnInfo(name = "moonUnderDouble")
     public double moonUnderDouble;
+
+
+    // Moon Minor and Major Strings of format ##:## in 24 hour time
+    // Alternatively, the Double suffix returns 24 hour doubles
+    @ColumnInfo(name = "minor1Start")
+    public String minor1Start;
+
+    @ColumnInfo(name = "minor1Stop")
+    public String minor1Stop;
+
+    @ColumnInfo(name = "minor2Start")
+    public String minor2Start;
+
+    @ColumnInfo(name = "minor2Stop")
+    public String minor2Stop;
+
+    @ColumnInfo(name = "minor1StartDouble")
+    public double minor1StartDouble;
+
+    @ColumnInfo(name = "minor1StopDouble")
+    public double minor1StopDouble;
+
+    @ColumnInfo(name = "minor2StartDouble")
+    public double minor2StartDouble;
+
+    @ColumnInfo(name = "minor2StopDouble")
+    public double minor2StopDouble;
+
+    @ColumnInfo(name = "major1Start")
+    public String major1Start;
+
+    @ColumnInfo(name = "major1Stop")
+    public String major1Stop;
+
+    @ColumnInfo(name = "major2Start")
+    public String major2Start;
+
+    @ColumnInfo(name = "major2Stop")
+    public String major2Stop;
+
+    @ColumnInfo(name = "major1StartDouble")
+    public double major1StartDouble;
+
+    @ColumnInfo(name = "major1StopDouble")
+    public double major1StopDouble;
+
+    @ColumnInfo(name = "major2StartDouble")
+    public double major2StartDouble;
+
+    @ColumnInfo(name = "major2StopDouble")
+    public double major2StopDouble;
 
     // Sun Position Strings of format ##:## in 24 hour time
     // Alternatively, the Double suffix returns 24 hour doubles
@@ -154,5 +221,4 @@ public class Solunar{
         timestamp = calendar;
     }
 
-    // TODO: Do we need Major and Minor... hunt times?
 }
