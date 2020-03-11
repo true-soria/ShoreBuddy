@@ -34,27 +34,65 @@ public class Lake {
     @NotNull
     public LatLng getLakeCoor(){return this.location;}
 
-
-//    public Lake(String name, int elevation, int bassNumber){
-//
-//    }
-//    @ColumnInfo(name = "Coordinates")
-//    public LatLng location = new LatLng(0, 0);
     @ColumnInfo(name = "Elevation")
     public double elevation;
 
     @ColumnInfo(name = "Bass")
-    public int numberBass;
+    public boolean bass;
 
     @ColumnInfo(name = "Catfish")
-    public int numberCatfish;
+    public boolean catfish;
 
     @ColumnInfo(name = "AdSalmon")
-    public int numberAdSalmon;
+    public boolean adSalmon;
+
+    @ColumnInfo(name = "InlandSalmon")
+    public boolean inLandSalmon;
+
+    @ColumnInfo(name = "Panfish")
+    public boolean panfish;
+
+    @ColumnInfo(name = "Shad")
+    public boolean shad;
+
+    @ColumnInfo(name = "Steelhead")
+    public boolean steelhead;
+
+    @ColumnInfo(name = "StripeBass")
+    public boolean stripedBass;
+
+    @ColumnInfo(name = "Sturgeon")
+    public boolean sturgeon;
+
+    @ColumnInfo(name = "TroutWH")
+    public boolean trouthHW;
+
+    @ColumnInfo(name = "TroutWild")
+    public boolean troutWild;
+
+    @ColumnInfo(name = "TroutHatch")
+    public boolean troutHatch;
+
+    @ColumnInfo(name = "BrookTrout")
+    public boolean brookTrout;
+
+    @ColumnInfo(name = "BrownTrout")
+    public boolean brownTrout;
+
+    @ColumnInfo(name = "GoldenTrout")
+    public boolean goldenTrout;
+
+    @ColumnInfo(name = "RainbowTrout")
+    public boolean rainbowTrout;
+
+    @ColumnInfo(name = "LahontanTrout")
+    public boolean lahontan;
+
+    @ColumnInfo(name = "Trout")
+    public boolean trout;
 
 
-    //TODO implement more columns for database for each species of fish, list of fish
-    //Bass,CatFish,AdSalmon,InlandSalm,Panfish,Shad,Steelhead,StripedBas,Sturgeon,TroutWH,TroutWild,TroutHatch,FishingCom,bcBrookTro,bcBrownTro,bcGoldenTr,bcRainbowT,bcLahontan,bcTrout,Longitude,Latitude
+    //Longitude,Latitude
 
 
 }
