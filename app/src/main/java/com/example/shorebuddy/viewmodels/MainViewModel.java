@@ -44,9 +44,9 @@ public class MainViewModel extends ViewModel implements DefaultWeatherRepository
     });
 
     private final LiveData<Weather> weatherData = Transformations.switchMap(currentSelectedLake,
-            currentLake -> weatherRepo.getWeatherData(currentLake.location));
+            currentLake -> weatherRepo.getWeatherData(currentLake.getLakeLatLng()));
     private final LiveData<Solunar> solunarData = Transformations.switchMap(currentSelectedLake,
-            currentLake -> solunarRepo.getSolunarData(currentLake.location));
+            currentLake -> solunarRepo.getSolunarData(currentLake.getLakeLatLng()));
 
     private final MutableLiveData<Integer> toastData = new MutableLiveData<>();
 
@@ -118,9 +118,11 @@ public class MainViewModel extends ViewModel implements DefaultWeatherRepository
 
         LakeRepoStub() {
             Lake casitas = new Lake("Casitas");
-            casitas.location = new LatLng(34.3924, -119.3346);
+            casitas.setLatitude(34.3924);
+            casitas.setLongitude(-119.3346);
             Lake pinecrest = new Lake("Pinecrest");
-            pinecrest.location = new LatLng(38.1999165, -119.9887948);
+            pinecrest.setLatitude(38.1999165);
+            pinecrest.setLongitude(-199.9887948);
             lakes.add(casitas);
             lakes.add(pinecrest);
             allLakes.setValue(lakes);

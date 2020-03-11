@@ -4,9 +4,6 @@ package com.example.shorebuddy.data.lakes;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-import androidx.room.TypeConverters;
-
-import com.example.shorebuddy.utilities.Converters;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.jetbrains.annotations.NotNull;
@@ -19,42 +16,85 @@ public class Lake {
     @NotNull
     public final String name;
 
-    @ColumnInfo(name = "Coordinates")
-    @TypeConverters(Converters.class)
-    public LatLng location = new LatLng(0,0);
+    @ColumnInfo(name = "Latitude")
+    private double latitude;
 
+    @ColumnInfo(name = "Longitude")
+    private double longitude;
 
     public Lake(@NotNull String name) {
         this.name = name;
     }
+    public double getLatitude(){return this.latitude;}
 
-    @NotNull
-    public String getLakeName(){ return this.name;}
+    public double getLongitude(){return this.longitude;}
 
-    @NotNull
-    public LatLng getLakeCoor(){return this.location;}
+    public void setLatitude(double latitude){
+        this.latitude=latitude;
+    }
+    public void setLongitude(double longitude){
+        this.longitude=longitude;
+    }
 
+    public LatLng getLakeLatLng(){
+        return new LatLng(latitude,longitude);
+    }
 
-//    public Lake(String name, int elevation, int bassNumber){
-//
-//    }
-//    @ColumnInfo(name = "Coordinates")
-//    public LatLng location = new LatLng(0, 0);
     @ColumnInfo(name = "Elevation")
     public double elevation;
 
     @ColumnInfo(name = "Bass")
-    public int numberBass;
+    public boolean bass;
 
     @ColumnInfo(name = "Catfish")
-    public int numberCatfish;
+    public boolean catfish;
 
     @ColumnInfo(name = "AdSalmon")
-    public int numberAdSalmon;
+    public boolean adSalmon;
 
+    @ColumnInfo(name = "InlandSalmon")
+    public boolean inLandSalmon;
 
-    //TODO implement more columns for database for each species of fish, list of fish
-    //Bass,CatFish,AdSalmon,InlandSalm,Panfish,Shad,Steelhead,StripedBas,Sturgeon,TroutWH,TroutWild,TroutHatch,FishingCom,bcBrookTro,bcBrownTro,bcGoldenTr,bcRainbowT,bcLahontan,bcTrout,Longitude,Latitude
+    @ColumnInfo(name = "Panfish")
+    public boolean panfish;
 
+    @ColumnInfo(name = "Shad")
+    public boolean shad;
+
+    @ColumnInfo(name = "Steelhead")
+    public boolean steelhead;
+
+    @ColumnInfo(name = "StripeBass")
+    public boolean stripedBass;
+
+    @ColumnInfo(name = "Sturgeon")
+    public boolean sturgeon;
+
+    @ColumnInfo(name = "TroutWH")
+    public boolean trouthHW;
+
+    @ColumnInfo(name = "TroutWild")
+    public boolean troutWild;
+
+    @ColumnInfo(name = "TroutHatch")
+    public boolean troutHatch;
+
+    @ColumnInfo(name = "BrookTrout")
+    public boolean brookTrout;
+
+    @ColumnInfo(name = "BrownTrout")
+    public boolean brownTrout;
+
+    @ColumnInfo(name = "GoldenTrout")
+    public boolean goldenTrout;
+
+    @ColumnInfo(name = "RainbowTrout")
+    public boolean rainbowTrout;
+
+    @ColumnInfo(name = "LahontanTrout")
+    public boolean lahontan;
+
+    @ColumnInfo(name = "Trout")
+    public boolean trout;
 
 }
