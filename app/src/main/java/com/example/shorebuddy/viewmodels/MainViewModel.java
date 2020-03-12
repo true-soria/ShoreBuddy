@@ -1,11 +1,17 @@
 package com.example.shorebuddy.viewmodels;
 
+import android.app.Application;
+import android.content.pm.LauncherApps;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
 import com.example.shorebuddy.R;
+import com.example.shorebuddy.data.lakes.DefaultLakeRepository;
 import com.example.shorebuddy.data.lakes.Lake;
 import com.example.shorebuddy.data.lakes.LakeRepository;
 import com.example.shorebuddy.data.solunar.Solunar;
@@ -15,7 +21,7 @@ import com.example.shorebuddy.data.weather.Weather;
 import com.example.shorebuddy.data.weather.WeatherRepository;
 import com.example.shorebuddy.utilities.SearchQuery;
 import com.example.shorebuddy.utilities.UpdateManager;
-import com.google.android.gms.maps.model.LatLng;
+
 
 import com.example.shorebuddy.data.solunar.SolunarRepository;
 
@@ -24,24 +30,29 @@ import org.json.JSONException;
 import java.util.List;
 import java.util.Vector;
 
-public class MainViewModel extends ViewModel implements DefaultWeatherRepository.OnAPIErrorHandler, DefaultSolunarRepository.OnSolAPIErrorHandler {
-    private final LakeRepository lakeRepo = new LakeRepoStub();
-    private final WeatherRepository weatherRepo = new DefaultWeatherRepository(this);
-    private final SolunarRepository solunarRepo = new DefaultSolunarRepository(this);
+public class MainViewModel extends AndroidViewModel implements DefaultWeatherRepository.OnAPIErrorHandler, DefaultSolunarRepository.OnSolAPIErrorHandler {
 
+    //private LakeRepository lakeRepo = new LakeRepoStub();
+    private final WeatherRepository weatherRepo = new DefaultWeatherRepository(this);
+
+    private final SolunarRepository solunarRepo = new DefaultSolunarRepository(this);
+    private LakeRepository lakeRepo;
     private final UpdateManager updateStatusManager = new UpdateManager();
 
     private final MutableLiveData<Lake> currentSelectedLake = new MutableLiveData<>();
     private final MutableLiveData<String> searchStr = new MutableLiveData<>();
 
-    private final LiveData<List<Lake>> allLakes = lakeRepo.getAllLakes();
-    private final LiveData<List<Lake>> filteredLakes = Transformations.switchMap(searchStr, query -> {
-        if (query.isEmpty()) {
-            return allLakes;
-        } else {
-            return lakeRepo.getFilteredLakes(new SearchQuery(query));
-        }
-    });
+   private  LiveData<List<Lake>> allLakes;
+    private final LiveData<List<Lake>> filteredLakes;
+
+//    //TODO rewrite
+//    private final LiveData<List<Lake>> filteredLakes = Transformations.switchMap(searchStr, query -> {
+//        if (query.isEmpty()) {
+//            return allLakes;
+//        } else {
+//            return lakeRepo.getFilteredLakes(new SearchQuery(query));
+//        }
+//    });
 
     private final LiveData<Weather> weatherData = Transformations.switchMap(currentSelectedLake,
             currentLake -> weatherRepo.getWeatherData(currentLake.getLakeLatLng()));
@@ -50,13 +61,33 @@ public class MainViewModel extends ViewModel implements DefaultWeatherRepository
 
     private final MutableLiveData<Integer> toastData = new MutableLiveData<>();
 
-    public MainViewModel() {
+    public MainViewModel(@NonNull Application application) {
+        super(application);
+        this.lakeRepo = new DefaultLakeRepository(application);
+        this.allLakes = lakeRepo.getAllLakes();
+
+        //TODO rewrite
+        filteredLakes = Transformations.switchMap(searchStr, query -> {
+            if (query.isEmpty()) {
+                return allLakes;
+            } else {
+                return lakeRepo.getFilteredLakes(new SearchQuery(query));
+            }
+        });
         searchStr.setValue("");
         currentSelectedLake.setValue(new Lake("Casitas"));
     }
 
+//    public MainViewModel() {
+//        searchStr.setValue("");
+//        currentSelectedLake.setValue(new Lake("Casitas"));
+//    }
+
+
+
     public LiveData<Lake> getCurrentlySelectedLake() { return currentSelectedLake; }
 
+    //TODO rewrite
     public LiveData<List<Lake>> getFilteredLakes() { return filteredLakes; }
 
     public LiveData<Weather> getWeatherData() { return weatherData; }
@@ -69,6 +100,8 @@ public class MainViewModel extends ViewModel implements DefaultWeatherRepository
 
     public void setCurrentSelectedLake(Lake lake) { currentSelectedLake.setValue(lake); }
 
+
+    //TODO REWRITE
     public void setCurrentSelectedLakeFromFilteredPosition(int position) {
         assert filteredLakes.getValue() != null;
         currentSelectedLake.setValue(filteredLakes.getValue().get(position));

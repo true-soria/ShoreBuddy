@@ -32,4 +32,6 @@ public class Converters {
         String[] latlng = value.split(",");
         return new LatLng(Double.parseDouble(latlng[0]),Double.parseDouble(latlng[1]));
     }
+
+
 }
