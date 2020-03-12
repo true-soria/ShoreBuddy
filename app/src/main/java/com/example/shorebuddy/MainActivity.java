@@ -17,12 +17,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
-        readCSVfile();
+        //readCSVfile();
     }
 
 
     private void readCSVfile(){
-        InputStream is = getResources().openRawResource(R.raw.fishinglocations_reduced);
+        InputStream is = getResources().openRawResource(R.raw.top10lakes);
         BufferedReader reader = new BufferedReader( new InputStreamReader(is, StandardCharsets.UTF_8));
         String line = null;
         try {

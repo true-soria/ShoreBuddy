@@ -15,19 +15,25 @@ public class DefaultLakeRepository implements LakeRepository {
 
     private LakeDao lakeDao;
     private final Vector<Lake> lakes = new Vector<>();
-    private final MutableLiveData<List<Lake>> filteredLakes = new MutableLiveData<>();
-    private MutableLiveData<List<Lake>> allLakes = new MutableLiveData<>();
+    private MutableLiveData<List<Lake>> filteredLakes = new MutableLiveData<>();
+    private LiveData<List<Lake>> allLakes;
 
     public DefaultLakeRepository(Application application){
         System.out.println("Creating the repo\n\n");
         ShoreBuddyDatabase db = ShoreBuddyDatabase.getDatabase(application);
-        this.lakeDao = ShoreBuddyDatabase.LakeDao();
-        this.allLakes = (MutableLiveData<List<Lake>>) lakeDao.getAllLakes();
+        this.lakeDao = db.lakeDao();
+        this.allLakes = lakeDao.getAll();
     }
 
     void insert(Lake lake){
         ShoreBuddyDatabase.databaseWriteExecutor.execute(()->{
             lakeDao.insert(lake);
+        });
+    }
+
+    void searchLake(Lake lake){
+        ShoreBuddyDatabase.databaseWriteExecutor.execute(()->{
+            //lakeDao.search(lake);
         });
     }
     @Override

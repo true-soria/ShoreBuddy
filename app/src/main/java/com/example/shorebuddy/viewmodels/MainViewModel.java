@@ -43,10 +43,10 @@ public class MainViewModel extends AndroidViewModel implements DefaultWeatherRep
     private final MutableLiveData<String> searchStr = new MutableLiveData<>();
 
    private  LiveData<List<Lake>> allLakes;
-    private final LiveData<List<Lake>> filteredLakes;
+   private final LiveData<List<Lake>> filteredLakes;
 
 //    //TODO rewrite
-//    private final LiveData<List<Lake>> filteredLakes = Transformations.switchMap(searchStr, query -> {
+//    private LiveData<List<Lake>> filteredLakes = Transformations.switchMap(searchStr, query -> {
 //        if (query.isEmpty()) {
 //            return allLakes;
 //        } else {
