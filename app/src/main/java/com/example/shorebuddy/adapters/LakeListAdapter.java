@@ -55,6 +55,10 @@ public class LakeListAdapter extends RecyclerView.Adapter<LakeListAdapter.LakeVi
             holder.lakeItemView.setText(current_lake.name);
             holder.lake = current_lake;
         }
+        else{
+            String response = " No lakes";
+            holder.lakeItemView.setText(response);
+        }
     }
 
     public void setLakes(List<Lake> lakes) {

@@ -8,8 +8,6 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
-import androidx.lifecycle.ViewModel;
-
 import com.example.shorebuddy.R;
 import com.example.shorebuddy.data.lakes.DefaultLakeRepository;
 import com.example.shorebuddy.data.lakes.Lake;
@@ -144,39 +142,39 @@ public class MainViewModel extends AndroidViewModel implements DefaultWeatherRep
         }
     }
 
-    private static class LakeRepoStub implements LakeRepository {
-        private final Vector<Lake> lakes = new Vector<>();
-        private final MutableLiveData<List<Lake>> filteredLakes = new MutableLiveData<>();
-        private final MutableLiveData<List<Lake>> allLakes = new MutableLiveData<>();
-
-        LakeRepoStub() {
-            Lake casitas = new Lake("Casitas");
-            casitas.setLatitude(34.3924);
-            casitas.setLongitude(-119.3346);
-            Lake pinecrest = new Lake("Pinecrest");
-            pinecrest.setLatitude(38.19606115930);
-            pinecrest.setLongitude(-119.98234788600);
-            lakes.add(casitas);
-            lakes.add(pinecrest);
-            allLakes.setValue(lakes);
-        }
-
-        @Override
-        public LiveData<List<Lake>> getAllLakes() {
-            return allLakes;
-        }
-
-        @Override
-        public LiveData<List<Lake>> getFilteredLakes(SearchQuery query) {
-            Vector<Lake> vec = new Vector<>();
-            for (Lake lake: lakes) {
-                if (lake.name.toLowerCase().contains(query.getRawString().toLowerCase())) {
-                    vec.add(lake);
-                }
-            }
-            filteredLakes.setValue(vec);
-            return filteredLakes;
-        }
-    }
+//    private static class LakeRepoStub implements LakeRepository {
+//        private final Vector<Lake> lakes = new Vector<>();
+//        private final MutableLiveData<List<Lake>> filteredLakes = new MutableLiveData<>();
+//        private final MutableLiveData<List<Lake>> allLakes = new MutableLiveData<>();
+//
+//        LakeRepoStub() {
+//            Lake casitas = new Lake("Casitas");
+//            casitas.setLatitude(34.3924);
+//            casitas.setLongitude(-119.3346);
+//            Lake pinecrest = new Lake("Pinecrest");
+//            pinecrest.setLatitude(38.19606115930);
+//            pinecrest.setLongitude(-119.98234788600);
+//            lakes.add(casitas);
+//            lakes.add(pinecrest);
+//            allLakes.setValue(lakes);
+//        }
+//
+//        @Override
+//        public LiveData<List<Lake>> getAllLakes() {
+//            return allLakes;
+//        }
+//
+//        @Override
+//        public LiveData<List<Lake>> getFilteredLakes(SearchQuery query) {
+//            Vector<Lake> vec = new Vector<>();
+//            for (Lake lake: lakes) {
+//                if (lake.name.toLowerCase().contains(query.getRawString().toLowerCase())) {
+//                    vec.add(lake);
+//                }
+//            }
+//            filteredLakes.setValue(vec);
+//            return filteredLakes;
+//        }
+//    }
 }
 
