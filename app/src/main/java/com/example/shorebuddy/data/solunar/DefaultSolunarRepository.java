@@ -26,7 +26,7 @@ public class DefaultSolunarRepository extends SolunarRepository {
     private Calendar currentDate;
     private int timeZone;
     private LatLng currentLocation;
-    private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYYMMDD");
+    private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
 
     public DefaultSolunarRepository(OnSolAPIErrorHandler errorHandler) {
         this.errorHandler = errorHandler;
