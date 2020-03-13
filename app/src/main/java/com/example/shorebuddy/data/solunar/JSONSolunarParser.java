@@ -11,6 +11,7 @@ class JSONSolunarParser {
     public static Solunar parse(String str, LatLng location) throws JSONException {
         Solunar solunar;
 
+        str = str.replaceAll("null", "\"--:--\"");
         JSONObject root = new JSONObject(str);
         JSONObject hourlyRatingInfo = root.getJSONObject("hourlyRating");
 
