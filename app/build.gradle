@@ -65,7 +65,4 @@ dependencies {
 // Testing
     androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
     androidTestImplementation "androidx.arch.core:core-testing:$rootProject.coreTestingVersion"
-
-    //Csv utils
-    implementation 'com.opencsv:opencsv:4.6'
 }

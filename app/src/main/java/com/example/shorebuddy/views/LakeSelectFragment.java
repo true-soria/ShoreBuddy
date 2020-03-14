@@ -3,7 +3,9 @@ package com.example.shorebuddy.views;
 import android.app.Activity;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,6 +21,7 @@ import com.example.shorebuddy.adapters.LakeListAdapter;
 import com.example.shorebuddy.data.lakes.Lake;
 import com.example.shorebuddy.viewmodels.MainViewModel;
 
+import java.util.List;
 import java.util.Objects;
 
 import static androidx.navigation.fragment.NavHostFragment.findNavController;
@@ -50,8 +53,13 @@ public class LakeSelectFragment extends Fragment implements LakeListAdapter.OnLa
         final LakeListAdapter lakesAdapter = new LakeListAdapter(activity, this);
         lakesRecyclerView.setAdapter(lakesAdapter);
         lakesRecyclerView.setLayoutManager(new LinearLayoutManager(activity));
-
         assert activity != null;
+        mainViewModel.getAllLakes().observe(getViewLifecycleOwner(), new Observer<List<Lake>>() {
+            @Override
+            public void onChanged(@Nullable List<Lake> lakes) {
+            lakesAdapter.addLakeList(lakes);
+            }
+        });
         mainViewModel.setSearchQuery("");
         mainViewModel.getFilteredLakes().observe(getViewLifecycleOwner(), lakesAdapter::setLakes);
 
