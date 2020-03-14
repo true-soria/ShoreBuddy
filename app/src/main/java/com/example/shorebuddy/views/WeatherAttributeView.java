@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -38,11 +39,16 @@ public class WeatherAttributeView extends ConstraintLayout {
         }
 
         inflate(getContext(), R.layout.weather_attribute_layout, this);
-        setBackground(getResources().getDrawable(R.drawable.rounded_square, null));
+        setBackground(getResources().getDrawable(R.drawable.rounded_square_gray, null));
+        TextView staticTitleView = findViewById(R.id.static_label_text);
         dataText = findViewById(R.id.data_text_view);
         ImageView iconView = findViewById(R.id.icon);
-        iconView.setImageDrawable(icon);
-        TextView staticTitleView = findViewById(R.id.static_label_text);
+        if (icon != null) {
+            iconView.setImageDrawable(icon);
+        } else {
+            iconView.setVisibility(View.GONE);
+            staticTitleView.setPadding(8, 0, 0, 0);
+        }
         staticTitleView.setText(labelText);
         if (labelText.equals(getResources().getString(R.string.wind_speed))) {
             staticTitleView.setMaxLines(2);
