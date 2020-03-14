@@ -28,7 +28,15 @@ public class SolunarDisplayView extends ConstraintLayout {
 
     public void setSolunar(Solunar solunar) {
         View rootView = getRootView();
-        TextView text = rootView.findViewById(R.id.solunar_text_view);
-        text.setText(String.format(Locale.US, "Sun Rise: %s\nSun Set: %s\n", solunar.sunRise, solunar.sunSet));
+        WeatherAttributeView moonPhase = rootView.findViewById(R.id.moon_phase);
+        moonPhase.setData(String.format(Locale.US, "%s", solunar.moonCycle));
+        WeatherAttributeView major1 = rootView.findViewById(R.id.moon_major_1);
+        major1.setData(String.format(Locale.US, "%s", solunar.major1Start));
+        WeatherAttributeView major2 = rootView.findViewById(R.id.moon_major_2);
+        major2.setData(String.format(Locale.US, "%s", solunar.major2Start));
+        WeatherAttributeView minor1 = rootView.findViewById(R.id.moon_minor_1);
+        minor1.setData(String.format(Locale.US, "%s", solunar.minor1Start));
+        WeatherAttributeView minor2 = rootView.findViewById(R.id.moon_minor_2);
+        minor2.setData(String.format(Locale.US, "%s", solunar.minor2Start));
     }
 }

@@ -48,7 +48,7 @@ public class WeatherView extends ConstraintLayout {
         // TODO pull weather icons into project
         if (!new_weather.iconPath.isEmpty()) {
             String s = String.format("https://openweathermap.org/img/wn/%s@2x.png", new_weather.iconPath);
-            weatherIcon.setBackground(getResources().getDrawable(R.drawable.rounded_square, null));
+            weatherIcon.setBackground(getResources().getDrawable(R.drawable.rounded_square_blue, null));
             weatherIcon.setImageUrl(s, imageLoader);
         }
     }
