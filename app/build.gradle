@@ -65,4 +65,9 @@ dependencies {
 // Testing
     androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
     androidTestImplementation "androidx.arch.core:core-testing:$rootProject.coreTestingVersion"
+
+    //Dependencies to use List for Dao TypeConverts for List of fish species
+    implementation "android.arch.persistence.room:runtime:1.0.0-alpha3"
+    annotationProcessor "android.arch.persistence.room:compiler:1.0.0-alpha3"
+    implementation 'com.google.code.gson:gson:2.6.2'
 }

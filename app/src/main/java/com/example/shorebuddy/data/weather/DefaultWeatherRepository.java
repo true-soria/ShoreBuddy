@@ -47,7 +47,6 @@ public class DefaultWeatherRepository implements WeatherRepository {
                     currentLocation.latitude,
                     currentLocation.longitude,
                     BuildConfig.WEATHER_API_KEY);
-            System.out.println("Current "+ url);
             StringRequest weatherRequest = new StringRequest(Request.Method.GET, url, response -> {
                 try {
                     Weather weather = JSONWeatherParser.parse(response);

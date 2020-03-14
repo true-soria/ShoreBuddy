@@ -5,8 +5,11 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.gson.internal.$Gson$Preconditions;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 
 
 // TODO: Implement as a Room model
@@ -16,6 +19,8 @@ public class Lake {
     @PrimaryKey
     @NotNull
     public final String name;
+
+    private ArrayList<String> fishList = new ArrayList<String>();
 
     @ColumnInfo(name = "Latitude")
     private double latitude;
@@ -30,10 +35,11 @@ public class Lake {
         this.longitude = 0;
     }
 
-    public Lake(@NotNull String name, double latitude, double longitude){
+    public Lake(@NotNull String name, double latitude, double longitude, ArrayList<String> fishList){
         this.name=name;
         this.latitude=latitude;
         this.longitude=longitude;
+        this.fishList=fishList;
 
     }
 
@@ -49,6 +55,10 @@ public class Lake {
     public LatLng getLakeLatLng(){
         return new LatLng(latitude,longitude);
     }
+
+    public ArrayList<String> getFishList(){return this.fishList;}
+
+    public void setFishList(ArrayList<String> fishList){this.fishList=fishList;}
 
 //    @ColumnInfo(name = "Fish")
 //    public ArrayList<String> fishList;

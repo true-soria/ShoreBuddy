@@ -8,12 +8,15 @@ import androidx.room.DatabaseConfiguration;
 import androidx.room.InvalidationTracker;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 import androidx.sqlite.db.SupportSQLiteOpenHelper;
 
 import com.example.shorebuddy.R;
 import com.example.shorebuddy.data.lakes.Lake;
 import com.example.shorebuddy.data.lakes.LakeDao;
+import com.example.shorebuddy.utilities.Converters;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedReader;
@@ -27,6 +30,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Database(entities = {Lake.class}, version = 1, exportSchema = false)
+@TypeConverters({Converters.class})
 public abstract class ShoreBuddyDatabase extends RoomDatabase {
 
     public abstract LakeDao lakeDao();
@@ -61,13 +65,21 @@ public abstract class ShoreBuddyDatabase extends RoomDatabase {
                 List<Lake> lakes = new ArrayList<Lake>();
                 String line ="";
                 Lake currentLake;
+                ArrayList<String> fishList = new ArrayList<String>();
                 try {
                     reader = new BufferedReader(new InputStreamReader(csvStream, StandardCharsets.UTF_8));
                     line = reader.readLine();
+                    String[] categories = line.split(",");
                     while((line = reader.readLine()) != null){
                         String[] values = line.split(",");
-                        currentLake = new Lake(values[0],Double.parseDouble(values[20]),Double.parseDouble(values[19]));
+                        for(int i =1;i<values.length-2;i++){
+                            if(values[i].equals("1")){
+                                fishList.add(categories[i]);
+                            }
+                        }
+                        currentLake = new Lake(values[0],Double.parseDouble(values[20]),Double.parseDouble(values[19]),fishList);
                         lakes.add(currentLake);
+                        fishList.clear();
                     }
                     reader.close();
                 } catch (IOException e) {
