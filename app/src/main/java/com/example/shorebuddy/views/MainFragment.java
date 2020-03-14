@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.example.shorebuddy.R;
 import com.example.shorebuddy.viewmodels.MainViewModel;
 
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -40,8 +41,15 @@ public class MainFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.main_fragment, container, false);
-
         TextView currentLakeTextView = rootView.findViewById(R.id.current_lake_text);
+        TextView fishTextView = rootView.findViewById(R.id.fishList_Text);
+        ArrayList<String> currentFishList = mainViewModel.getCurrentlySelectedLake().getValue().getFishList();
+        StringBuilder fishList = new StringBuilder();
+        for(String fish : currentFishList){
+            fishList.append("\n").append(fish);
+        }
+        mainViewModel.getCurrentlySelectedLake().observe(getViewLifecycleOwner(),
+                lake -> fishTextView.setText(String.format("%s\n%s","Fish Species Present:",fishList.toString())));
         mainViewModel.getCurrentlySelectedLake().observe(getViewLifecycleOwner(),
                 lake -> currentLakeTextView.setText(String.format("%s%s", getString(R.string.current_lake_text), lake.name)));
 
