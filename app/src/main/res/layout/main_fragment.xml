@@ -22,6 +22,7 @@
             app:layout_constraintGuide_percent=".5"/>
 
         <TextView
+            style="@style/LakeTitle"
             android:id="@+id/current_lake_text"
             android:layout_width="170dp"
             android:layout_height="188dp"
@@ -57,6 +58,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
+            android:textColor="@color/colorTextOpaque"
             app:layout_constraintBottom_toTopOf="@id/select_lake_btn"/>
 
         <Button
