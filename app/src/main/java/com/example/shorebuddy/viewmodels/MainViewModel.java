@@ -18,7 +18,6 @@ import com.example.shorebuddy.data.weather.WeatherRepository;
 import com.example.shorebuddy.utilities.SearchQuery;
 import com.example.shorebuddy.utilities.UpdateManager;
 
-
 import com.example.shorebuddy.data.solunar.SolunarRepository;
 
 import org.json.JSONException;
