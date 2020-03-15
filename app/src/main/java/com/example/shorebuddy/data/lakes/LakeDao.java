@@ -27,4 +27,7 @@ public interface LakeDao {
     @Query("DELETE FROM lake_table")
     void removeAll();
 
+    @Query("SELECT * FROM lake_table WHERE name LIKE :query")
+    LiveData<List<Lake>> getFilteredLakes(String query);
+
 }

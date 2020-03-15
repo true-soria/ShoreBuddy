@@ -2,15 +2,11 @@ package com.example.shorebuddy.data;
 
 import android.content.Context;
 import android.util.Log;
-import androidx.annotation.NonNull;
 import androidx.room.Database;
-import androidx.room.DatabaseConfiguration;
-import androidx.room.InvalidationTracker;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
-import androidx.sqlite.db.SupportSQLiteOpenHelper;
 
 import com.example.shorebuddy.R;
 import com.example.shorebuddy.data.lakes.Lake;
@@ -89,22 +85,5 @@ public abstract class ShoreBuddyDatabase extends RoomDatabase {
                 lakeDao.insertAll(lakes);
             });
         }
-
     };
-    @NonNull
-    @Override
-    protected SupportSQLiteOpenHelper createOpenHelper(DatabaseConfiguration config) {
-        return null;
-    }
-
-    @NonNull
-    @Override
-    protected InvalidationTracker createInvalidationTracker() {
-        return null;
-    }
-
-    @Override
-    public void clearAllTables() {
-
-    }
 }
