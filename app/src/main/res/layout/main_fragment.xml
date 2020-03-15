@@ -22,7 +22,7 @@
             app:layout_constraintGuide_percent=".5"/>
 
         <TextView
-            style="@style/LakeTitle"
+            style="@style/textLakeTitle"
             android:id="@+id/current_lake_text"
             android:layout_width="170dp"
             android:layout_height="188dp"
@@ -70,6 +70,7 @@
             app:layout_constraintEnd_toEndOf="parent" />
 
         <TextView
+            style="@style/textFishList"
             android:id="@+id/fishList_Text"
             android:layout_width="166dp"
             android:layout_height="172dp"
