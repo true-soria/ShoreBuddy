@@ -23,23 +23,26 @@
 
         <TextView
             android:id="@+id/current_lake_text"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="170dp"
+            android:layout_height="188dp"
             app:layout_constraintBottom_toTopOf="@+id/weather_guideline"
             app:layout_constraintEnd_toStartOf="@id/current_weather_text"
             app:layout_constraintHorizontal_weight=".8"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
         <com.example.shorebuddy.views.WeatherView
             android:id="@+id/current_weather_text"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="238dp"
+            android:layout_height="368dp"
             app:layout_constraintBottom_toTopOf="@id/weather_guideline"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toEndOf="@id/current_lake_text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+
         <com.example.shorebuddy.views.SolunarDisplayView
             android:id="@+id/current_solunar"
             android:layout_width="0dp"
@@ -63,5 +66,14 @@
             android:text="@string/select_lake"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/fishList_Text"
+            android:layout_width="166dp"
+            android:layout_height="172dp"
+            app:layout_constraintBottom_toTopOf="@+id/weather_guideline"
+            app:layout_constraintEnd_toStartOf="@+id/current_weather_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/current_lake_text" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

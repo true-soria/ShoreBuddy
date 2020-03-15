@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shorebuddy.R;
@@ -36,7 +35,7 @@ public class LakeListAdapter extends RecyclerView.Adapter<LakeListAdapter.LakeVi
     private final OnLakeListener onLakeListener;
     private List<Lake> lakes;
 
-    public LakeListAdapter(Context context, OnLakeListener onLakeListener) {
+        public LakeListAdapter(Context context, OnLakeListener onLakeListener) {
         inflater = LayoutInflater.from(context);
         this.onLakeListener = onLakeListener;
     }
@@ -70,6 +69,9 @@ public class LakeListAdapter extends RecyclerView.Adapter<LakeListAdapter.LakeVi
         else return 0;
     }
 
+    public void addLakeList(List<Lake> lakes){
+            this.lakes=lakes;
+    }
     public interface OnLakeListener {
         void onLakeSelected(Lake lake);
     }

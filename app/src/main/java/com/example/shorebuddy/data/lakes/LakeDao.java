@@ -27,6 +27,4 @@ public interface LakeDao {
     @Query("DELETE FROM lake_table")
     void removeAll();
 
-    @Query("SELECT * from lake_table ORDER BY Name ASC")
-    LiveData<List<Lake>> getAllLakes();
 }
