@@ -31,12 +31,12 @@ public class SolunarDisplayView extends ConstraintLayout {
         WeatherAttributeView moonPhase = rootView.findViewById(R.id.moon_phase);
         moonPhase.setData(String.format(Locale.US, "%s", solunar.moonCycle));
         WeatherAttributeView major1 = rootView.findViewById(R.id.moon_major_1);
-        major1.setData(String.format(Locale.US, "%s", solunar.major1Start));
+        major1.setData(String.format(Locale.US, "%s to %s", solunar.major1Start, solunar.major1Stop));
         WeatherAttributeView major2 = rootView.findViewById(R.id.moon_major_2);
-        major2.setData(String.format(Locale.US, "%s", solunar.major2Start));
+        major2.setData(String.format(Locale.US, "%s to %s", solunar.major2Start, solunar.major2Stop));
         WeatherAttributeView minor1 = rootView.findViewById(R.id.moon_minor_1);
-        minor1.setData(String.format(Locale.US, "%s", solunar.minor1Start));
+        minor1.setData(String.format(Locale.US, "%s to %s", solunar.minor1Start, solunar.minor1Stop));
         WeatherAttributeView minor2 = rootView.findViewById(R.id.moon_minor_2);
-        minor2.setData(String.format(Locale.US, "%s", solunar.minor2Start));
+        minor2.setData(String.format(Locale.US, "%s to %s", solunar.minor2Start, solunar.minor2Stop));
     }
 }
