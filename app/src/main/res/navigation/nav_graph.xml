@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/nav_graph"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/lakeSelectFragment">
+
+    <fragment
+        android:id="@+id/lakeSelectFragment"
+        android:name="com.example.shorebuddy.views.LakeSelectFragment"
+        tools:layout="@layout/lake_select_fragment"
+        android:label="LakeSelectFragment" >
+        <action app:destination="@+id/mainFragment"
+            android:id="@+id/action_lakeSelectFragment_to_mainFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.example.shorebuddy.views.MainFragment"
+        tools:layout="@layout/main_fragment"
+        android:label="MainFragment" >
+        <action app:destination="@id/lakeSelectFragment"
+            android:id="@+id/action_mainFragment_to_lakeSelectFragment"/>
+    </fragment>
+</navigation>

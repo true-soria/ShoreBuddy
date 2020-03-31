@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
+    <com.example.shorebuddy.views.WeatherAttributeView
+        android:id="@+id/moon_phase"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:label="Moon Phase"
+        app:icon="@drawable/ic_moon1"
+        android:layout_margin="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/moon_major_1"/>
+    <com.example.shorebuddy.views.WeatherAttributeView
+        android:id="@+id/moon_major_1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="8dp"
+        app:label="Major 1"
+        app:icon="@drawable/ic_major1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/moon_phase"
+        app:layout_constraintBottom_toBottomOf="@id/moon_major_2"/>
+    <com.example.shorebuddy.views.WeatherAttributeView
+        android:id="@+id/moon_major_2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="8dp"
+        app:label="Major 2"
+        app:icon="@drawable/ic_major2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/moon_major_1"
+        app:layout_constraintBottom_toBottomOf="@id/moon_minor_1"/>
+    <com.example.shorebuddy.views.WeatherAttributeView
+        android:id="@+id/moon_minor_1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="8dp"
+        app:label="Minor 1"
+        app:icon="@drawable/ic_minor1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/moon_major_2"
+        app:layout_constraintBottom_toBottomOf="@id/moon_minor_2"/>
+    <com.example.shorebuddy.views.WeatherAttributeView
+        android:id="@+id/moon_minor_2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="8dp"
+        app:label="Minor 2"
+        app:icon="@drawable/ic_minor2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/moon_minor_1"/>
+</merge>
