@@ -6,6 +6,9 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Transaction;
+
+import com.example.shorebuddy.data.relationships.LakeWithFish;
 
 import java.util.List;
 
@@ -30,4 +33,7 @@ public interface LakeDao {
     @Query("SELECT * FROM lake_table WHERE name LIKE :query")
     LiveData<List<Lake>> getFilteredLakes(String query);
 
+    @Transaction
+    @Query("SELECT * FROM lake_table WHERE name LIKE :query")
+    List<LakeWithFish> findLakeWithFish(String query);
 }

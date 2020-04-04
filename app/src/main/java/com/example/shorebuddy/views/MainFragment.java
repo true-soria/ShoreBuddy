@@ -51,7 +51,7 @@ public class MainFragment extends Fragment {
         mainViewModel.getCurrentlySelectedLake().observe(getViewLifecycleOwner(),
                 lake -> fishTextView.setText(String.format("%s\n%s","Fish Species Present:",fishList.toString())));
         mainViewModel.getCurrentlySelectedLake().observe(getViewLifecycleOwner(),
-                lake -> currentLakeTextView.setText(String.format("%s%s", getString(R.string.current_lake_text), lake.name)));
+                lake -> currentLakeTextView.setText(String.format("%s%s", getString(R.string.current_lake_text), lake.lakeName)));
 
         //TODO remove timestamp
         TextView currentWeatherTextView = rootView.findViewById(R.id.last_updated_weather_text);

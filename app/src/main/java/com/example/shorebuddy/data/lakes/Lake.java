@@ -17,7 +17,8 @@ public class Lake {
 
     @PrimaryKey
     @NotNull
-    public final String name;
+    @ColumnInfo(name = "name")
+    public final String lakeName;
 
     private ArrayList<String> fishList;
 
@@ -28,14 +29,14 @@ public class Lake {
     private double longitude;
 
     @Ignore
-    public Lake(@NotNull String name) {
-        this.name = name;
+    public Lake(@NotNull String lakeName) {
+        this.lakeName = lakeName;
         this.latitude = 0;
         this.longitude = 0;
     }
 
-    public Lake(@NotNull String name, double latitude, double longitude, ArrayList<String> fishList){
-        this.name=name;
+    public Lake(@NotNull String lakeName, double latitude, double longitude, ArrayList<String> fishList){
+        this.lakeName = lakeName;
         setLatitude(latitude);
         setLongitude(longitude);
         setFishList(fishList);
@@ -111,5 +112,4 @@ public class Lake {
 
     @ColumnInfo(name = "Trout")
     public boolean trout;
-
 }

@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 import com.example.shorebuddy.R;
+import com.example.shorebuddy.data.fish.Fish;
 import com.example.shorebuddy.data.lakes.DefaultLakeRepository;
 import com.example.shorebuddy.data.lakes.Lake;
 import com.example.shorebuddy.data.lakes.LakeRepository;
@@ -24,7 +25,6 @@ import org.json.JSONException;
 
 import java.util.List;
 
-
 public class MainViewModel extends AndroidViewModel implements DefaultWeatherRepository.OnAPIErrorHandler, DefaultSolunarRepository.OnSolAPIErrorHandler {
 
     private final WeatherRepository weatherRepo = new DefaultWeatherRepository(this);
@@ -34,10 +34,12 @@ public class MainViewModel extends AndroidViewModel implements DefaultWeatherRep
     private final UpdateManager updateStatusManager = new UpdateManager();
 
     private final MutableLiveData<Lake> currentSelectedLake = new MutableLiveData<>();
+    private final LiveData<List<Fish>> fishInCurrentLake = Transformations.map(currentSelectedLake,
+            currentLake -> lakeRepo.getFishInLake(currentLake));
     private final MutableLiveData<String> searchStr = new MutableLiveData<>();
 
-   private  LiveData<List<Lake>> allLakes;
-   private final LiveData<List<Lake>> filteredLakes;
+    private  LiveData<List<Lake>> allLakes;
+    private final LiveData<List<Lake>> filteredLakes;
     private final LiveData<Weather> weatherData = Transformations.switchMap(currentSelectedLake,
             currentLake -> weatherRepo.getWeatherData(currentLake.getLakeLatLng()));
     private final LiveData<Solunar> solunarData = Transformations.switchMap(currentSelectedLake,
@@ -58,9 +60,12 @@ public class MainViewModel extends AndroidViewModel implements DefaultWeatherRep
             }
         });
     }
+
     public LiveData<List<Lake>> getAllLakes() {return this.allLakes;}
 
     public LiveData<Lake> getCurrentlySelectedLake() { return currentSelectedLake; }
+
+    public LiveData<List<Fish>> getFishInCurrentLake() { return fishInCurrentLake; }
 
     public LiveData<List<Lake>> getFilteredLakes() { return filteredLakes; }
 
@@ -115,6 +120,5 @@ public class MainViewModel extends AndroidViewModel implements DefaultWeatherRep
             toastData.setValue(R.string.solunar_fetch_error);
         }
     }
-
 }
 

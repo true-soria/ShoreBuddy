@@ -51,7 +51,7 @@ public class LakeListAdapter extends RecyclerView.Adapter<LakeListAdapter.LakeVi
     public void onBindViewHolder(@NotNull LakeViewHolder holder, int position) {
         if (lakes != null) {
             Lake current_lake = lakes.get(position);
-            holder.lakeItemView.setText(current_lake.name);
+            holder.lakeItemView.setText(current_lake.lakeName);
             holder.lake = current_lake;
         }
     }
