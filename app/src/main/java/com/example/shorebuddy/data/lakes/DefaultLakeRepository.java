@@ -25,10 +25,9 @@ public class DefaultLakeRepository implements LakeRepository {
     }
 
     void insert(Lake lake){
-        ShoreBuddyDatabase.databaseWriteExecutor.execute(()->{
-            lakeDao.insert(lake);
-        });
+        ShoreBuddyDatabase.databaseExecutor.execute(()-> lakeDao.insert(lake));
     }
+
     @Override
     public LiveData<List<Lake>> getAllLakes() {
         return allLakes;
@@ -40,12 +39,8 @@ public class DefaultLakeRepository implements LakeRepository {
     }
 
     @Override
-    public List<Fish> getFishInLake(Lake lake) {
-        List<LakeWithFish> lakesWithFish = lakeDao.findLakeWithFish(lake.lakeName);
-        if (lakesWithFish.isEmpty()) {
-            return new ArrayList<Fish>();
-        } else {
-            return lakesWithFish.get(0).fish;
-        }
+    public LiveData<List<Fish>> getFishInLake(Lake lake) {
+        LiveData<LakeWithFish> lakesWithFish = lakeDao.findLakeWithFish(lake.lakeName);
+        return Transformations.map(lakesWithFish, lakes -> lakes.fish);
     }
 }

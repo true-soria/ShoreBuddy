@@ -34,16 +34,16 @@ public class MainViewModel extends AndroidViewModel implements DefaultWeatherRep
     private final UpdateManager updateStatusManager = new UpdateManager();
 
     private final MutableLiveData<Lake> currentSelectedLake = new MutableLiveData<>();
-    private final LiveData<List<Fish>> fishInCurrentLake = Transformations.map(currentSelectedLake,
+    private final LiveData<List<Fish>> fishInCurrentLake = Transformations.switchMap(currentSelectedLake,
             currentLake -> lakeRepo.getFishInLake(currentLake));
     private final MutableLiveData<String> searchStr = new MutableLiveData<>();
 
     private  LiveData<List<Lake>> allLakes;
     private final LiveData<List<Lake>> filteredLakes;
     private final LiveData<Weather> weatherData = Transformations.switchMap(currentSelectedLake,
-            currentLake -> weatherRepo.getWeatherData(currentLake.getLakeLatLng()));
+            currentLake -> weatherRepo.getWeatherData(currentLake.getLatLng()));
     private final LiveData<Solunar> solunarData = Transformations.switchMap(currentSelectedLake,
-            currentLake -> solunarRepo.getSolunarData(currentLake.getLakeLatLng()));
+            currentLake -> solunarRepo.getSolunarData(currentLake.getLatLng()));
 
     private final MutableLiveData<Integer> toastData = new MutableLiveData<>();
 

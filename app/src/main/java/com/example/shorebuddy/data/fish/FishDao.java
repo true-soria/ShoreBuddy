@@ -16,17 +16,17 @@ public interface FishDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insert(Fish fish);
 
-    @Query("SELECT * FROM fish_table")
+    @Query("SELECT * FROM fish")
     LiveData<List<Fish>> getAllFish();
 
-    @Query("SELECT * FROM fish_table WHERE species LIKE :species")
+    @Query("SELECT * FROM fish WHERE species LIKE :species")
     LiveData<List<Fish>> findFish(String species);
 
     @Transaction
-    @Query("SELECT * FROM fish_table")
+    @Query("SELECT * FROM fish")
     LiveData<List<FishWithLakes>> getFishWithLakes();
 
     @Transaction
-    @Query("SELECT * FROM fish_table WHERE species LIKE :species")
+    @Query("SELECT * FROM fish WHERE species LIKE :species")
     LiveData<List<FishWithLakes>> findFishWithLakes(String species);
 }

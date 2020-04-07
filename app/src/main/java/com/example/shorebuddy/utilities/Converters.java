@@ -12,23 +12,16 @@ import java.util.Date;
 
 public class Converters {
     @TypeConverter
-    public static Date fromTimestamp(Long value) {
-        return value == null ? null : new Date(value);
+    public static boolean intToBool(int value) {
+        return value == 1;
     }
 
     @TypeConverter
-    public static Long dateToTimestamp(Date date) {
-        return date == null ? null : date.getTime();
-    }
-
-    public static double kelvinToFahrenheit(double kelvinTemp) {
-        return (((kelvinTemp - 273.15) * (9./5.)) + 32);
-    }
-
+    public static int boolToInt(boolean value) { if (value) return 1; return 0; }
 
     @TypeConverter
     public static String coordinatesToString(LatLng value){
-        return Double.toString(value.latitude)+","+Double.toString(value.longitude);
+        return value.latitude +","+ value.longitude;
     }
 
     @TypeConverter
@@ -36,19 +29,5 @@ public class Converters {
         String[] latlng = value.split(",");
         return new LatLng(Double.parseDouble(latlng[0]),Double.parseDouble(latlng[1]));
     }
-
-    @TypeConverter
-    public static ArrayList<String> fromString(String value){
-        Type listType = new TypeToken<ArrayList<String>>(){}.getType();
-        return new Gson().fromJson(value,listType);
-    }
-
-
-    @TypeConverter
-    public static String fromArrayList(ArrayList<String> list){
-        Gson gson = new Gson();
-        return gson.toJson(list);
-    }
-
 
 }

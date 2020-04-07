@@ -12,5 +12,5 @@ import java.util.List;
 public interface LakeRepository {
     LiveData<List<Lake>> getAllLakes();
     LiveData<List<Lake>> getFilteredLakes(SearchQuery search);
-    List<Fish> getFishInLake(Lake lake);
+    LiveData<List<Fish>> getFishInLake(Lake lake);
 }
