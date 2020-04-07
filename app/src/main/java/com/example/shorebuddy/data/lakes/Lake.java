@@ -2,114 +2,62 @@ package com.example.shorebuddy.data.lakes;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+
+import com.example.shorebuddy.utilities.Converters;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 
-
-// TODO: Implement as a Room model
-@Entity(tableName = "lake_table")
+@Entity(tableName = "lakes")
 public class Lake {
 
     @PrimaryKey
     @NotNull
-    public final String name;
+    @ColumnInfo(name = "name")
+    public String lakeName;
 
-    private ArrayList<String> fishList;
+    @NotNull
+    public String elevation;
 
-    @ColumnInfo(name = "Latitude")
-    private double latitude;
+    @NotNull
+    public String county;
 
-    @ColumnInfo(name = "Longitude")
-    private double longitude;
+    public int region;
 
-    @Ignore
-    public Lake(@NotNull String name) {
-        this.name = name;
-        this.latitude = 0;
-        this.longitude = 0;
+    @TypeConverters({Converters.class})
+    public boolean boatramp;
+
+    @TypeConverters({Converters.class})
+    public boolean restroom;
+
+    @ColumnInfo(name = "fishingComm")
+    public String fishingComments;
+
+    @TypeConverters({Converters.class})
+    public boolean fuel;
+
+    @ColumnInfo(name = "wcaccess")
+    @TypeConverters({Converters.class})
+    public boolean WheelChairAccess;
+
+    double latitude;
+
+    double longitude;
+
+    public Lake(double latitude, double longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
-    public Lake(@NotNull String name, double latitude, double longitude, ArrayList<String> fishList){
-        this.name=name;
-        setLatitude(latitude);
-        setLongitude(longitude);
-        setFishList(fishList);
+    public void setLatLng(LatLng location) {
+        latitude = location.latitude;
+        longitude = location.longitude;
     }
 
-    public double getLatitude(){return this.latitude;}
-
-    public double getLongitude(){return this.longitude;}
-
-    public void setLatitude(double latitude){
-        this.latitude=latitude;
-    }
-    public void setLongitude(double longitude){ this.longitude=longitude;}
-
-    public LatLng getLakeLatLng(){
+    public LatLng getLatLng() {
         return new LatLng(latitude,longitude);
     }
-
-    public ArrayList<String> getFishList(){ return this.fishList;}
-
-    public void setFishList(ArrayList<String> fishList){this.fishList = new ArrayList<>(fishList);}
-
-    @ColumnInfo(name = "Bass")
-    public boolean bass;
-
-    @ColumnInfo(name = "Catfish")
-    public boolean catfish;
-
-    @ColumnInfo(name = "AdSalmon")
-    public boolean adSalmon;
-
-    @ColumnInfo(name = "InlandSalmon")
-    public boolean inLandSalmon;
-
-    @ColumnInfo(name = "Panfish")
-    public boolean panfish;
-
-    @ColumnInfo(name = "Shad")
-    public boolean shad;
-
-    @ColumnInfo(name = "Steelhead")
-    public boolean steelhead;
-
-    @ColumnInfo(name = "StripeBass")
-    public boolean stripedBass;
-
-    @ColumnInfo(name = "Sturgeon")
-    public boolean sturgeon;
-
-    @ColumnInfo(name = "TroutWH")
-    public boolean trouthHW;
-
-    @ColumnInfo(name = "TroutWild")
-    public boolean troutWild;
-
-    @ColumnInfo(name = "TroutHatch")
-    public boolean troutHatch;
-
-    @ColumnInfo(name = "BrookTrout")
-    public boolean brookTrout;
-
-    @ColumnInfo(name = "BrownTrout")
-    public boolean brownTrout;
-
-    @ColumnInfo(name = "GoldenTrout")
-    public boolean goldenTrout;
-
-    @ColumnInfo(name = "RainbowTrout")
-    public boolean rainbowTrout;
-
-    @ColumnInfo(name = "LahontanTrout")
-    public boolean lahontan;
-
-    @ColumnInfo(name = "Trout")
-    public boolean trout;
-
 }

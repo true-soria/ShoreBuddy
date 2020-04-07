@@ -6,6 +6,9 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Transaction;
+
+import com.example.shorebuddy.data.relationships.LakeWithFish;
 
 import java.util.List;
 
@@ -15,19 +18,13 @@ public interface LakeDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insert(Lake lake);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertAll(List<Lake> lakes);
-
-    @Delete
-    void delete(Lake lake);
-
-    @Query("SELECT * FROM lake_table")
+    @Query("SELECT * FROM lakes ORDER BY name ASC")
     LiveData<List<Lake>> getAll();
 
-    @Query("DELETE FROM lake_table")
-    void removeAll();
-
-    @Query("SELECT * FROM lake_table WHERE name LIKE :query")
+    @Query("SELECT * FROM lakes WHERE name LIKE :query ORDER BY name ASC")
     LiveData<List<Lake>> getFilteredLakes(String query);
 
+    @Transaction
+    @Query("SELECT * FROM lakes WHERE name LIKE :query LIMIT 1")
+    LiveData<LakeWithFish> findLakeWithFish(String query);
 }
