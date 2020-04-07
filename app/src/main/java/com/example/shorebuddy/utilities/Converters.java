@@ -8,6 +8,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 public class Converters {
@@ -18,6 +19,18 @@ public class Converters {
 
     @TypeConverter
     public static int boolToInt(boolean value) { if (value) return 1; return 0; }
+
+    @TypeConverter
+    public static Calendar fromTimestamp(Long value) {
+        Calendar date = Calendar.getInstance();
+        date.setTimeInMillis(value);
+        return date;
+    }
+
+    @TypeConverter
+    public static Long dateToTimestamp(Calendar date) {
+        return date.getTimeInMillis();
+    }
 
     @TypeConverter
     public static String coordinatesToString(LatLng value){
