@@ -35,7 +35,7 @@ public class LakeListAdapter extends RecyclerView.Adapter<LakeListAdapter.LakeVi
     private final OnLakeListener onLakeListener;
     private List<Lake> lakes;
 
-        public LakeListAdapter(Context context, OnLakeListener onLakeListener) {
+    public LakeListAdapter(Context context, OnLakeListener onLakeListener) {
         inflater = LayoutInflater.from(context);
         this.onLakeListener = onLakeListener;
     }
@@ -51,7 +51,7 @@ public class LakeListAdapter extends RecyclerView.Adapter<LakeListAdapter.LakeVi
     public void onBindViewHolder(@NotNull LakeViewHolder holder, int position) {
         if (lakes != null) {
             Lake current_lake = lakes.get(position);
-            holder.lakeItemView.setText(current_lake.name);
+            holder.lakeItemView.setText(current_lake.lakeName);
             holder.lake = current_lake;
         }
     }
@@ -69,9 +69,6 @@ public class LakeListAdapter extends RecyclerView.Adapter<LakeListAdapter.LakeVi
         else return 0;
     }
 
-    public void addLakeList(List<Lake> lakes){
-            this.lakes=lakes;
-    }
     public interface OnLakeListener {
         void onLakeSelected(Lake lake);
     }
