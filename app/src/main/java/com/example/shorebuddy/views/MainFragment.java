@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.shorebuddy.R;
+import com.example.shorebuddy.data.fish.Fish;
 import com.example.shorebuddy.viewmodels.MainViewModel;
 
 import java.util.ArrayList;
@@ -43,15 +44,19 @@ public class MainFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.main_fragment, container, false);
         TextView currentLakeTextView = rootView.findViewById(R.id.current_lake_text);
         TextView fishTextView = rootView.findViewById(R.id.fishList_Text);
-        ArrayList<String> currentFishList = mainViewModel.getCurrentlySelectedLake().getValue().getFishList();
-        StringBuilder fishList = new StringBuilder();
-        for(String fish : currentFishList){
-            fishList.append("\n").append(fish);
-        }
+
+        mainViewModel.getFishInCurrentLake().observe(getViewLifecycleOwner(),
+                fishInLake -> {
+                    StringBuilder fishDisplay = new StringBuilder();
+                    for (Fish fish : fishInLake) {
+                        fishDisplay.append("\n").append(fish.species);
+                    }
+                    fishTextView.setText(String.format("Fish Species Present:\n%s", fishDisplay.toString()));
+                }
+        );
+
         mainViewModel.getCurrentlySelectedLake().observe(getViewLifecycleOwner(),
-                lake -> fishTextView.setText(String.format("%s\n%s","Fish Species Present:",fishList.toString())));
-        mainViewModel.getCurrentlySelectedLake().observe(getViewLifecycleOwner(),
-                lake -> currentLakeTextView.setText(String.format("%s", lake.name)));
+                lake -> currentLakeTextView.setText(String.format("%s%s", getString(R.string.current_lake_text), lake.lakeName)));
 
         //TODO remove timestamp
         TextView currentWeatherTextView = rootView.findViewById(R.id.last_updated_weather_text);
