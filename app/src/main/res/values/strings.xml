@@ -12,6 +12,7 @@
     <string name="wind_direction">Heading:</string>
     <string name="compass_icon">CompassIcon</string>
     <string name="missing_icon">Missing Icon</string>
+    <string name="icon_description">data graphic</string>
     <string name="weather_fetch_error">Error fetching weather data.</string>
     <string name="weather_parse_error">Error parsing weather data</string>
     <string name="solunar_fetch_error">Error fetching solunar data</string>

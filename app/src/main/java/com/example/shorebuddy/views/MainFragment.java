@@ -49,14 +49,14 @@ public class MainFragment extends Fragment {
                 fishInLake -> {
                     StringBuilder fishDisplay = new StringBuilder();
                     for (Fish fish : fishInLake) {
-                        fishDisplay.append("\n").append(fish.species);
+                        fishDisplay.append("\n• ").append(fish.species);
                     }
                     fishTextView.setText(String.format("Fish Species Present:\n%s", fishDisplay.toString()));
                 }
         );
 
         mainViewModel.getCurrentlySelectedLake().observe(getViewLifecycleOwner(),
-                lake -> currentLakeTextView.setText(String.format("%s%s", getString(R.string.current_lake_text), lake.lakeName)));
+                lake -> currentLakeTextView.setText(String.format("%s", lake.lakeName)));
 
         //TODO remove timestamp
         TextView currentWeatherTextView = rootView.findViewById(R.id.last_updated_weather_text);
