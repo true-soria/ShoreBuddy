@@ -21,7 +21,9 @@ import com.example.shorebuddy.R;
 import com.example.shorebuddy.data.fish.Fish;
 import com.example.shorebuddy.viewmodels.MainViewModel;
 
-import java.util.ArrayList;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -37,57 +39,20 @@ public class MainFragment extends Fragment {
         mainViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity())).get(MainViewModel.class);
     }
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.main_fragment, container, false);
-        TextView currentLakeTextView = rootView.findViewById(R.id.current_lake_text);
-        TextView fishTextView = rootView.findViewById(R.id.fishList_Text);
 
-        mainViewModel.getFishInCurrentLake().observe(getViewLifecycleOwner(),
-                fishInLake -> {
-                    StringBuilder fishDisplay = new StringBuilder();
-                    for (Fish fish : fishInLake) {
-                        fishDisplay.append("\n• ").append(fish.species);
-                    }
-                    fishTextView.setText(String.format("Fish Species Present:\n%s", fishDisplay.toString()));
-                }
-        );
-
-        mainViewModel.getCurrentlySelectedLake().observe(getViewLifecycleOwner(),
-                lake -> currentLakeTextView.setText(String.format("%s", lake.lakeName)));
-
-        //TODO remove timestamp
-        TextView currentWeatherTextView = rootView.findViewById(R.id.last_updated_weather_text);
-        WeatherView weatherView = rootView.findViewById(R.id.current_weather_text);
-        SolunarDisplayView solunarView = rootView.findViewById(R.id.current_solunar);
-        SwipeRefreshLayout refreshLayout = rootView.findViewById(R.id.refresh_layout);
-
-        mainViewModel.getUpdatingStatus().observe(getViewLifecycleOwner(), refreshLayout::setRefreshing);
-
-        mainViewModel.getWeatherData().observe(getViewLifecycleOwner(), weather -> {
-            currentWeatherTextView.setText(String.format(Locale.US, "Weather Timestamp: %s", weather.getTimeStamp().getTime()));
-            weatherView.set_weather(weather);
-            mainViewModel.weatherUpdated();
-        });
-
-        mainViewModel.getSolunarData().observe(getViewLifecycleOwner(), solunar -> {
-            solunarView.setSolunar(solunar);
-            mainViewModel.solunarUpdated();
-        });
-
-        mainViewModel.getToastData().observe(getViewLifecycleOwner(),
-                resourceId -> Toast.makeText(getContext(), getResources().getString(resourceId), Toast.LENGTH_LONG).show());
-
-
-        Button selectLakeBtn = rootView.findViewById(R.id.select_lake_btn);
-        selectLakeBtn.setOnClickListener(this::onClickSelectLakeBtn);
-
-        refreshLayout.setOnRefreshListener(() -> {
-            mainViewModel.requestWeatherUpdate();
-            mainViewModel.requestSolunarUpdate();
-        });
+        renderSelectedLake(rootView);
+        renderWeather(rootView);
+        renderSolunar(rootView);
+        renderFishInLake(rootView);
+        setupRefreshLayout(rootView);
+        setupLakeSelectBtn(rootView);
+        setupToast();
 
         return rootView;
     }
@@ -102,4 +67,63 @@ public class MainFragment extends Fragment {
         findNavController(this).navigate(action);
     }
 
+    private void renderSelectedLake(@NotNull View rootView) {
+        TextView currentLakeTextView = rootView.findViewById(R.id.current_lake_text);
+        mainViewModel.getCurrentlySelectedLake().observe(getViewLifecycleOwner(), currentLake ->
+                currentLakeTextView.setText(String.format("%s%s", getString(R.string.current_lake_text), currentLake.lakeName)));
+    }
+
+    private void renderFishInLake(@NotNull View rootView) {
+        TextView fishTextView = rootView.findViewById(R.id.fishList_Text);
+        mainViewModel.getFishInCurrentLake().observe(getViewLifecycleOwner(), fishInLake -> {
+            String fishText = createFishText(fishInLake);
+            fishTextView.setText(String.format("Fish Species Present:\n%s", fishText));
+        });
+    }
+
+    private void renderWeather(@NotNull View rootView) {
+        WeatherView weatherView = rootView.findViewById(R.id.current_weather_text);
+        TextView currentWeatherTextView = rootView.findViewById(R.id.last_updated_weather_text);
+        mainViewModel.getWeatherData().observe(getViewLifecycleOwner(), weather -> {
+            currentWeatherTextView.setText(String.format(Locale.US, "Weather Timestamp: %s", weather.getTimeStamp().getTime()));
+            weatherView.set_weather(weather);
+        });
+        mainViewModel.weatherUpdated();
+    }
+
+    private void renderSolunar(@NotNull View rootView) {
+        SolunarDisplayView solunarView = rootView.findViewById(R.id.current_solunar);
+        mainViewModel.getSolunarData().observe(getViewLifecycleOwner(), solunar -> {
+            solunarView.setSolunar(solunar);
+            mainViewModel.solunarUpdated();
+        });
+    }
+
+    private void setupRefreshLayout(@NotNull View rootView) {
+        SwipeRefreshLayout refreshLayout = rootView.findViewById(R.id.refresh_layout);
+        mainViewModel.getUpdatingStatus().observe(getViewLifecycleOwner(), refreshLayout::setRefreshing);
+        refreshLayout.setOnRefreshListener(() -> {
+            mainViewModel.requestWeatherUpdate();
+            mainViewModel.requestSolunarUpdate();
+        });
+    }
+
+    private void setupLakeSelectBtn(@NotNull View rootView) {
+        Button selectLakeBtn = rootView.findViewById(R.id.select_lake_btn);
+        selectLakeBtn.setOnClickListener(this::onClickSelectLakeBtn);
+    }
+
+    private void setupToast() {
+        mainViewModel.getToastData().observe(getViewLifecycleOwner(),
+                resourceId -> Toast.makeText(getContext(), getResources().getString(resourceId), Toast.LENGTH_LONG).show());
+    }
+
+    @NotNull
+    private String createFishText(@NotNull List<Fish> fishInLake) {
+        StringBuilder fishText = new StringBuilder();
+        for (Fish fish : fishInLake) {
+            fishText.append("\n").append(fish.species);
+        }
+        return fishText.toString();
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.shorebuddy.data.catches;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
@@ -36,6 +37,7 @@ public class CatchRecord {
     @TypeConverters({Converters.class})
     public Calendar timeCaught;
 
+    @ColumnInfo(defaultValue = "0")
     public double weight;
 
     public String comments;

@@ -33,7 +33,7 @@ public abstract class ShoreBuddyDatabase extends RoomDatabase {
                     "lake TEXT," +
                     "fish TEXT," +
                     "timeCaught INTEGER," +
-                    "weight REAL," +
+                    "weight REAL NOT NULL DEFAULT 0," +
                     "comments TEXT," +
                     "FOREIGN KEY (lake) REFERENCES lakes(name) ON DELETE RESTRICT," +
                     "FOREIGN KEY (fish) REFERENCES fish(species) ON DELETE RESTRICT)");
