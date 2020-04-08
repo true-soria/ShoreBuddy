@@ -3,5 +3,7 @@
     <color name="colorPrimary">#005B85</color>
     <color name="colorPrimaryDark">#002757</color>
     <color name="colorAccent">#2ED81B</color>
-    <color name="colorBackgroundGray">#807D7D</color>
+    <color name="colorBackgroundGray">#C8C3C3</color>
+    <color name="colorWeatherIconBG">#60A1BF</color>
+    <color name="colorTextOpaque">#595959</color>
 </resources>
