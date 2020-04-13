@@ -16,4 +16,8 @@
     <string name="weather_parse_error">Error parsing weather data</string>
     <string name="solunar_fetch_error">Error fetching solunar data</string>
     <string name="solunar_parse_error">Error parsing solunar data</string>
+    <string name="weather">Weather</string>
+    <string name="camera">Camera</string>
+    <string name="catches">Catches</string>
+    <string name="take_picture">Take Picture</string>
 </resources>
