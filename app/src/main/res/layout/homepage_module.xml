@@ -15,7 +15,7 @@
         android:src="@drawable/ic_moon1"
         android:scaleType="centerInside"
         android:layout_margin="8dp"
-        android:background=""
+        android:background="@color/colorGlobalBackground"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
