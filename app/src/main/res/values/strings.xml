@@ -13,6 +13,10 @@
     <string name="compass_icon">CompassIcon</string>
     <string name="missing_icon">Missing Icon</string>
     <string name="icon_description">data graphic</string>
+    <string name="moon_major1">Major 1</string>
+    <string name="moon_major2">Major 2</string>
+    <string name="moon_minor1">Minor 1</string>
+    <string name="moon_minor2">Minor 2</string>
     <string name="weather_fetch_error">Error fetching weather data.</string>
     <string name="weather_parse_error">Error parsing weather data</string>
     <string name="solunar_fetch_error">Error fetching solunar data</string>

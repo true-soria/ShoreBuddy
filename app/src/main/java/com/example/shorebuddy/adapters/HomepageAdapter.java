@@ -1,5 +1,7 @@
 package com.example.shorebuddy.adapters;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,19 +9,38 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shorebuddy.R;
 
+import java.lang.reflect.Array;
+import java.util.List;
+
 public class HomepageAdapter extends RecyclerView.Adapter<HomepageAdapter.HomeViewHolder> {
-    public class HomeViewHolder extends RecyclerView.ViewHolder{
+    public class HomeViewHolder extends RecyclerView.ViewHolder {
         ImageButton icon;
         TextView title;
+        ConstraintLayout widget;
+
         public HomeViewHolder(View itemView) {
             super(itemView);
             icon = itemView.findViewById(R.id.list_icon);
             title = itemView.findViewById(R.id.list_title);
+            widget = itemView.findViewById(R.id.generic_widget);
         }
+    }
+
+    private List<Drawable> icons;
+    private List<String> titles;
+    private List<ConstraintLayout> widgets;
+    private Context context;
+
+    public HomepageAdapter( Context context, List<Drawable> icons, List<String> titles, List<ConstraintLayout> widgets) {
+        this.icons = icons;
+        this.titles = titles;
+        this.widgets = widgets;
+        this.context = context;
     }
 
     @NonNull
@@ -31,12 +52,14 @@ public class HomepageAdapter extends RecyclerView.Adapter<HomepageAdapter.HomeVi
 
     @Override
     public void onBindViewHolder(@NonNull HomeViewHolder holder, int position) {
-
+        holder.icon.setImageDrawable(icons.get(position));
+        holder.title.setText(titles.get(position));
+        holder.widget.addView(widgets.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return titles.size();
     }
 
 }
