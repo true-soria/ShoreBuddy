@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/weatherIcon"
+        android:id="@+id/mainFragment"
         android:title="Weather"
+        app:showAsAction="always"
         android:icon="@drawable/ic_cloud"/>
     <item
-        android:id="@+id/cameraIcon"
+        android:id="@+id/cameraFragment"
         android:title="Camera"
+        app:showAsAction="always"
         android:icon="@drawable/ic_photo_camera"/>
 
     <item
-        android:id="@+id/catchRecordIcon"
+        android:id="@+id/catchRecordsFragment"
         android:title="Catch Records"
+        app:showAsAction="always"
         android:icon="@drawable/ic_library_books"/>
 </menu>

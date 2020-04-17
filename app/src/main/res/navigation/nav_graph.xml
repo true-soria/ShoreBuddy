@@ -18,7 +18,18 @@
         android:name="com.example.shorebuddy.views.MainFragment"
         tools:layout="@layout/main_fragment"
         android:label="MainFragment" >
-        <action app:destination="@id/lakeSelectFragment"
-            android:id="@+id/action_mainFragment_to_lakeSelectFragment"/>
+        <action
+            android:id="@+id/action_mainFragment_to_lakeSelectFragment"
+            app:destination="@id/lakeSelectFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/cameraFragment"
+        android:name="com.example.shorebuddy.views.CameraFragment"
+        android:label="fragment_camera"
+        tools:layout="@layout/fragment_camera" />
+    <fragment
+        android:id="@+id/catchRecordsFragment"
+        android:name="com.example.shorebuddy.views.CatchRecordsFragment"
+        android:label="fragment_catch_records"
+        tools:layout="@layout/fragment_catch_records" />
 </navigation>
