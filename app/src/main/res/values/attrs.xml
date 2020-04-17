@@ -4,15 +4,19 @@
         <attr name="icon" format="reference"/>
         <attr name="label" format="string"/>
     </declare-styleable>
-    <declare-styleable name="SolunarWidget">
-        <attr name="title" format="string"/>
-        <attr name="property1" format="string"/>
-        <attr name="property2" format="string"/>
-        <attr name="property3" format="string"/>
-        <attr name="property4" format="string"/>
-        <attr name="property_name1" format="string"/>
-        <attr name="property_name2" format="string"/>
-        <attr name="property_name3" format="string"/>
-        <attr name="property_name4" format="string"/>
+    <declare-styleable name="WidgetTextGenerator">
+        <attr name="property_name" format="string"/>
+        <attr name="property_icon" format="reference"/>
+        <attr name="property_value">
+            <enum name="moon_cycle" value="0" />
+            <enum name="moon_rise" value="1" />
+            <enum name="moon_transit" value="2" />
+            <enum name="moon_set" value="3" />
+            <enum name="minor_1" value="4" />
+            <enum name="minor_2" value="5" />
+            <enum name="major_1" value="6" />
+            <enum name="major_2" value="7" />
+            <enum name="day_rating" value="8" />
+        </attr>
     </declare-styleable>
 </resources>
