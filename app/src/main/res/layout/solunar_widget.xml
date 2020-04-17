@@ -1,102 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/solunar_widget_layout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    tools:context=".views.homepage.SolunarWidget">
 
-    <TextView
-        android:id="@+id/sol_widget_1"
-        android:layout_width="160dp"
+    <com.example.shorebuddy.views.homepage.WidgetTextLine
+        android:id="@+id/sol_property1"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/app_name"
-        style="@style/widget_text"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/sol_widget_1_data"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        android:backgroundTint="@color/colorGlobalBackground"
+        android:layout_margin="8dp"
+        app:property_name="@string/moon_minor1"
+        app:property_value="minor_1"
+        app:layout_constraintTop_toTopOf="parent"/>
 
-    <TextView
-        android:id="@+id/sol_widget_1_data"
-        android:layout_width="0dp"
+    <com.example.shorebuddy.views.homepage.WidgetTextLine
+        android:id="@+id/sol_property2"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/app_name"
-        style="@style/widget_text"
-        app:layout_constraintStart_toEndOf="@id/sol_widget_1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        android:backgroundTint="@color/colorGlobalBackground"
+        android:layout_margin="8dp"
+        app:property_name="@string/moon_minor2"
+        app:property_value="minor_2"
+        app:layout_constraintTop_toBottomOf="@id/sol_property1"/>
 
-    <TextView
-        android:id="@+id/sol_widget_2"
-        android:layout_width="160dp"
+    <com.example.shorebuddy.views.homepage.WidgetTextLine
+        android:id="@+id/sol_property3"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/app_name"
-        style="@style/widget_text"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/sol_widget_2_data"
-        app:layout_constraintTop_toBottomOf="@id/sol_widget_1"
-        />
+        android:backgroundTint="@color/colorGlobalBackground"
+        android:layout_margin="8dp"
+        app:property_name="@string/moon_major1"
+        app:property_value="major_1"
+        app:layout_constraintTop_toBottomOf="@id/sol_property2"/>
 
-    <TextView
-        android:id="@+id/sol_widget_2_data"
-        android:layout_width="0dp"
+    <com.example.shorebuddy.views.homepage.WidgetTextLine
+        android:id="@+id/sol_property4"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/app_name"
-        style="@style/widget_text"
-        app:layout_constraintStart_toEndOf="@id/sol_widget_2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sol_widget_1_data"
-        />
+        android:backgroundTint="@color/colorGlobalBackground"
+        android:layout_margin="8dp"
+        app:property_name="@string/moon_major2"
+        app:property_value="major_2"
+        app:layout_constraintTop_toBottomOf="@id/sol_property3"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
-    <TextView
-        android:id="@+id/sol_widget_3"
-        android:layout_width="160dp"
-        android:layout_height="wrap_content"
-        android:text="@string/app_name"
-        style="@style/widget_text"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/sol_widget_3_data"
-        app:layout_constraintTop_toBottomOf="@id/sol_widget_2"
-        />
-
-    <TextView
-        android:id="@+id/sol_widget_3_data"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/app_name"
-        style="@style/widget_text"
-        app:layout_constraintStart_toEndOf="@id/sol_widget_3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sol_widget_2_data"
-        />
-
-    <TextView
-        android:id="@+id/sol_widget_4"
-        android:layout_width="160dp"
-        android:layout_height="wrap_content"
-        android:text="@string/app_name"
-        style="@style/widget_text"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/sol_widget_4_data"
-        app:layout_constraintTop_toBottomOf="@id/sol_widget_3"
-        app:layout_constraintBottom_toBottomOf="parent"
-        />
-
-    <TextView
-        android:id="@+id/sol_widget_4_data"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/app_name"
-        style="@style/widget_text"
-        app:layout_constraintStart_toEndOf="@id/sol_widget_4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sol_widget_3_data"
-        app:layout_constraintBottom_toBottomOf="parent"
-        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
