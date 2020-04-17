@@ -1,7 +1,6 @@
 package com.example.shorebuddy;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.NavHost;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 

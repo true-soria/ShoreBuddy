@@ -20,7 +20,6 @@ import android.widget.Toast;
 import com.example.shorebuddy.R;
 import com.example.shorebuddy.data.fish.Fish;
 import com.example.shorebuddy.viewmodels.MainViewModel;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -101,16 +100,6 @@ public class MainFragment extends Fragment {
     private void onClickSelectLakeBtn(View v) {
         NavDirections action = MainFragmentDirections.actionMainFragmentToLakeSelectFragment();
         findNavController(this).navigate(action);
-    }
-
-    private void onClickSelectCameraBtn(View v){
-//        NavDirections action = MainFragmentDirections.actionMainFragmentToCameraFragment2();
-//        findNavController(this).navigate(action);
-    }
-
-    private void onClickSelectCatchesBtn(View v){
-//        NavDirections action = MainFragmentDirections.actionMainFragmentToCatchRecordsFragment3();
-//        findNavController(this).navigate(action);
     }
 
 }
