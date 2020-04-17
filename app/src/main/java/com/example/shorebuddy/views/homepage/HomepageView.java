@@ -48,7 +48,7 @@ public class HomepageView extends Fragment {
 
     private void initWidgets(View rootView) {
         initSolunarWidget(rootView);
-
+        initSolunarWidget(rootView);
     }
 
     private void initSolunarWidget(View rootView)
@@ -59,7 +59,15 @@ public class HomepageView extends Fragment {
         icons.add(solunarWidget.getIcon());
         titles.add(solunarWidget.getTitle());
         widgets.add(solunarWidget);
+    }
 
+    private void initWeatherWidget (View rootView)
+    {
+        WeatherWidget weatherWidget = rootView.findViewById(R.id.weather_widget_layout);
+        // weatherWidget.setData(Some weather object);
+        icons.add(weatherWidget.getIcon());
+        titles.add(weatherWidget.getTitle());
+        widgets.add(weatherWidget);
     }
 
     private void initRecyclerView(View rootView) {

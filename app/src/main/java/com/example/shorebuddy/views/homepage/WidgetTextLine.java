@@ -27,9 +27,9 @@ public class WidgetTextLine extends ConstraintLayout implements WidgetTextGenera
         super(context, attrs, defStyleAttr);
         String propertyName;
         if (attrs != null) {
-            TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.WidgetTextGenerator, defStyleAttr, 0);
-            propertyName = a.getString(R.styleable.WidgetTextGenerator_property_name);
-            propertyValueID = propertyValues.values()[a.getInt(R.styleable.WidgetTextGenerator_property_value, 0)];
+            TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.WidgetTextLine, defStyleAttr, 0);
+            propertyName = a.getString(R.styleable.WidgetTextLine_property_name);
+            propertyValueID = propertyValues.values()[a.getInt(R.styleable.WidgetTextLine_property_value, 0)];
             a.recycle();
         }
         else {
@@ -37,7 +37,7 @@ public class WidgetTextLine extends ConstraintLayout implements WidgetTextGenera
             propertyValueID = propertyValues.MOON_CYCLE;
         }
 
-        inflate(getContext(), R.layout.widget_text_layout, this);
+        inflate(getContext(), R.layout.widget_text_line_layout, this);
         TextView staticTitleView = findViewById(R.id.name_text);
         staticTitleView.setText(propertyName);
         propertyValue = findViewById(R.id.value_text);
