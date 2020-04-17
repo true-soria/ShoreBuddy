@@ -6,4 +6,5 @@
     <color name="colorBackgroundGray">#C8C3C3</color>
     <color name="colorWeatherIconBG">#60A1BF</color>
     <color name="colorTextOpaque">#595959</color>
+    <color name="colorGlobalBackground">#FFFFFF</color>
 </resources>

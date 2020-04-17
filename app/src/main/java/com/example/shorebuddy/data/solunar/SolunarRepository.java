@@ -15,5 +15,3 @@ public abstract class SolunarRepository {
 
     public abstract void updateSolunarData();
 }
-
-// TODO: Implement SolunarRepository interface;

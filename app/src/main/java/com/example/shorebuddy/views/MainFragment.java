@@ -49,7 +49,7 @@ public class MainFragment extends Fragment {
                 fishInLake -> {
                     StringBuilder fishDisplay = new StringBuilder();
                     for (Fish fish : fishInLake) {
-                        fishDisplay.append("\n").append(fish.species);
+                        fishDisplay.append("\n• ").append(fish.species);
                     }
                     fishTextView.setText(String.format("Fish Species Present:\n%s", fishDisplay.toString()));
                 }
