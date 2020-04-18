@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/nav_graph"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
     app:startDestination="@id/lakeSelectFragment">
 
     <fragment
         android:id="@+id/lakeSelectFragment"
         android:name="com.example.shorebuddy.views.LakeSelectFragment"
-        tools:layout="@layout/lake_select_fragment"
-        android:label="LakeSelectFragment" >
-        <action app:destination="@+id/mainFragment"
-            android:id="@+id/action_lakeSelectFragment_to_mainFragment"/>
+        android:label="LakeSelectFragment"
+        tools:layout="@layout/lake_select_fragment">
+        <action
+            android:id="@+id/action_lakeSelectFragment_to_mainFragment"
+            app:destination="@+id/mainFragment" />
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.example.shorebuddy.views.MainFragment"
-        tools:layout="@layout/main_fragment"
-        android:label="MainFragment" >
+        android:label="MainFragment"
+        tools:layout="@layout/main_fragment">
         <action
             android:id="@+id/action_mainFragment_to_lakeSelectFragment"
             app:destination="@id/lakeSelectFragment" />
@@ -32,4 +33,14 @@
         android:name="com.example.shorebuddy.views.CatchRecordsFragment"
         android:label="fragment_catch_records"
         tools:layout="@layout/fragment_catch_records" />
+    <fragment
+        android:id="@+id/homepageView"
+        android:name="com.example.shorebuddy.views.homepage.HomepageView"
+        android:label="homepage"
+        tools:layout="@layout/homepage" />
+    <fragment
+        android:id="@+id/catchFragment"
+        android:name="com.example.shorebuddy.views.CatchFragment"
+        android:label="fragment_catch"
+        tools:layout="@layout/fragment_catch" />
 </navigation>
