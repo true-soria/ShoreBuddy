@@ -14,7 +14,7 @@ import com.example.shorebuddy.utilities.Converters;
 import java.util.Locale;
 
 
-public class WeatherWidget extends ConstraintLayout implements ModuleWidget {
+public class WeatherWidget extends ModuleWidget {
 
     static final String WEATHER = "weather";
     private final String bottomPropertyNameValue = "Wind Speed";

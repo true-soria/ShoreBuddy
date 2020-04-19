@@ -13,6 +13,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shorebuddy.R;
+import com.example.shorebuddy.data.solunar.Solunar;
+import com.example.shorebuddy.views.homepage.ModuleWidget;
 
 import java.util.List;
 
@@ -30,16 +32,10 @@ public class HomepageAdapter extends RecyclerView.Adapter<HomepageAdapter.HomeVi
         }
     }
 
-    private List<Drawable> icons;
-    private List<String> titles;
-    private List<ConstraintLayout> widgets;
-    private Context context;
+    private List<ModuleWidget> widgets;
 
-    public HomepageAdapter( Context context, List<Drawable> icons, List<String> titles, List<ConstraintLayout> widgets) {
-        this.icons = icons;
-        this.titles = titles;
+    public HomepageAdapter(List<ModuleWidget> widgets) {
         this.widgets = widgets;
-        this.context = context;
     }
 
     @NonNull
@@ -51,14 +47,17 @@ public class HomepageAdapter extends RecyclerView.Adapter<HomepageAdapter.HomeVi
 
     @Override
     public void onBindViewHolder(@NonNull HomeViewHolder holder, int position) {
-        holder.icon.setImageDrawable(icons.get(position));
-        holder.title.setText(titles.get(position));
-        holder.widget.addView(widgets.get(position), ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        ModuleWidget widget = widgets.get(position);
+        Drawable icon = widget.getIcon();
+        String title = widget.getTitle();
+        holder.icon.setImageDrawable(icon);
+        holder.title.setText(title);
+        holder.widget.addView(widget, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     }
 
     @Override
     public int getItemCount() {
-        return titles.size();
+        return widgets.size();
     }
 
 }
