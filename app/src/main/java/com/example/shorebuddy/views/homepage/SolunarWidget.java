@@ -38,6 +38,9 @@ public class SolunarWidget extends ConstraintLayout implements ModuleWidget {
         property2 = findViewById(R.id.sol_property2);
         property3 = findViewById(R.id.sol_property3);
         property4 = findViewById(R.id.sol_property4);
+
+        this.icon = getResources().getDrawable(R.drawable.ic_moon1, null);
+        this.title = String.format(Locale.US, "%s", MOON);
     }
 
 

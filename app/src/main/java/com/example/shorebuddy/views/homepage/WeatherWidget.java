@@ -38,6 +38,9 @@ public class WeatherWidget extends ConstraintLayout implements ModuleWidget {
         rightProperty = findViewById(R.id.right_property);
         bottomPropertyName = findViewById(R.id.bottom_property_name);
         bottomPropertyValue = findViewById(R.id.bottom_property_value);
+
+        this.icon = getResources().getDrawable(R.drawable.ic_compass_rose,null);
+        this.title = String.format(Locale.US, "%s", WEATHER);
     }
 
     @Override
@@ -101,6 +104,6 @@ public class WeatherWidget extends ConstraintLayout implements ModuleWidget {
 //        title = weather.sunny?
         title = "Sunny?";
         // TODO pull weather icons into project
-        this.icon = getResources().getDrawable(R.drawable.ic_moon1, null);
+        this.icon = getResources().getDrawable(R.drawable.ic_compass_rose,null);
     }
 }
