@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shorebuddy.R;
 
-import java.lang.reflect.Array;
 import java.util.List;
 
 public class HomepageAdapter extends RecyclerView.Adapter<HomepageAdapter.HomeViewHolder> {
@@ -22,12 +21,14 @@ public class HomepageAdapter extends RecyclerView.Adapter<HomepageAdapter.HomeVi
         ImageButton icon;
         TextView title;
         ConstraintLayout widget;
+        ViewGroup parent;
 
         public HomeViewHolder(View itemView) {
             super(itemView);
             icon = itemView.findViewById(R.id.list_icon);
             title = itemView.findViewById(R.id.list_title);
             widget = itemView.findViewById(R.id.generic_widget);
+            parent = itemView.findViewById(R.id.module_layout);
         }
     }
 
@@ -54,7 +55,7 @@ public class HomepageAdapter extends RecyclerView.Adapter<HomepageAdapter.HomeVi
     public void onBindViewHolder(@NonNull HomeViewHolder holder, int position) {
         holder.icon.setImageDrawable(icons.get(position));
         holder.title.setText(titles.get(position));
-        holder.widget.addView(widgets.get(position));
+        holder.widget.addView(widgets.get(position), ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     }
 
     @Override
