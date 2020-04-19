@@ -52,6 +52,7 @@ public class MainFragment extends Fragment {
         renderFishInLake(rootView);
         setupRefreshLayout(rootView);
         setupLakeSelectBtn(rootView);
+        setupCatchRecordBtn(rootView);
         setupToast();
 
         return rootView;
@@ -67,10 +68,15 @@ public class MainFragment extends Fragment {
         findNavController(this).navigate(action);
     }
 
+    private void onClickRecordCatch(View v) {
+        NavDirections action = MainFragmentDirections.actionMainFragmentToCatchEntryFragment();
+        findNavController(this).navigate(action);
+    }
+
     private void renderSelectedLake(@NotNull View rootView) {
         TextView currentLakeTextView = rootView.findViewById(R.id.current_lake_text);
         mainViewModel.getCurrentlySelectedLake().observe(getViewLifecycleOwner(), currentLake ->
-                currentLakeTextView.setText(String.format("%s%s", getString(R.string.current_lake_text), currentLake.lakeName)));
+                currentLakeTextView.setText(String.format("%s", currentLake.lakeName)));
     }
 
     private void renderFishInLake(@NotNull View rootView) {
@@ -87,8 +93,8 @@ public class MainFragment extends Fragment {
         mainViewModel.getWeatherData().observe(getViewLifecycleOwner(), weather -> {
             currentWeatherTextView.setText(String.format(Locale.US, "Weather Timestamp: %s", weather.getTimeStamp().getTime()));
             weatherView.set_weather(weather);
+            mainViewModel.weatherUpdated();
         });
-        mainViewModel.weatherUpdated();
     }
 
     private void renderSolunar(@NotNull View rootView) {
@@ -111,6 +117,11 @@ public class MainFragment extends Fragment {
     private void setupLakeSelectBtn(@NotNull View rootView) {
         Button selectLakeBtn = rootView.findViewById(R.id.select_lake_btn);
         selectLakeBtn.setOnClickListener(this::onClickSelectLakeBtn);
+    }
+
+    private void setupCatchRecordBtn(@NotNull View rootView) {
+        Button recordCatchBtn = rootView.findViewById(R.id.record_catch_btn);
+        recordCatchBtn.setOnClickListener(this::onClickRecordCatch);
     }
 
     private void setupToast() {

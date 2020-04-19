@@ -21,11 +21,14 @@
     <string name="weather_parse_error">Error parsing weather data</string>
     <string name="solunar_fetch_error">Error fetching solunar data</string>
     <string name="solunar_parse_error">Error parsing solunar data</string>
+
+    <string name="species_prompt">Species:</string>
+    <string name="lake_prompt">Lake:</string>
+    <string name="time_caught_prompt">Time Caught:</string>
     <string name="weather">Weather</string>
     <string name="camera">Camera</string>
     <string name="catches">Catches</string>
     <string name="take_picture">Take Picture</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

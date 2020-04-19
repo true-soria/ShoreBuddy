@@ -1,5 +1,6 @@
 package com.example.shorebuddy.data.lakes;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -17,44 +18,59 @@ public class Lake {
     @PrimaryKey
     @NotNull
     @ColumnInfo(name = "name")
-    public String lakeName;
+    public final String lakeName;
 
     @NotNull
-    public String elevation;
+    public final String elevation;
 
     @NotNull
-    public String county;
+    public final String county;
 
-    public int region;
-
-    @TypeConverters({Converters.class})
-    public boolean boatramp;
+    public final int region;
 
     @TypeConverters({Converters.class})
-    public boolean restroom;
+    public final boolean boatramp;
+
+    @TypeConverters({Converters.class})
+    public final boolean restroom;
 
     @ColumnInfo(name = "fishingComm")
-    public String fishingComments;
+    public final String fishingComments;
 
     @TypeConverters({Converters.class})
-    public boolean fuel;
+    public final boolean fuel;
 
     @ColumnInfo(name = "wcaccess")
     @TypeConverters({Converters.class})
-    public boolean WheelChairAccess;
+    public final boolean wheelChairAccess;
 
-    double latitude;
+    final double latitude;
 
-    double longitude;
+    final double longitude;
 
-    public Lake(double latitude, double longitude) {
+    public Lake(@NonNull String lakeName,
+                @NonNull String elevation,
+                @NonNull String county,
+                String fishingComments,
+                int region,
+                boolean boatramp,
+                boolean restroom,
+                boolean fuel,
+                boolean wheelChairAccess,
+                double latitude,
+                double longitude)
+    {
+        this.lakeName = lakeName;
+        this.elevation = elevation;
+        this.county = county;
+        this.region = region;
+        this.boatramp = boatramp;
+        this.restroom = restroom;
+        this.fishingComments = fishingComments;
+        this.wheelChairAccess = wheelChairAccess;
+        this.fuel = fuel;
         this.latitude = latitude;
         this.longitude = longitude;
-    }
-
-    public void setLatLng(LatLng location) {
-        latitude = location.latitude;
-        longitude = location.longitude;
     }
 
     public LatLng getLatLng() {

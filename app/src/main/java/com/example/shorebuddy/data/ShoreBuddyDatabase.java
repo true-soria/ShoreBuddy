@@ -11,6 +11,7 @@ import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.shorebuddy.data.catches.CatchRecord;
+import com.example.shorebuddy.data.catches.CatchesDao;
 import com.example.shorebuddy.data.fish.Fish;
 import com.example.shorebuddy.data.fish.FishDao;
 import com.example.shorebuddy.data.lakes.Lake;
@@ -34,6 +35,7 @@ public abstract class ShoreBuddyDatabase extends RoomDatabase {
                     "fish TEXT," +
                     "timeCaught INTEGER," +
                     "weight REAL NOT NULL DEFAULT 0," +
+                    "length REAL NOT NULL DEFAULT 0," +
                     "comments TEXT," +
                     "FOREIGN KEY (lake) REFERENCES lakes(name) ON DELETE RESTRICT," +
                     "FOREIGN KEY (fish) REFERENCES fish(species) ON DELETE RESTRICT)");
@@ -44,6 +46,7 @@ public abstract class ShoreBuddyDatabase extends RoomDatabase {
 
     public abstract LakeDao lakeDao();
     public abstract FishDao fishDao();
+    public abstract CatchesDao catchesDao();
     private static volatile ShoreBuddyDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
     public static final ExecutorService databaseExecutor =

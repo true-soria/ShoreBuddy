@@ -22,7 +22,30 @@
         <action
             android:id="@+id/action_mainFragment_to_lakeSelectFragment"
             app:destination="@id/lakeSelectFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_catchEntryFragment"
+            app:destination="@id/catchEntryFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/catchEntryFragment"
+        android:name="com.example.shorebuddy.views.CatchEntryFragment"
+        android:label="fragment_catch_entry"
+        tools:layout="@layout/fragment_catch_entry" >
+        <action
+            android:id="@+id/action_catchEntryFragment_to_datePickerFragment"
+            app:destination="@id/datePickerFragment" />
+        <action
+            android:id="@+id/action_catchEntryFragment_to_timePickerFragment"
+            app:destination="@id/timePickerFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/datePickerFragment"
+        android:name="com.example.shorebuddy.views.DatePickerFragment"
+        android:label="DatePickerFragment" />
+    <dialog
+        android:id="@+id/timePickerFragment"
+        android:name="com.example.shorebuddy.views.TimePickerFragment"
+        android:label="TimePickerFragment" />
     <fragment
         android:id="@+id/cameraFragment"
         android:name="com.example.shorebuddy.views.CameraFragment"
