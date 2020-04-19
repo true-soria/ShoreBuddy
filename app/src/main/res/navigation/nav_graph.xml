@@ -50,9 +50,9 @@
         tools:layout="@layout/fragment_camera" />
     <fragment
         android:id="@+id/catchRecordsFragment"
-        android:name="com.example.shorebuddy.views.CatchRecordsFragment"
+        android:name="com.example.shorebuddy.views.CatchHistoryFragment"
         android:label="fragment_catch_records"
-        tools:layout="@layout/fragment_catch_records" />
+        tools:layout="@layout/fragment_catch_history" />
     <fragment
         android:id="@+id/homepageView"
         android:name="com.example.shorebuddy.views.homepage.HomepageView"

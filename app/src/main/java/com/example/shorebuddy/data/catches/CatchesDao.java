@@ -20,6 +20,6 @@ public interface CatchesDao {
     @Delete
     void delete(CatchRecord record);
 
-    @Query("SELECT * FROM CatchRecords ORDER BY uid DESC")
+    @Query("SELECT * FROM CatchRecords ORDER BY timeCaught DESC")
     LiveData<List<CatchRecord>> getAllRecordsDescending();
 }
