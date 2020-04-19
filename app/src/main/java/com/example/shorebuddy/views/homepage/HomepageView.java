@@ -25,9 +25,7 @@ import java.util.Objects;
 
 public class HomepageView extends Fragment {
 
-    private List<Drawable> icons = new ArrayList<>();
-    private List<String> titles = new ArrayList<>();
-    private List<ConstraintLayout> widgets = new ArrayList<>();
+    private List<ModuleWidget> widgets = new ArrayList<>();
     private MainViewModel mainViewModel;
 
     @Override
@@ -56,11 +54,8 @@ public class HomepageView extends Fragment {
         SolunarWidget solunarWidget = new SolunarWidget(getContext());
         mainViewModel.getSolunarData().observe(getViewLifecycleOwner(), solunar -> {
             solunarWidget.setData(solunar);
-            mainViewModel.solunarUpdated();
         });
 
-        icons.add(solunarWidget.getIcon());
-        titles.add(solunarWidget.getTitle());
         widgets.add(solunarWidget);
     }
 
@@ -69,18 +64,14 @@ public class HomepageView extends Fragment {
         WeatherWidget weatherWidget = new WeatherWidget(getContext());
         mainViewModel.getWeatherData().observe(getViewLifecycleOwner(), weather -> {
                     weatherWidget.setData(weather);
-                    mainViewModel.weatherUpdated();
                 });
-
-        icons.add(weatherWidget.getIcon());
-        titles.add(weatherWidget.getTitle());
         widgets.add(weatherWidget);
     }
 
     private void initRecyclerView(View rootView) {
         Activity activity = getActivity();
         RecyclerView recyclerView = rootView.findViewById(R.id.homepage_recycler);
-        HomepageAdapter adapter = new HomepageAdapter(activity, icons, titles, widgets);
+        HomepageAdapter adapter = new HomepageAdapter(widgets);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(activity));
     }

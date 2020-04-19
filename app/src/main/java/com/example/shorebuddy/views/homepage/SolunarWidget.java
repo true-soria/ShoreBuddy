@@ -11,7 +11,7 @@ import com.example.shorebuddy.data.solunar.Solunar;
 
 import java.util.Locale;
 
-public class SolunarWidget extends ConstraintLayout implements ModuleWidget {
+public class SolunarWidget extends ModuleWidget {
 
     static final String MOON = "moon";
     private Drawable icon;
