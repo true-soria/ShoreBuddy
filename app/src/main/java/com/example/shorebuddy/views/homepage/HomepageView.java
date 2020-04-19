@@ -54,8 +54,11 @@ public class HomepageView extends Fragment {
     private void initSolunarWidget(View rootView)
     {
         SolunarWidget solunarWidget = new SolunarWidget(getContext());
-        // TODO: add data somehow
-        // solunarWidget.setData(Some solunar object);
+        mainViewModel.getSolunarData().observe(getViewLifecycleOwner(), solunar -> {
+            solunarWidget.setData(solunar);
+            mainViewModel.solunarUpdated();
+        });
+
         icons.add(solunarWidget.getIcon());
         titles.add(solunarWidget.getTitle());
         widgets.add(solunarWidget);
@@ -64,7 +67,11 @@ public class HomepageView extends Fragment {
     private void initWeatherWidget (View rootView)
     {
         WeatherWidget weatherWidget = new WeatherWidget(getContext());
-        // weatherWidget.setData(Some weather object);
+        mainViewModel.getWeatherData().observe(getViewLifecycleOwner(), weather -> {
+                    weatherWidget.setData(weather);
+                    mainViewModel.weatherUpdated();
+                });
+
         icons.add(weatherWidget.getIcon());
         titles.add(weatherWidget.getTitle());
         widgets.add(weatherWidget);
