@@ -15,6 +15,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serializable;
 import java.util.Calendar;
 
 @Entity(
@@ -28,7 +29,7 @@ import java.util.Calendar;
                                     parentColumns = "species",
                                     childColumns = "fish",
                                     onDelete = ForeignKey.RESTRICT)})
-public class CatchRecord {
+public class CatchRecord implements Serializable {
     @PrimaryKey(autoGenerate = true)
     @NotNull
     final int uid;
