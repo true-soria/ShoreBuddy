@@ -21,14 +21,12 @@ public class HomepageAdapter extends RecyclerView.Adapter<HomepageAdapter.HomeVi
         ImageButton icon;
         TextView title;
         ConstraintLayout widget;
-        ViewGroup parent;
 
         public HomeViewHolder(View itemView) {
             super(itemView);
             icon = itemView.findViewById(R.id.list_icon);
             title = itemView.findViewById(R.id.list_title);
             widget = itemView.findViewById(R.id.generic_widget);
-            parent = itemView.findViewById(R.id.module_layout);
         }
     }
 
