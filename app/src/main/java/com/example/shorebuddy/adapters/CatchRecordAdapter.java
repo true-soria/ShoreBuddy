@@ -17,21 +17,22 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
-public class CatchRecordAdapter extends RecyclerView.Adapter<CatchRecordAdapter.CatchRecordHolder> {
+public class CatchRecordAdapter extends RecyclerView.Adapter<CatchRecordAdapter.CatchRecordHolder>
+implements OnItemClickedListener {
     private List<CatchRecord> records;
     private final LayoutInflater layoutInflater;
-    private final OnDeleteButtonClickedListener deleteCallback;
+    private final OnRecordClickedListener onRecordClickedListener;
 
-    public CatchRecordAdapter(Context context, OnDeleteButtonClickedListener listener) {
+    public CatchRecordAdapter(Context context, OnRecordClickedListener listener) {
         layoutInflater = LayoutInflater.from(context);
-        deleteCallback = listener;
+        onRecordClickedListener = listener;
     }
 
     @NonNull
     @Override
     public CatchRecordHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = layoutInflater.inflate(R.layout.catch_record_recyclerview_item, parent, false);
-        return new CatchRecordHolder(itemView);
+        return new CatchRecordHolder(itemView, this);
     }
 
     @Override
@@ -45,7 +46,7 @@ public class CatchRecordAdapter extends RecyclerView.Adapter<CatchRecordAdapter.
             holder.dateTextView.setText(dateFormat.format(current.timeCaught.getTime()));
 
             holder.deleteButton.setOnClickListener((v -> {
-                deleteCallback.onDeleteButtonClicked(current);
+                onRecordClickedListener.onDeleteButtonClicked(current);
             }));
         } else {
             holder.speciesTextView.setText(R.string.error_str);
@@ -66,22 +67,41 @@ public class CatchRecordAdapter extends RecyclerView.Adapter<CatchRecordAdapter.
         notifyDataSetChanged();
     }
 
-    class CatchRecordHolder extends RecyclerView.ViewHolder {
+    @Override
+    public void onItemClicked(int item) {
+        onRecordClickedListener.onRecordClicked(records.get(item));
+    }
+
+    static class CatchRecordHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final TextView speciesTextView;
         private final TextView lakeTextView;
         private final TextView dateTextView;
         private final ImageButton deleteButton;
+        private OnItemClickedListener onItemClickedListener;
 
-        CatchRecordHolder(@NonNull View itemView) {
+        CatchRecordHolder(@NonNull View itemView, OnItemClickedListener listener) {
             super(itemView);
+            onItemClickedListener = listener;
             speciesTextView = itemView.findViewById(R.id.record_species_text);
             lakeTextView = itemView.findViewById(R.id.record_lake_text);
             dateTextView = itemView.findViewById(R.id.record_date_text);
             deleteButton = itemView.findViewById(R.id.delete_record_btn);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            onItemClickedListener.onItemClicked(getAdapterPosition());
         }
     }
 
-    public interface OnDeleteButtonClickedListener {
+    public interface OnRecordClickedListener {
         void onDeleteButtonClicked(CatchRecord record);
+        void onRecordClicked(CatchRecord record);
     }
+
+}
+
+interface OnItemClickedListener {
+    void onItemClicked(int item);
 }

@@ -52,10 +52,19 @@
         android:id="@+id/catchRecordsFragment"
         android:name="com.example.shorebuddy.views.CatchHistoryFragment"
         android:label="fragment_catch_records"
-        tools:layout="@layout/fragment_catch_history" />
+        tools:layout="@layout/fragment_catch_history" >
+        <action
+            android:id="@+id/action_catchRecordsFragment_to_catchRecordDisplayFragment"
+            app:destination="@id/catchRecordDisplayFragment" />
+    </fragment>
     <fragment
         android:id="@+id/homepageView"
         android:name="com.example.shorebuddy.views.homepage.HomepageView"
         android:label="homepage"
         tools:layout="@layout/homepage" />
+    <fragment
+        android:id="@+id/catchRecordDisplayFragment"
+        android:name="com.example.shorebuddy.views.CatchRecordDisplayFragment"
+        android:label="catch_record_display_fragment"
+        tools:layout="@layout/catch_record_display_fragment" />
 </navigation>

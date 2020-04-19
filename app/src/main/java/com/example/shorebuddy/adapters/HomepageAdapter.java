@@ -1,6 +1,5 @@
 package com.example.shorebuddy.adapters;
 
-import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +12,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shorebuddy.R;
-import com.example.shorebuddy.data.solunar.Solunar;
 import com.example.shorebuddy.views.homepage.ModuleWidget;
 
 import java.util.List;

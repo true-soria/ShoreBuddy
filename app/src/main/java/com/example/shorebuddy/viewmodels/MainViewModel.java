@@ -37,7 +37,6 @@ public class MainViewModel extends AndroidViewModel implements DefaultWeatherRep
     private final SolunarRepository solunarRepo = new DefaultSolunarRepository(this);
     private LakeRepository lakeRepo;
     private FishRepository fishRepository;
-    private CatchRepository catchRepository;
     private final UpdateManager updateStatusManager = new UpdateManager();
 
     private final MutableLiveData<Lake> currentSelectedLake = new MutableLiveData<>();
@@ -57,7 +56,6 @@ public class MainViewModel extends AndroidViewModel implements DefaultWeatherRep
     public MainViewModel(@NonNull Application application) {
         super(application);
         this.lakeRepo = new DefaultLakeRepository(application);
-        this.catchRepository = new DefaultCatchRepository(application);
         this.fishRepository = new DefaultFishRepository(application);
         this.allLakes = lakeRepo.getAllLakes();
         searchStr.setValue("");
@@ -85,16 +83,6 @@ public class MainViewModel extends AndroidViewModel implements DefaultWeatherRep
     public LiveData<Integer> getToastData() { return toastData; }
 
     public LiveData<Boolean> getUpdatingStatus() { return updateStatusManager.isUpdating(); }
-
-    public void recordCatch(CatchRecord record) { catchRepository.recordCatch(record); }
-
-    public void deleteCatch(CatchRecord record) { catchRepository.deleteCatch(record); }
-
-    public void updateCatch(CatchRecord record) { catchRepository.updateCatch(record); }
-
-    public LiveData<List<CatchRecord>> getAllCatchRecordsDecending() { return catchRepository.getCatchRecordsDescending(); }
-
-    public LiveData<List<Fish>> getAllFish() { return fishRepository.getAllFish(); }
 
     public void setCurrentSelectedLake(Lake lake) { currentSelectedLake.setValue(lake); }
 

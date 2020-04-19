@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavDirections;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,8 +16,11 @@ import com.example.shorebuddy.R;
 import com.example.shorebuddy.adapters.CatchRecordAdapter;
 import com.example.shorebuddy.data.catches.CatchRecord;
 import com.example.shorebuddy.viewmodels.CatchHistoryViewModel;
+import com.example.shorebuddy.viewmodels.CatchRecordDisplayViewModel;
 
-public class CatchHistoryFragment extends Fragment implements CatchRecordAdapter.OnDeleteButtonClickedListener {
+import static androidx.navigation.fragment.NavHostFragment.findNavController;
+
+public class CatchHistoryFragment extends Fragment implements CatchRecordAdapter.OnRecordClickedListener {
 
     private CatchHistoryViewModel catchHistoryViewModel;
     private CatchRecordAdapter catchRecordAdapter;
@@ -45,5 +49,13 @@ public class CatchHistoryFragment extends Fragment implements CatchRecordAdapter
     @Override
     public void onDeleteButtonClicked(CatchRecord record) {
         catchHistoryViewModel.deleteRecord(record);
+    }
+
+    @Override
+    public void onRecordClicked(CatchRecord record) {
+        CatchRecordDisplayViewModel catchRecordDisplayViewModel = new ViewModelProvider(getActivity()).get(CatchRecordDisplayViewModel.class);
+        catchRecordDisplayViewModel.setRecord(record);
+        NavDirections action = CatchHistoryFragmentDirections.actionCatchRecordsFragmentToCatchRecordDisplayFragment();
+        findNavController(this).navigate(action);
     }
 }
