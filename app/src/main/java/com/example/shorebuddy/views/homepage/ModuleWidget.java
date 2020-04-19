@@ -8,6 +8,6 @@ public interface ModuleWidget {
 
     String getTitle();
 
-    // TODO setData method that uses "Live Data"?
-//    void setData();
+    // TODO setData method that uses MainViewModel across all
+    // void setData(MainViewModel mainViewModel);
 }

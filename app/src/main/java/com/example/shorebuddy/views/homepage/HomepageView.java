@@ -41,30 +41,37 @@ public class HomepageView extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.homepage, container, false);
 
-        initWidgets(rootView);
+        initWidgets();
         initRecyclerView(rootView);
         return rootView;
     }
 
-    private void initWidgets(View rootView) {
-        initSolunarWidget(rootView);
-        initWeatherWidget(rootView);
+    private void initWidgets() {
+        initSolunarWidget();
+        initWeatherWidget();
     }
 
-    private void initSolunarWidget(View rootView)
+    private void initSolunarWidget()
     {
-        SolunarWidget solunarWidget = rootView.findViewById(R.id.solunar_widget_layout);
-        // TODO: add data somehow
-        // solunarWidget.setData(Some solunar object);
+        SolunarWidget solunarWidget = new SolunarWidget(getContext());
+        mainViewModel.getSolunarData().observe(getViewLifecycleOwner(), solunar -> {
+            solunarWidget.setData(solunar);
+            mainViewModel.solunarUpdated();
+        });
+
         icons.add(solunarWidget.getIcon());
         titles.add(solunarWidget.getTitle());
         widgets.add(solunarWidget);
     }
 
-    private void initWeatherWidget (View rootView)
+    private void initWeatherWidget ()
     {
-        WeatherWidget weatherWidget = rootView.findViewById(R.id.weather_widget_layout);
-        // weatherWidget.setData(Some weather object);
+        WeatherWidget weatherWidget = new WeatherWidget(getContext());
+        mainViewModel.getWeatherData().observe(getViewLifecycleOwner(), weather -> {
+                    weatherWidget.setData(weather);
+                    mainViewModel.weatherUpdated();
+                });
+
         icons.add(weatherWidget.getIcon());
         titles.add(weatherWidget.getTitle());
         widgets.add(weatherWidget);

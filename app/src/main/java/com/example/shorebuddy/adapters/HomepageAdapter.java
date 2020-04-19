@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shorebuddy.R;
 
-import java.lang.reflect.Array;
 import java.util.List;
 
 public class HomepageAdapter extends RecyclerView.Adapter<HomepageAdapter.HomeViewHolder> {
@@ -54,7 +53,7 @@ public class HomepageAdapter extends RecyclerView.Adapter<HomepageAdapter.HomeVi
     public void onBindViewHolder(@NonNull HomeViewHolder holder, int position) {
         holder.icon.setImageDrawable(icons.get(position));
         holder.title.setText(titles.get(position));
-        holder.widget.addView(widgets.get(position));
+        holder.widget.addView(widgets.get(position), ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     }
 
     @Override
