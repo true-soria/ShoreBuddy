@@ -52,7 +52,6 @@ public class MainFragment extends Fragment {
         renderFishInLake(rootView);
         setupRefreshLayout(rootView);
         setupLakeSelectBtn(rootView);
-        setupCatchRecordBtn(rootView);
         setupToast();
 
         return rootView;
@@ -65,11 +64,6 @@ public class MainFragment extends Fragment {
 
     private void onClickSelectLakeBtn(View v) {
         NavDirections action = MainFragmentDirections.actionMainFragmentToLakeSelectFragment();
-        findNavController(this).navigate(action);
-    }
-
-    private void onClickRecordCatch(View v) {
-        NavDirections action = MainFragmentDirections.actionMainFragmentToCatchEntryFragment();
         findNavController(this).navigate(action);
     }
 
@@ -117,11 +111,6 @@ public class MainFragment extends Fragment {
     private void setupLakeSelectBtn(@NotNull View rootView) {
         Button selectLakeBtn = rootView.findViewById(R.id.select_lake_btn);
         selectLakeBtn.setOnClickListener(this::onClickSelectLakeBtn);
-    }
-
-    private void setupCatchRecordBtn(@NotNull View rootView) {
-        Button recordCatchBtn = rootView.findViewById(R.id.record_catch_btn);
-        recordCatchBtn.setOnClickListener(this::onClickRecordCatch);
     }
 
     private void setupToast() {

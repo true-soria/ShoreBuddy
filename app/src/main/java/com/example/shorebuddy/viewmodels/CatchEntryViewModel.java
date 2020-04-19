@@ -135,6 +135,26 @@ public class CatchEntryViewModel extends AndroidViewModel {
         record.fish = species;
     }
 
+    public void setWeight(String weight) {
+        try {
+            record.weight = Double.parseDouble(weight);
+        } catch (Exception e) {
+            record.weight = 0;
+        }
+    }
+
+    public void setLength(String length) {
+        try {
+            record.length = Double.parseDouble(length);
+        } catch (Exception e) {
+            record.length = 0;
+        }
+    }
+
+    public void setComments(String comments) {
+        record.comments = comments;
+    }
+
     public LiveData<String> getCatchRecordDate() {
         return dateText;
     }

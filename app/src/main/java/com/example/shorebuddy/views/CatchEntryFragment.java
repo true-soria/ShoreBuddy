@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.example.shorebuddy.R;
@@ -35,7 +36,14 @@ public class CatchEntryFragment extends Fragment implements AdapterView.OnItemSe
         super.onCreate(savedInstanceState);
         MainViewModel mainViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity())).get(MainViewModel.class);
         catchEntryViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity())).get(CatchEntryViewModel.class);
-        catchEntryViewModel.setLake(Objects.requireNonNull(mainViewModel.getCurrentlySelectedLake().getValue()).lakeName);
+        String lake;
+        // TODO: REMOVE HIGH PRIORITY, enforce selected lake choice.
+        if (mainViewModel.getCurrentlySelectedLake().getValue() == null) {
+            lake = "Pinecrest Lake";
+        } else {
+            lake = mainViewModel.getCurrentlySelectedLake().getValue().lakeName;
+        }
+        catchEntryViewModel.setLake(lake);
         dateTimeSelectViewModel = new ViewModelProvider(getActivity()).get(DateTimeSelectViewModel.class);
     }
 
@@ -47,6 +55,8 @@ public class CatchEntryFragment extends Fragment implements AdapterView.OnItemSe
         setupFishSpinner(rootView);
         setupLakeBtn(rootView);
         setupDateTimeBtn(rootView);
+        Button saveBtn = rootView.findViewById(R.id.save_button);
+        saveBtn.setOnClickListener(v -> onSaveBtnPressed(rootView));
 
         return rootView;
     }
@@ -78,7 +88,17 @@ public class CatchEntryFragment extends Fragment implements AdapterView.OnItemSe
         button.setText(catchEntryViewModel.getLake());
     }
 
-    public void saveCatchRecord() {
+    private void onSaveBtnPressed(View v) {
+        EditText weight = v.findViewById(R.id.weight_input);
+        EditText length = v.findViewById(R.id.length_input);
+        EditText comments = v.findViewById(R.id.comments_input);
+        catchEntryViewModel.setWeight(weight.getText().toString());
+        catchEntryViewModel.setLength(length.getText().toString());
+        catchEntryViewModel.setComments(comments.getText().toString());
+        saveCatchRecord();
+    }
+
+    private void saveCatchRecord() {
         catchEntryViewModel.recordCatch();
     }
 

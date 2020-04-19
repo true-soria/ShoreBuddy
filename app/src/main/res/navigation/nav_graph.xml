@@ -22,9 +22,6 @@
         <action
             android:id="@+id/action_mainFragment_to_lakeSelectFragment"
             app:destination="@id/lakeSelectFragment" />
-        <action
-            android:id="@+id/action_mainFragment_to_catchEntryFragment"
-            app:destination="@id/catchEntryFragment" />
     </fragment>
     <fragment
         android:id="@+id/catchEntryFragment"
@@ -61,9 +58,4 @@
         android:name="com.example.shorebuddy.views.homepage.HomepageView"
         android:label="homepage"
         tools:layout="@layout/homepage" />
-    <fragment
-        android:id="@+id/catchFragment"
-        android:name="com.example.shorebuddy.views.CatchFragment"
-        android:label="fragment_catch"
-        tools:layout="@layout/fragment_catch" />
 </navigation>
