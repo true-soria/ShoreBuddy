@@ -41,17 +41,17 @@ public class HomepageView extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.homepage, container, false);
 
-        initWidgets(rootView);
+        initWidgets();
         initRecyclerView(rootView);
         return rootView;
     }
 
-    private void initWidgets(View rootView) {
-        initSolunarWidget(rootView);
-        initWeatherWidget(rootView);
+    private void initWidgets() {
+        initSolunarWidget();
+        initWeatherWidget();
     }
 
-    private void initSolunarWidget(View rootView)
+    private void initSolunarWidget()
     {
         SolunarWidget solunarWidget = new SolunarWidget(getContext());
         mainViewModel.getSolunarData().observe(getViewLifecycleOwner(), solunar -> {
@@ -64,7 +64,7 @@ public class HomepageView extends Fragment {
         widgets.add(solunarWidget);
     }
 
-    private void initWeatherWidget (View rootView)
+    private void initWeatherWidget ()
     {
         WeatherWidget weatherWidget = new WeatherWidget(getContext());
         mainViewModel.getWeatherData().observe(getViewLifecycleOwner(), weather -> {
