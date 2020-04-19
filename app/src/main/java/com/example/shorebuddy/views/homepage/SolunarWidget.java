@@ -4,8 +4,6 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import com.example.shorebuddy.R;
 import com.example.shorebuddy.data.solunar.Solunar;
 

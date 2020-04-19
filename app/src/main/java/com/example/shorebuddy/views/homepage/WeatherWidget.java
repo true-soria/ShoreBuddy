@@ -5,8 +5,6 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import com.example.shorebuddy.R;
 import com.example.shorebuddy.data.weather.Weather;
 import com.example.shorebuddy.utilities.Converters;
@@ -60,10 +58,9 @@ public class WeatherWidget extends ModuleWidget {
         this.leftProperty.setData(findProperty(weather, leftProperty.getPropertyValueID()));
         this.rightProperty.setData(findProperty(weather,rightProperty.getPropertyValueID()));
         this.bottomPropertyName.setText(String.format(Locale.US, "%s", bottomPropertyNameValue));
-        this.bottomPropertyValue.setText(String.format(Locale.US, "%.2f mph @ %d° %s",
+        this.bottomPropertyValue.setText(String.format(Locale.US, "%.2f mph @ %s",
                 weather.windSpeed,
-                weather.windDirection,
-                Converters.degreesToCardinalDirection(weather.windDirection)));
+                getHeading(weather.windDirection)));
     }
 
     private String findProperty(Weather weather, WidgetTextGenerator.propertyValues valueID)
@@ -90,20 +87,26 @@ public class WeatherWidget extends ModuleWidget {
                 propertyValue = String.format(Locale.US, "%.2f mph", weather.windSpeed);
                 break;
             case WIND_DIRECTION:
-                propertyValue = String.format(Locale.US, "%d° %s",
-                        weather.windDirection, Converters.degreesToCardinalDirection(weather.windDirection));
+                propertyValue = getHeading(weather.windDirection);
                 break;
         }
 
         return propertyValue;
     }
 
+    private String getHeading(int windDirection)
+    {
+        if (windDirection == 0)
+            return "";
+        else
+            return String.format(Locale.US, "%d° %s",
+                    windDirection, Converters.degreesToCardinalDirection(windDirection));
+    }
+
     private void setDataAndIcon(Weather weather)
     {
-        // TODO which of these is "Sunny, Rainy, etc?"
-//        title = weather.sunny?
-        title = "Sunny?";
+        title = String.format(Locale.US, "%s", weather.description);
         // TODO pull weather icons into project
-        this.icon = getResources().getDrawable(R.drawable.ic_compass_rose,null);
+        this.icon = getResources().getDrawable(R.drawable.ic_sunny_day,null);
     }
 }
