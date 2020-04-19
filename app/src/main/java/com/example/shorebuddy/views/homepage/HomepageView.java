@@ -48,7 +48,7 @@ public class HomepageView extends Fragment {
 
     private void initWidgets(View rootView) {
         initSolunarWidget(rootView);
-        initSolunarWidget(rootView);
+        initWeatherWidget(rootView);
     }
 
     private void initSolunarWidget(View rootView)

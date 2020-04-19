@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/homepageView"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="Home"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/mainFragment"
+        android:icon="@drawable/ic_cloud"
+        android:title="Weather"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/cameraFragment"
+        android:icon="@drawable/ic_photo_camera"
+        android:title="Camera"
+        app:showAsAction="always" />
+
+
+    //set android:id = the id of the fragment you want to replace it with by
+    //going to nav_graph adding the fragment page you want to add, and copying the id onto id of
+    item
+    <item
+        android:id="@+id/catchFragment"
+        android:icon="@drawable/ic_file_upload"
+        android:title="Catch"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/catchRecordsFragment"
+        android:icon="@drawable/ic_library_books"
+        android:title="Catch Records"
+        app:showAsAction="ifRoom" />
+</menu>
