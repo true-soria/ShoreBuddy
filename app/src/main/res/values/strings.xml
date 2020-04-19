@@ -35,5 +35,5 @@
     <string name="inches">inches</string>
     <string name="catch_str">Catch</string>
     <string name="save">Save</string>
-    <string name="comments">Comments</string>
+    <string name="comments">Comments:</string>
 </resources>

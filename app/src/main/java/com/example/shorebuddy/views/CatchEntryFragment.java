@@ -20,6 +20,7 @@ import com.example.shorebuddy.data.fish.Fish;
 import com.example.shorebuddy.viewmodels.CatchEntryViewModel;
 import com.example.shorebuddy.viewmodels.DateTimeSelectViewModel;
 import com.example.shorebuddy.viewmodels.MainViewModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Objects;
 
@@ -55,7 +56,7 @@ public class CatchEntryFragment extends Fragment implements AdapterView.OnItemSe
         setupFishSpinner(rootView);
         setupLakeBtn(rootView);
         setupDateTimeBtn(rootView);
-        Button saveBtn = rootView.findViewById(R.id.save_button);
+        FloatingActionButton saveBtn = rootView.findViewById(R.id.save_button);
         saveBtn.setOnClickListener(v -> onSaveBtnPressed(rootView));
 
         return rootView;
