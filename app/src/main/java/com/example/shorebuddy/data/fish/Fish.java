@@ -12,9 +12,15 @@ public class Fish {
     @PrimaryKey
     @NonNull
     @ColumnInfo(index = true)
-    public String species;
+    public final String species;
 
     public Fish(@NotNull String species) {
         this.species = species;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return species;
     }
 }

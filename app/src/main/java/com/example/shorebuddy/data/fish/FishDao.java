@@ -16,7 +16,7 @@ public interface FishDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insert(Fish fish);
 
-    @Query("SELECT * FROM fish")
+    @Query("SELECT * FROM fish ORDER BY species ASC")
     LiveData<List<Fish>> getAllFish();
 
     @Query("SELECT * FROM fish WHERE species LIKE :species")
