@@ -7,7 +7,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     tools:context=".views.homepage.SolunarWidget"
-    android:background="@color/colorBackgroundGray"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintStart_toStartOf="parent"
@@ -18,7 +17,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/colorGlobalBackground"
-        android:layout_margin="8dp"
         app:property_name="@string/moon_minor1"
         app:property_value="minor_1"
         app:layout_constraintTop_toTopOf="parent"/>
@@ -28,7 +26,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/colorGlobalBackground"
-        android:layout_margin="8dp"
         app:property_name="@string/moon_minor2"
         app:property_value="minor_2"
         app:layout_constraintTop_toBottomOf="@id/sol_property1"/>
@@ -38,7 +35,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/colorGlobalBackground"
-        android:layout_margin="8dp"
         app:property_name="@string/moon_major1"
         app:property_value="major_1"
         app:layout_constraintTop_toBottomOf="@id/sol_property2"/>
@@ -48,7 +44,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/colorGlobalBackground"
-        android:layout_margin="8dp"
+        android:layout_marginBottom="8dp"
         app:property_name="@string/moon_major2"
         app:property_value="major_2"
         app:layout_constraintTop_toBottomOf="@id/sol_property3"
