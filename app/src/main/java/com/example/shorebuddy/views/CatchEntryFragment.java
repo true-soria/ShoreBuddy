@@ -1,5 +1,6 @@
 package com.example.shorebuddy.views;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,6 +10,7 @@ import androidx.navigation.NavDirections;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -30,7 +32,8 @@ public class CatchEntryFragment extends Fragment implements AdapterView.OnItemSe
     private CatchEntryViewModel catchEntryViewModel;
     private DateTimeSelectViewModel dateTimeSelectViewModel;
 
-    public CatchEntryFragment() {}
+    public CatchEntryFragment() {
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -100,7 +103,17 @@ public class CatchEntryFragment extends Fragment implements AdapterView.OnItemSe
     }
 
     private void saveCatchRecord() {
+        closeKeyboard();
         catchEntryViewModel.recordCatch();
+    }
+
+    private void closeKeyboard() {
+        View view = Objects.requireNonNull(this.getActivity()).getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) Objects.requireNonNull(getContext()).getSystemService(Context.INPUT_METHOD_SERVICE);
+            assert imm != null;
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 
     @Override

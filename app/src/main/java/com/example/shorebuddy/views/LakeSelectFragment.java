@@ -1,6 +1,7 @@
 package com.example.shorebuddy.views;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.SearchView;
 
 import com.example.shorebuddy.R;
@@ -64,7 +66,7 @@ public class LakeSelectFragment extends Fragment implements LakeListAdapter.OnLa
             @Override
             public boolean onQueryTextSubmit(String query) {
                 mainViewModel.setCurrentSelectedLakeFromFilteredPosition(0);
-                NavDirections action = LakeSelectFragmentDirections.actionLakeSelectFragmentToMainFragment();
+                NavDirections action = LakeSelectFragmentDirections.actionLakeSelectFragmentToHomepageView();
                 findNavController(LakeSelectFragment.this).navigate(action);
                 return false;
             }
@@ -81,7 +83,17 @@ public class LakeSelectFragment extends Fragment implements LakeListAdapter.OnLa
     @Override
     public void onLakeSelected(Lake lake) {
         mainViewModel.setCurrentSelectedLake(lake);
-        NavDirections action = LakeSelectFragmentDirections.actionLakeSelectFragmentToMainFragment();
+        NavDirections action = LakeSelectFragmentDirections.actionLakeSelectFragmentToHomepageView();
+        closeKeyboard();
         findNavController(this).navigate(action);
+    }
+
+    private void closeKeyboard() {
+        View view = Objects.requireNonNull(this.getActivity()).getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) Objects.requireNonNull(getContext()).getSystemService(Context.INPUT_METHOD_SERVICE);
+            assert imm != null;
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 }
