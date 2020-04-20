@@ -8,8 +8,8 @@
         app:showAsAction="always" />
     <item
         android:id="@+id/lakeFragment"
-        android:icon="@drawable/ic_cloud"
-        android:title="Weather"
+        android:icon="@drawable/ic_map_"
+        android:title="Map"
         app:showAsAction="always" />
     <item
         android:id="@+id/cameraFragment"
