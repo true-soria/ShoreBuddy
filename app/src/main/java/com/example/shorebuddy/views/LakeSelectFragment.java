@@ -66,8 +66,7 @@ public class LakeSelectFragment extends Fragment implements LakeListAdapter.OnLa
             @Override
             public boolean onQueryTextSubmit(String query) {
                 mainViewModel.setCurrentSelectedLakeFromFilteredPosition(0);
-                //NavDirections action = LakeSelectFragmentDirections.actionLakeSelectFragmentToMainFragment();
-                NavDirections action = LakeFragmentDirections.actionLakeFragmentToLakeSelectFragment();
+                NavDirections action = LakeSelectFragmentDirections.actionLakeSelectFragmentToHomepageView();
                 findNavController(LakeSelectFragment.this).navigate(action);
                 return false;
             }
@@ -84,7 +83,6 @@ public class LakeSelectFragment extends Fragment implements LakeListAdapter.OnLa
     @Override
     public void onLakeSelected(Lake lake) {
         mainViewModel.setCurrentSelectedLake(lake);
-        //NavDirections action = LakeSelectFragmentDirections.actionLakeSelectFragmentToMainFragment();
         NavDirections action = LakeSelectFragmentDirections.actionLakeSelectFragmentToHomepageView();
         closeKeyboard();
         findNavController(this).navigate(action);
