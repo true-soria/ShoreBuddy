@@ -45,26 +45,31 @@ public class HomepageView extends Fragment {
     }
 
     private void initWidgets() {
+        initLakeWidget();
         initSolunarWidget();
         initWeatherWidget();
+    }
+
+    private void initLakeWidget()
+    {
+        LakeWidget lakeWidget = new LakeWidget(getContext());
+        mainViewModel.getCurrentlySelectedLake().observe(getViewLifecycleOwner(), currentLake ->
+                lakeWidget.setTitle(String.format("%s", currentLake.lakeName)));
+        mainViewModel.getFishInCurrentLake().observe(getViewLifecycleOwner(), lakeWidget::setData);
+        widgets.add(lakeWidget);
     }
 
     private void initSolunarWidget()
     {
         SolunarWidget solunarWidget = new SolunarWidget(getContext());
-        mainViewModel.getSolunarData().observe(getViewLifecycleOwner(), solunar -> {
-            solunarWidget.setData(solunar);
-        });
-
+        mainViewModel.getSolunarData().observe(getViewLifecycleOwner(), solunarWidget::setData);
         widgets.add(solunarWidget);
     }
 
     private void initWeatherWidget ()
     {
         WeatherWidget weatherWidget = new WeatherWidget(getContext());
-        mainViewModel.getWeatherData().observe(getViewLifecycleOwner(), weather -> {
-                    weatherWidget.setData(weather);
-                });
+        mainViewModel.getWeatherData().observe(getViewLifecycleOwner(), weatherWidget::setData);
         widgets.add(weatherWidget);
     }
 
