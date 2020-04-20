@@ -7,7 +7,7 @@
         android:title="Home"
         app:showAsAction="always" />
     <item
-        android:id="@+id/mainFragment"
+        android:id="@+id/lakeFragment"
         android:icon="@drawable/ic_cloud"
         android:title="Weather"
         app:showAsAction="always" />
