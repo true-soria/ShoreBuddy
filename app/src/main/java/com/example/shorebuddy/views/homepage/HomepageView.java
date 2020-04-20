@@ -25,13 +25,26 @@ import java.util.Objects;
 
 public class HomepageView extends Fragment {
 
-    private List<ModuleWidget> widgets = new ArrayList<>();
+    private LakeWidget lakeWidget;
+    private SolunarWidget solunarWidget;
+    private WeatherWidget weatherWidget;
     private MainViewModel mainViewModel;
 
     @Override
     public void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mainViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity())).get(MainViewModel.class);
+        lakeWidget = new LakeWidget(getContext());
+        solunarWidget = new SolunarWidget(getContext());
+        weatherWidget = new WeatherWidget(getContext());
+    }
+
+    private List<ModuleWidget> getWidgets() {
+        List<ModuleWidget> list = new ArrayList<>();
+        list.add(lakeWidget);
+        list.add(weatherWidget);
+        list.add(solunarWidget);
+        return list;
     }
 
     @Nullable
@@ -39,44 +52,35 @@ public class HomepageView extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.homepage, container, false);
 
-        initWidgets();
-        initRecyclerView(rootView);
+        setup(rootView);
         return rootView;
     }
 
-    private void initWidgets() {
-        initLakeWidget();
-        initSolunarWidget();
-        initWeatherWidget();
-    }
-
-    private void initLakeWidget()
-    {
-        LakeWidget lakeWidget = new LakeWidget(getContext());
-        mainViewModel.getCurrentlySelectedLake().observe(getViewLifecycleOwner(), currentLake ->
-                lakeWidget.setTitle(String.format("%s", currentLake.lakeName)));
-        mainViewModel.getFishInCurrentLake().observe(getViewLifecycleOwner(), lakeWidget::setData);
-        widgets.add(lakeWidget);
-    }
-
-    private void initSolunarWidget()
-    {
-        SolunarWidget solunarWidget = new SolunarWidget(getContext());
-        mainViewModel.getSolunarData().observe(getViewLifecycleOwner(), solunarWidget::setData);
-        widgets.add(solunarWidget);
-    }
-
-    private void initWeatherWidget ()
-    {
-        WeatherWidget weatherWidget = new WeatherWidget(getContext());
-        mainViewModel.getWeatherData().observe(getViewLifecycleOwner(), weatherWidget::setData);
-        widgets.add(weatherWidget);
-    }
-
-    private void initRecyclerView(View rootView) {
+    private void setup(View rootView) {
         Activity activity = getActivity();
         RecyclerView recyclerView = rootView.findViewById(R.id.homepage_recycler);
-        HomepageAdapter adapter = new HomepageAdapter(widgets);
+        HomepageAdapter adapter = new HomepageAdapter(getWidgets());
+
+        mainViewModel.getCurrentlySelectedLake().observe(getViewLifecycleOwner(), currentLake -> {
+                lakeWidget.setTitle(String.format("%s", currentLake.lakeName));
+                adapter.setWidgets(getWidgets());
+        });
+        mainViewModel.getFishInCurrentLake().observe(getViewLifecycleOwner(), fish -> {
+            lakeWidget.setData(fish);
+            adapter.setWidgets(getWidgets());
+        });
+
+        mainViewModel.getSolunarData().observe(getViewLifecycleOwner(), solunar -> {
+            solunarWidget.setData(solunar);
+            adapter.setWidgets(getWidgets());
+        });
+
+        mainViewModel.getWeatherData().observe(getViewLifecycleOwner(), weather -> {
+            weatherWidget.setData(weather);
+            adapter.setWidgets(getWidgets());
+        });
+
+        adapter.setWidgets(getWidgets());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(activity));
     }

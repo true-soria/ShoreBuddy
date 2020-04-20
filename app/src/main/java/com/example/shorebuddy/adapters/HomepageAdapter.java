@@ -36,6 +36,11 @@ public class HomepageAdapter extends RecyclerView.Adapter<HomepageAdapter.HomeVi
         this.widgets = widgets;
     }
 
+    public void setWidgets(List<ModuleWidget> widgets) {
+        this.widgets = widgets;
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public HomeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -50,6 +55,10 @@ public class HomepageAdapter extends RecyclerView.Adapter<HomepageAdapter.HomeVi
         String title = widget.getTitle();
         holder.icon.setImageDrawable(icon);
         holder.title.setText(title);
+        ViewGroup parent = ((ViewGroup) widget.getParent());
+        if (parent != null) {
+            parent.removeView(widget);
+        }
         holder.widget.addView(widget, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     }
 
