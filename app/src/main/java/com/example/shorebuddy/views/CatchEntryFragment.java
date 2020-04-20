@@ -105,6 +105,9 @@ public class CatchEntryFragment extends Fragment implements AdapterView.OnItemSe
     private void saveCatchRecord() {
         closeKeyboard();
         catchEntryViewModel.recordCatch();
+        NavDirections action = CatchEntryFragmentDirections.actionCatchEntryFragmentToCatchRecordsFragment();
+        findNavController(this).navigate(action);
+
     }
 
     private void closeKeyboard() {

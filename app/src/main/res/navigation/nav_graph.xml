@@ -34,6 +34,9 @@
         <action
             android:id="@+id/action_catchEntryFragment_to_timePickerFragment"
             app:destination="@id/timePickerFragment" />
+        <action
+            android:id="@+id/action_catchEntryFragment_to_catchRecordsFragment"
+            app:destination="@id/catchRecordsFragment" />
     </fragment>
     <dialog
         android:id="@+id/datePickerFragment"
