@@ -101,6 +101,9 @@ public class CatchEntryFragment extends Fragment implements AdapterView.OnItemSe
 
     private void saveCatchRecord() {
         catchEntryViewModel.recordCatch();
+        NavDirections action = CatchEntryFragmentDirections.actionCatchEntryFragmentToCatchRecordsFragment();
+        findNavController(this).navigate(action);
+
     }
 
     @Override
