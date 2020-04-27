@@ -6,7 +6,6 @@ import android.util.AttributeSet;
 
 import com.example.shorebuddy.R;
 import com.example.shorebuddy.data.solunar.Solunar;
-import com.google.android.gms.maps.model.LatLng;
 
 import java.util.Locale;
 
@@ -38,7 +37,7 @@ public class SolunarWidget extends ModuleWidget {
         property3 = findViewById(R.id.sol_property3);
         property4 = findViewById(R.id.sol_property4);
 
-        this.icon = getResources().getDrawable(R.drawable.ic_moon1, null);
+        this.icon = getResources().getDrawable(R.drawable.ic_waxing_crescent, null);
         this.title = String.format(Locale.US, "%s", MOON);
     }
 
@@ -53,10 +52,8 @@ public class SolunarWidget extends ModuleWidget {
         return title;
     }
 
-    public void setData(Object data)
+    public void setData(Solunar solunar)
     {
-        Solunar solunar = tryCasting(data);
-
         this.property1.setData(findProperty(solunar, property1.getPropertyValueID()));
         this.property2.setData(findProperty(solunar, property2.getPropertyValueID()));
         this.property3.setData(findProperty(solunar, property3.getPropertyValueID()));
@@ -89,49 +86,36 @@ public class SolunarWidget extends ModuleWidget {
     private void setTitleAndIcon(String title)
     {
         this.title = String.format(Locale.US, "%s", title);
-        int iconReference = R.drawable.ic_moon1;
+        int iconReference = R.drawable.ic_waxing_crescent;
 
         switch (title)
         {
             case "New Moon":
-                iconReference = R.drawable.ic_moon1;
+                iconReference = R.drawable.ic_new_moon;
                 break;
             case "Waxing Crescent":
-                iconReference = R.drawable.ic_moon1;
+                iconReference = R.drawable.ic_waxing_crescent;
                 break;
             case "First Quarter":
-                iconReference = R.drawable.ic_moon1;
+                iconReference = R.drawable.ic_first_quarter;
                 break;
             case "Waxing Gibbous":
-                iconReference = R.drawable.ic_moon1;
+                iconReference = R.drawable.ic_waxing_gibbous;
                 break;
             case "Full Moon":
-                iconReference = R.drawable.ic_moon1;
+                iconReference = R.drawable.ic_full_moon;
                 break;
             case "Waning Gibbous":
-                iconReference = R.drawable.ic_moon1;
+                iconReference = R.drawable.ic_waning_gibbous;
                 break;
             case "Last Quarter":
-                iconReference = R.drawable.ic_moon1;
+                iconReference = R.drawable.ic_third_quarter;
                 break;
             case "Waning Crescent":
-                iconReference = R.drawable.ic_moon1;
+                iconReference = R.drawable.ic_waning_crescent;
                 break;
         }
 
         this.icon = getResources().getDrawable(iconReference, null);
-    }
-
-    private Solunar tryCasting(Object data)
-    {
-        Solunar solunar;
-        try {
-            solunar = (Solunar) data;
-        }
-        catch (ClassCastException e) {
-            solunar = new Solunar(new LatLng(0,0));
-            // TODO report some error
-        }
-        return solunar;
     }
 }

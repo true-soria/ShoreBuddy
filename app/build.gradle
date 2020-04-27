@@ -27,6 +27,13 @@ android {
         sourceCompatibility = 1.8
         targetCompatibility = 1.8
     }
+    sourceSets {
+        main {
+            res {
+                srcDirs 'src/main/res', 'src/main/res/moon', 'src/main/res/layouts/moon', 'src/main/res/drawable/moon', 'src/main/res/icons/drawable', 'src/main/res/icons/moons', 'src/main/res/icons/weather'
+            }
+        }
+    }
 }
 
 dependencies {
