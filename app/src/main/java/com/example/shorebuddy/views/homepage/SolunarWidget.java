@@ -37,7 +37,7 @@ public class SolunarWidget extends ModuleWidget {
         property3 = findViewById(R.id.sol_property3);
         property4 = findViewById(R.id.sol_property4);
 
-        this.icon = getResources().getDrawable(R.drawable.ic_moon1, null);
+        this.icon = getResources().getDrawable(R.drawable.ic_waxing_crescent, null);
         this.title = String.format(Locale.US, "%s", MOON);
     }
 
@@ -86,36 +86,36 @@ public class SolunarWidget extends ModuleWidget {
     private void setTitleAndIcon(String title)
     {
         this.title = String.format(Locale.US, "%s", title);
+        int iconReference = R.drawable.ic_waxing_crescent;
 
         switch (title)
         {
             case "New Moon":
-                this.icon = getResources().getDrawable(R.drawable.ic_moon1, null);
+                iconReference = R.drawable.ic_new_moon;
                 break;
             case "Waxing Crescent":
-                this.icon = getResources().getDrawable(R.drawable.ic_moon1, null);
+                iconReference = R.drawable.ic_waxing_crescent;
                 break;
             case "First Quarter":
-                this.icon = getResources().getDrawable(R.drawable.ic_moon1, null);
+                iconReference = R.drawable.ic_first_quarter;
                 break;
             case "Waxing Gibbous":
-                this.icon = getResources().getDrawable(R.drawable.ic_moon1, null);
+                iconReference = R.drawable.ic_waxing_gibbous;
                 break;
             case "Full Moon":
-                this.icon = getResources().getDrawable(R.drawable.ic_moon1, null);
+                iconReference = R.drawable.ic_full_moon;
                 break;
             case "Waning Gibbous":
-                this.icon = getResources().getDrawable(R.drawable.ic_moon1, null);
+                iconReference = R.drawable.ic_waning_gibbous;
                 break;
             case "Last Quarter":
-                this.icon = getResources().getDrawable(R.drawable.ic_moon1, null);
+                iconReference = R.drawable.ic_third_quarter;
                 break;
             case "Waning Crescent":
-                this.icon = getResources().getDrawable(R.drawable.ic_moon1, null);
-                break;
-            default:
-                this.icon = getResources().getDrawable(R.drawable.ic_moon1, null);
+                iconReference = R.drawable.ic_waning_crescent;
                 break;
         }
+
+        this.icon = getResources().getDrawable(iconReference, null);
     }
 }

@@ -7,7 +7,6 @@ import android.widget.TextView;
 
 import com.example.shorebuddy.R;
 import com.example.shorebuddy.data.fish.Fish;
-import com.example.shorebuddy.data.lakes.Lake;
 
 import java.util.Iterator;
 import java.util.List;
@@ -65,6 +64,7 @@ public class LakeWidget extends ModuleWidget {
         Iterator<Fish> fishIterator = fishList.iterator();
         StringBuilder leftPropertyFish = new StringBuilder();
         StringBuilder rightPropertyFish = new StringBuilder();
+        String NO_FISH_LIST = "\tNo fish available";
 
         for (int i = 0; (i < FISH_DISPLAYED/2) && fishIterator.hasNext(); i ++)
         {
@@ -72,7 +72,11 @@ public class LakeWidget extends ModuleWidget {
             leftPropertyFish.append(fishIterator.next());
             leftPropertyFish.append("\n");
         }
-        leftPropertyFish.deleteCharAt(leftPropertyFish.length() - 1);
+        if (fishList.isEmpty())
+            leftPropertyFish.append(NO_FISH_LIST);
+        else
+            leftPropertyFish.deleteCharAt(leftPropertyFish.length() - 1);
+
 
         for (int i = 0; (i < FISH_DISPLAYED/2) && fishIterator.hasNext(); i ++)
         {
