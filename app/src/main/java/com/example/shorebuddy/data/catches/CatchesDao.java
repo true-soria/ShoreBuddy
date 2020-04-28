@@ -34,9 +34,5 @@ public interface CatchesDao {
     LiveData<CatchRecordWithPhotos> getCatchRecordWithPhotos(int uid);
 
     @Query("SELECT uid from CatchRecords WHERE rowid=:rowId")
-    CatchRecordId getCatchRecordIdFromRow(long rowId);
-
-    static class CatchRecordId {
-        public int uid;
-    }
+    int getCatchRecordIdFromRow(long rowId);
 }
