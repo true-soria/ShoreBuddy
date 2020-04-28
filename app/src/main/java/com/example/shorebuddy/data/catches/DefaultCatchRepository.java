@@ -31,9 +31,9 @@ public class DefaultCatchRepository implements CatchRepository {
     public void recordCatch(CatchRecordWithPhotos record) {
         ShoreBuddyDatabase.databaseExecutor.execute(() -> {
             long rowId = catchesDao.insert(record.record);
-            CatchesDao.CatchRecordId newId = catchesDao.getCatchRecordIdFromRow(rowId);
+            int newId = catchesDao.getCatchRecordIdFromRow(rowId);
             for (CatchPhoto photo : record.photos) {
-                photo.catchRecordUid = newId.uid;
+                photo.catchRecordUid = newId;
                 catchesDao.insert(photo);
             }
         });
