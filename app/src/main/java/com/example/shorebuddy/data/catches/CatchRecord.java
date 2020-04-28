@@ -11,9 +11,6 @@ import androidx.room.TypeConverters;
 import com.example.shorebuddy.data.fish.Fish;
 import com.example.shorebuddy.data.lakes.Lake;
 import com.example.shorebuddy.utilities.Converters;
-import com.google.android.gms.maps.model.LatLng;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 import java.util.Calendar;
@@ -31,7 +28,6 @@ import java.util.Calendar;
                                     onDelete = ForeignKey.RESTRICT)})
 public class CatchRecord implements Serializable {
     @PrimaryKey(autoGenerate = true)
-    @NotNull
     final int uid;
 
     public String lake;

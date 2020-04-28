@@ -5,14 +5,20 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Transaction;
 import androidx.room.Update;
+
+import com.example.shorebuddy.data.relationships.CatchRecordWithPhotos;
 
 import java.util.List;
 
 @Dao
 public interface CatchesDao {
     @Insert
-    void insert(CatchRecord record);
+    long insert(CatchRecord record);
+
+    @Insert
+    void insert(CatchPhoto photo);
 
     @Update
     void update(CatchRecord record);
@@ -22,4 +28,15 @@ public interface CatchesDao {
 
     @Query("SELECT * FROM CatchRecords ORDER BY timeCaught DESC")
     LiveData<List<CatchRecord>> getAllRecordsDescending();
+
+    @Transaction
+    @Query("SELECT * FROM CatchRecords WHERE uid=:uid")
+    LiveData<CatchRecordWithPhotos> getCatchRecordWithPhotos(int uid);
+
+    @Query("SELECT uid from CatchRecords WHERE rowid=:rowId")
+    CatchRecordId getCatchRecordIdFromRow(long rowId);
+
+    static class CatchRecordId {
+        public int uid;
+    }
 }

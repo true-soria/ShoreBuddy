@@ -10,6 +10,7 @@ import androidx.room.TypeConverters;
 import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.example.shorebuddy.data.catches.CatchPhoto;
 import com.example.shorebuddy.data.catches.CatchRecord;
 import com.example.shorebuddy.data.catches.CatchesDao;
 import com.example.shorebuddy.data.fish.Fish;
@@ -22,9 +23,33 @@ import com.example.shorebuddy.utilities.Converters;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Lake.class, Fish.class, LakeFishCrossRef.class, CatchRecord.class}, version = 2, exportSchema = false)
+@Database(entities = {Lake.class, Fish.class, LakeFishCrossRef.class, CatchRecord.class, CatchPhoto.class}, version = 3, exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class ShoreBuddyDatabase extends RoomDatabase {
+
+    public abstract LakeDao lakeDao();
+    public abstract FishDao fishDao();
+    public abstract CatchesDao catchesDao();
+    private static volatile ShoreBuddyDatabase INSTANCE;
+    private static final int NUMBER_OF_THREADS = 4;
+    public static final ExecutorService databaseExecutor =
+            Executors.newFixedThreadPool(NUMBER_OF_THREADS);
+
+    public static ShoreBuddyDatabase getDatabase(final Context context) {
+        if (INSTANCE == null) {
+            synchronized (ShoreBuddyDatabase.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
+                            ShoreBuddyDatabase.class, "shore_database")
+                            .createFromAsset("ShoreBuddy.db")
+                            .addMigrations(MIGRATION_1_2)
+                            .addMigrations(MIGRATION_2_3)
+                            .build();
+                }
+            }
+        }
+        return INSTANCE;
+    }
 
     private static final Migration MIGRATION_1_2 = new Migration(1, 2) {
         @Override
@@ -44,26 +69,15 @@ public abstract class ShoreBuddyDatabase extends RoomDatabase {
         }
     };
 
-    public abstract LakeDao lakeDao();
-    public abstract FishDao fishDao();
-    public abstract CatchesDao catchesDao();
-    private static volatile ShoreBuddyDatabase INSTANCE;
-    private static final int NUMBER_OF_THREADS = 4;
-    public static final ExecutorService databaseExecutor =
-            Executors.newFixedThreadPool(NUMBER_OF_THREADS);
-
-    public static ShoreBuddyDatabase getDatabase(final Context context) {
-        if (INSTANCE == null) {
-            synchronized (ShoreBuddyDatabase.class) {
-                if (INSTANCE == null) {
-                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                            ShoreBuddyDatabase.class, "shore_database")
-                            .createFromAsset("ShoreBuddy.db")
-                            .addMigrations(MIGRATION_1_2)
-                            .build();
-                }
-            }
+    private static final Migration MIGRATION_2_3 = new Migration(2, 3) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE IF NOT EXISTS CatchPhotos (" +
+                    "path TEXT PRIMARY KEY NOT NULL," +
+                    "catchRecordUid INTEGER NOT NULL," +
+                    "FOREIGN KEY (catchRecordUid) REFERENCES CatchRecords(uid) ON DELETE CASCADE)");
+            database.execSQL("CREATE INDEX IF NOT EXISTS index_CatchPhotos_catchRecordUid ON CatchPhotos(catchRecordUid)");
+            database.execSQL("DELETE FROM lakes WHERE name='Casitas Lake'");
         }
-        return INSTANCE;
-    }
+    };
 }
