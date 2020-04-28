@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
             @ForeignKey(entity = CatchRecord.class,
             parentColumns = "uid",
             childColumns = "catchRecordUid",
-            onDelete = ForeignKey.RESTRICT)
+            onDelete = ForeignKey.CASCADE)
         })
 public class CatchPhoto {
     @PrimaryKey @NonNull public String path;
