@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">ShoreBuddy</string>
-    <string name="current_lake_text">Currently Selected Lake: </string>
     <string name="select_lake">Select Lake</string>
     <string name="update_weather">Update Weather</string>
     <string name="pressure">Pressure:</string>
