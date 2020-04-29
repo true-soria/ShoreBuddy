@@ -47,6 +47,7 @@ public class CatchRecord implements Serializable {
     @Ignore
     public CatchRecord() {
         uid = 0;
+        timeCaught = Calendar.getInstance();
     }
 
     CatchRecord(int uid) {

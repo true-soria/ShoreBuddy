@@ -5,18 +5,17 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 
 import com.example.shorebuddy.data.catches.CatchPhoto;
-import com.example.shorebuddy.data.catches.CatchRecord;
 import com.example.shorebuddy.data.catches.CatchRepository;
 import com.example.shorebuddy.data.catches.DefaultCatchRepository;
 import com.example.shorebuddy.data.fish.DefaultFishRepository;
 import com.example.shorebuddy.data.fish.Fish;
 import com.example.shorebuddy.data.fish.FishRepository;
 import com.example.shorebuddy.data.relationships.CatchRecordWithPhotos;
+import com.example.shorebuddy.utilities.Event;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -30,136 +29,57 @@ public class CatchEntryViewModel extends AndroidViewModel {
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd, yyyy", Locale.US);
     private final SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a", Locale.US);
 
-    private MediatorLiveData<Calendar> catchRecordCalendar = new MediatorLiveData<>();
-    private MutableLiveData<Integer> inputMinute = new MutableLiveData<>();
-    private MutableLiveData<Integer> inputHour = new MutableLiveData<>();
-    private MutableLiveData<Integer> inputDay = new MutableLiveData<>();
-    private MutableLiveData<Integer> inputMonth = new MutableLiveData<>();
-    private MutableLiveData<Integer> inputYear = new MutableLiveData<>();
-    private LiveData<String> dateText = Transformations.map(catchRecordCalendar, calendar -> dateFormat.format(calendar.getTime()));
-    private LiveData<String> timeText = Transformations.map(catchRecordCalendar, calendar -> timeFormat.format(calendar.getTime()));
+    private CatchRecordWithPhotos catchRecordWithPhotos = new CatchRecordWithPhotos();
 
-    private CatchRecordWithPhotos record;
+    private MutableLiveData<Event> calendarChanged = new MutableLiveData<>(new Event());
+    private LiveData<String> dateText = Transformations.map(calendarChanged, event -> dateFormat.format(catchRecordWithPhotos.record.timeCaught.getTime()));
+    private LiveData<String> timeText = Transformations.map(calendarChanged, event -> timeFormat.format(catchRecordWithPhotos.record.timeCaught.getTime()));
+    private LiveData<Integer> currentYear = Transformations.map(calendarChanged, event -> catchRecordWithPhotos.record.timeCaught.get(Calendar.YEAR));
+    private LiveData<Integer> currentMonth = Transformations.map(calendarChanged, event -> catchRecordWithPhotos.record.timeCaught.get(Calendar.MONTH));
+    private LiveData<Integer> currentDay = Transformations.map(calendarChanged, event -> catchRecordWithPhotos.record.timeCaught.get(Calendar.DAY_OF_MONTH));
+    private LiveData<Integer> currentHour = Transformations.map(calendarChanged, event -> catchRecordWithPhotos.record.timeCaught.get(Calendar.HOUR_OF_DAY));
+    private LiveData<Integer> currentMinute = Transformations.map(calendarChanged, event -> catchRecordWithPhotos.record.timeCaught.get(Calendar.MINUTE));
 
     public CatchEntryViewModel(@NonNull Application application) {
         super(application);
         catchRepository = new DefaultCatchRepository(application);
         fishRepository = new DefaultFishRepository(application);
 
-        catchRecordCalendar.addSource(inputMinute, value -> {
-            Calendar updatedCalendar = catchRecordCalendar.getValue();
-            updatedCalendar.set(Calendar.MINUTE, value);
-            catchRecordCalendar.setValue(updatedCalendar);
-        });
-        catchRecordCalendar.addSource(inputHour, value -> {
-            Calendar updatedCalendar = catchRecordCalendar.getValue();
-            updatedCalendar.set(Calendar.HOUR_OF_DAY, value);
-            catchRecordCalendar.setValue(updatedCalendar);
-        });
-        catchRecordCalendar.addSource(inputDay, value -> {
-            Calendar updatedCalendar = catchRecordCalendar.getValue();
-            updatedCalendar.set(Calendar.DAY_OF_MONTH, value);
-            catchRecordCalendar.setValue(updatedCalendar);
-        });
-        catchRecordCalendar.addSource(inputMonth, value -> {
-            Calendar updatedCalendar = catchRecordCalendar.getValue();
-            updatedCalendar.set(Calendar.MONTH, value);
-            catchRecordCalendar.setValue(updatedCalendar);
-        });
-        catchRecordCalendar.addSource(inputYear, value -> {
-            Calendar updatedCalendar = catchRecordCalendar.getValue();
-            updatedCalendar.set(Calendar.YEAR, value);
-            catchRecordCalendar.setValue(updatedCalendar);
-        });
-
         reset();
     }
 
     public void recordCatch() {
-        record.record.timeCaught = catchRecordCalendar.getValue();
-        catchRepository.recordCatch(record);
+        catchRepository.recordCatch(catchRecordWithPhotos);
     }
 
-    public void resetCalendar() {
-        catchRecordCalendar.setValue(Calendar.getInstance());
+    public void reset() {
+        catchRecordWithPhotos = new CatchRecordWithPhotos();
+        calendarChanged.setValue(new Event());
     }
 
-    private void reset() {
-        resetCalendar();
-        record = new CatchRecordWithPhotos();
-    }
-
-    public void setYear(int year) {
-        inputYear.setValue(year);
-    }
-
-    public void setMonth(int month) {
-        inputMonth.setValue(month);
-    }
-
-    public void setDay(int day) {
-        inputDay.setValue(day);
-    }
-
-    public void setHour(int hour) {
-        inputHour.setValue(hour);
-    }
-
-    public void setMinute(int minute) {
-        inputMinute.setValue(minute);
-    }
-
-    public void setLake(String lake) {
-        record.record.lake = lake;
+    public void updateCalendar(CalendarField calendarField, int value) {
+        catchRecordWithPhotos.record.timeCaught.set(calendarField.getField(), value);
+        calendarChanged.setValue(new Event());
     }
 
     public LiveData<Integer> getYear() {
-        return Transformations.map(catchRecordCalendar, calendar -> calendar.get(Calendar.YEAR));
+        return currentYear;
     }
+
     public LiveData<Integer> getMonth() {
-        return Transformations.map(catchRecordCalendar, calendar -> calendar.get(Calendar.MONTH));
+        return currentMonth;
     }
+
     public LiveData<Integer> getDay() {
-        return Transformations.map(catchRecordCalendar, calendar -> calendar.get(Calendar.DAY_OF_MONTH));
+        return currentDay;
     }
+
     public LiveData<Integer> getHour() {
-        return Transformations.map(catchRecordCalendar, calendar -> calendar.get(Calendar.HOUR_OF_DAY));
+        return currentHour;
     }
+
     public LiveData<Integer> getMinute() {
-        return Transformations.map(catchRecordCalendar, calendar -> calendar.get(Calendar.MINUTE));
-    }
-
-    public String getLake() {
-        return record.record.lake;
-    }
-
-    public void setFish(String species) {
-        record.record.fish = species;
-    }
-
-    public void setWeight(String weight) {
-        try {
-            record.record.weight = Double.parseDouble(weight);
-        } catch (Exception e) {
-            record.record.weight = 0;
-        }
-    }
-
-    public void setLength(String length) {
-        try {
-            record.record.length = Double.parseDouble(length);
-        } catch (Exception e) {
-            record.record.length = 0;
-        }
-    }
-
-    public void setComments(String comments) {
-        record.record.comments = comments;
-    }
-
-    public void addPhoto(String path) {
-        CatchPhoto newPhoto = new CatchPhoto(path);
-        record.photos.add(newPhoto);
+        return currentMinute;
     }
 
     public LiveData<String> getCatchRecordDate() {
@@ -171,4 +91,59 @@ public class CatchEntryViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Fish>> getAllFish() { return fishRepository.getAllFish(); }
+
+    public String getLake() {
+        return catchRecordWithPhotos.record.lake;
+    }
+
+    public void addPhoto(String path) {
+        CatchPhoto newPhoto = new CatchPhoto(path);
+        catchRecordWithPhotos.photos.add(newPhoto);
+    }
+
+    public void setLake(String lake) {
+        catchRecordWithPhotos.record.lake = lake;
+    }
+
+    public void setFish(String species) {
+        catchRecordWithPhotos.record.fish = species;
+    }
+
+    public void setWeight(String weight) {
+        try {
+            catchRecordWithPhotos.record.weight = Double.parseDouble(weight);
+        } catch (Exception e) {
+            catchRecordWithPhotos.record.weight = 0;
+        }
+    }
+
+    public void setLength(String length) {
+        try {
+            catchRecordWithPhotos.record.length = Double.parseDouble(length);
+        } catch (Exception e) {
+            catchRecordWithPhotos.record.length = 0;
+        }
+    }
+
+    public void setComments(String comments) {
+        catchRecordWithPhotos.record.comments = comments;
+    }
+
+    public enum CalendarField {
+        YEAR (Calendar.YEAR),
+        MONTH (Calendar.MONTH),
+        DAY (Calendar.DAY_OF_MONTH),
+        HOUR (Calendar.HOUR_OF_DAY),
+        MINUTE (Calendar.MINUTE);
+
+        private int field;
+
+        CalendarField(int field) {
+            this.field = field;
+        }
+
+        private int getField() {
+            return field;
+        }
+    }
 }

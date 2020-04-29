@@ -31,13 +31,10 @@ import static android.app.Activity.RESULT_OK;
 public class CameraFragment extends Fragment {
 
     private ImageView pictureTaken;
-    private Button takePictureButton;
     private static final int CAMERA_REQUEST_CODE = 102;
     private String currentPhotoPath;
 
-    public CameraFragment() {
-    }
-
+    public CameraFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,19 +46,12 @@ public class CameraFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         pictureTaken = view.findViewById(R.id.imageTaken);
-        takePictureButton = view.findViewById(R.id.takePictureButton);
-        takePictureButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                takePicture(view);
-            }
-        });
-
+        Button takePictureButton = view.findViewById(R.id.takePictureButton);
+        takePictureButton.setOnClickListener(v -> takePicture(view));
     }
 
     private void takePicture(View view) {
         dispatchTakePictureIntent();
-
     }
 
     @Override
@@ -72,7 +62,6 @@ public class CameraFragment extends Fragment {
             File f = new File(currentPhotoPath);
             Log.d("tag", "Absolute url of image is " + Uri.fromFile(f));
             pictureTaken.setImageURI(Uri.fromFile(f));
-
         }
     }
 

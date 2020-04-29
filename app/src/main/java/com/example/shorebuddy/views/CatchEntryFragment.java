@@ -24,6 +24,7 @@ import com.example.shorebuddy.viewmodels.DateTimeSelectViewModel;
 import com.example.shorebuddy.viewmodels.MainViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.Calendar;
 import java.util.Objects;
 
 import static androidx.navigation.fragment.NavHostFragment.findNavController;
@@ -38,16 +39,8 @@ public class CatchEntryFragment extends Fragment implements AdapterView.OnItemSe
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        MainViewModel mainViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity())).get(MainViewModel.class);
         catchEntryViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity())).get(CatchEntryViewModel.class);
-        String lake;
-        // TODO: REMOVE HIGH PRIORITY, enforce selected lake choice.
-        if (mainViewModel.getCurrentlySelectedLake().getValue() == null) {
-            lake = "Pinecrest Lake";
-        } else {
-            lake = mainViewModel.getCurrentlySelectedLake().getValue().lakeName;
-        }
-        catchEntryViewModel.setLake(lake);
+        setCurrentlySelectedLake();
         dateTimeSelectViewModel = new ViewModelProvider(getActivity()).get(DateTimeSelectViewModel.class);
     }
 
@@ -68,7 +61,20 @@ public class CatchEntryFragment extends Fragment implements AdapterView.OnItemSe
     @Override
     public void onResume() {
         super.onResume();
-        catchEntryViewModel.resetCalendar();
+        catchEntryViewModel.reset();
+        setCurrentlySelectedLake();
+    }
+
+    private void setCurrentlySelectedLake() {
+        MainViewModel mainViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity())).get(MainViewModel.class);
+        String lake;
+        // TODO: REMOVE HIGH PRIORITY, enforce selected lake choice.
+        if (mainViewModel.getCurrentlySelectedLake().getValue() == null) {
+            lake = "Pinecrest Lake";
+        } else {
+            lake = mainViewModel.getCurrentlySelectedLake().getValue().lakeName;
+        }
+        catchEntryViewModel.setLake(lake);
     }
 
     private void setupDateTimeBtn(View rootView) {
@@ -140,11 +146,11 @@ public class CatchEntryFragment extends Fragment implements AdapterView.OnItemSe
     }
 
     private void setupDateTimeBtnObservations() {
-        dateTimeSelectViewModel.getYear().observe(getViewLifecycleOwner(), catchEntryViewModel::setYear);
-        dateTimeSelectViewModel.getMonth().observe(getViewLifecycleOwner(), catchEntryViewModel::setMonth);
-        dateTimeSelectViewModel.getDay().observe(getViewLifecycleOwner(), catchEntryViewModel::setDay);
-        dateTimeSelectViewModel.getHour().observe(getViewLifecycleOwner(), catchEntryViewModel::setHour);
-        dateTimeSelectViewModel.getMinute().observe(getViewLifecycleOwner(), catchEntryViewModel::setMinute);
+        dateTimeSelectViewModel.getYear().observe(getViewLifecycleOwner(), value -> catchEntryViewModel.updateCalendar(CatchEntryViewModel.CalendarField.YEAR, value));
+        dateTimeSelectViewModel.getMonth().observe(getViewLifecycleOwner(), value -> catchEntryViewModel.updateCalendar(CatchEntryViewModel.CalendarField.MONTH, value));
+        dateTimeSelectViewModel.getDay().observe(getViewLifecycleOwner(), value -> catchEntryViewModel.updateCalendar(CatchEntryViewModel.CalendarField.DAY, value));
+        dateTimeSelectViewModel.getHour().observe(getViewLifecycleOwner(), value -> catchEntryViewModel.updateCalendar(CatchEntryViewModel.CalendarField.HOUR, value));
+        dateTimeSelectViewModel.getMinute().observe(getViewLifecycleOwner(), value -> catchEntryViewModel.updateCalendar(CatchEntryViewModel.CalendarField.MINUTE, value));
         catchEntryViewModel.getYear().observe(getViewLifecycleOwner(), year -> dateTimeSelectViewModel.shownYear = year);
         catchEntryViewModel.getMonth().observe(getViewLifecycleOwner(), month -> dateTimeSelectViewModel.shownMonth = month);
         catchEntryViewModel.getDay().observe(getViewLifecycleOwner(), day -> dateTimeSelectViewModel.shownDay = day);
