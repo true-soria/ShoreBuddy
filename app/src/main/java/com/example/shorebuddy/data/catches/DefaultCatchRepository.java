@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.lifecycle.LiveData;
 
 import com.example.shorebuddy.data.ShoreBuddyDatabase;
+import com.example.shorebuddy.data.relationships.CatchRecordWithPhotos;
 
 import java.util.List;
 
@@ -22,8 +23,20 @@ public class DefaultCatchRepository implements CatchRepository {
     }
 
     @Override
-    public void recordCatch(CatchRecord record) {
-        ShoreBuddyDatabase.databaseExecutor.execute(() -> catchesDao.insert(record));
+    public LiveData<CatchRecordWithPhotos> getCatchRecordWithPhotos(int uid) {
+        return catchesDao.getCatchRecordWithPhotos(uid);
+    }
+
+    @Override
+    public void recordCatch(CatchRecordWithPhotos record) {
+        ShoreBuddyDatabase.databaseExecutor.execute(() -> {
+            long rowId = catchesDao.insert(record.record);
+            int newId = catchesDao.getCatchRecordIdFromRow(rowId);
+            for (CatchPhoto photo : record.photos) {
+                photo.catchRecordUid = newId;
+                catchesDao.insert(photo);
+            }
+        });
     }
 
     @Override

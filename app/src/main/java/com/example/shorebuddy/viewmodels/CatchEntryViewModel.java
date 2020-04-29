@@ -9,12 +9,14 @@ import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 
+import com.example.shorebuddy.data.catches.CatchPhoto;
 import com.example.shorebuddy.data.catches.CatchRecord;
 import com.example.shorebuddy.data.catches.CatchRepository;
 import com.example.shorebuddy.data.catches.DefaultCatchRepository;
 import com.example.shorebuddy.data.fish.DefaultFishRepository;
 import com.example.shorebuddy.data.fish.Fish;
 import com.example.shorebuddy.data.fish.FishRepository;
+import com.example.shorebuddy.data.relationships.CatchRecordWithPhotos;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -37,7 +39,7 @@ public class CatchEntryViewModel extends AndroidViewModel {
     private LiveData<String> dateText = Transformations.map(catchRecordCalendar, calendar -> dateFormat.format(calendar.getTime()));
     private LiveData<String> timeText = Transformations.map(catchRecordCalendar, calendar -> timeFormat.format(calendar.getTime()));
 
-    private CatchRecord record;
+    private CatchRecordWithPhotos record;
 
     public CatchEntryViewModel(@NonNull Application application) {
         super(application);
@@ -74,7 +76,7 @@ public class CatchEntryViewModel extends AndroidViewModel {
     }
 
     public void recordCatch() {
-        record.timeCaught = catchRecordCalendar.getValue();
+        record.record.timeCaught = catchRecordCalendar.getValue();
         catchRepository.recordCatch(record);
     }
 
@@ -82,9 +84,9 @@ public class CatchEntryViewModel extends AndroidViewModel {
         catchRecordCalendar.setValue(Calendar.getInstance());
     }
 
-    public void reset() {
+    private void reset() {
         resetCalendar();
-        record = new CatchRecord();
+        record = new CatchRecordWithPhotos();
     }
 
     public void setYear(int year) {
@@ -108,7 +110,7 @@ public class CatchEntryViewModel extends AndroidViewModel {
     }
 
     public void setLake(String lake) {
-        record.lake = lake;
+        record.record.lake = lake;
     }
 
     public LiveData<Integer> getYear() {
@@ -128,31 +130,36 @@ public class CatchEntryViewModel extends AndroidViewModel {
     }
 
     public String getLake() {
-        return record.lake;
+        return record.record.lake;
     }
 
     public void setFish(String species) {
-        record.fish = species;
+        record.record.fish = species;
     }
 
     public void setWeight(String weight) {
         try {
-            record.weight = Double.parseDouble(weight);
+            record.record.weight = Double.parseDouble(weight);
         } catch (Exception e) {
-            record.weight = 0;
+            record.record.weight = 0;
         }
     }
 
     public void setLength(String length) {
         try {
-            record.length = Double.parseDouble(length);
+            record.record.length = Double.parseDouble(length);
         } catch (Exception e) {
-            record.length = 0;
+            record.record.length = 0;
         }
     }
 
     public void setComments(String comments) {
-        record.comments = comments;
+        record.record.comments = comments;
+    }
+
+    public void addPhoto(String path) {
+        CatchPhoto newPhoto = new CatchPhoto(path);
+        record.photos.add(newPhoto);
     }
 
     public LiveData<String> getCatchRecordDate() {
