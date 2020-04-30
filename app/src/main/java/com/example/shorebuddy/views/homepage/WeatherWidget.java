@@ -53,7 +53,8 @@ public class WeatherWidget extends ModuleWidget {
 
     public void setData(Weather weather)
     {
-        setDataAndIcon(weather);
+        setTitle(weather);
+        setIcon(weather);
 
         this.leftProperty.setData(findProperty(weather, leftProperty.getPropertyValueID()));
         this.rightProperty.setData(findProperty(weather,rightProperty.getPropertyValueID()));
@@ -69,7 +70,7 @@ public class WeatherWidget extends ModuleWidget {
         switch (valueID)
         {
             case TEMPERATURE:
-                propertyValue = String.format(Locale.US, "%.2f° F", weather.temperature);
+                propertyValue = String.format(Locale.US, "%.0f° F", weather.temperature);
                 break;
             case PRESSURE:
                 propertyValue = String.format(Locale.US, "%d hPa", weather.pressure);
@@ -103,10 +104,65 @@ public class WeatherWidget extends ModuleWidget {
                     windDirection, Converters.degreesToCardinalDirection(windDirection));
     }
 
-    private void setDataAndIcon(Weather weather)
+    private void setTitle(Weather weather)
     {
-        title = String.format(Locale.US, "%s", weather.description);
-        // TODO pull weather icons into project
-        this.icon = getResources().getDrawable(R.drawable.ic_sunny_day,null);
+        title = String.format(Locale.US, "%s\n%s",
+                weather.description,
+                findProperty(weather, WidgetTextGenerator.propertyValues.TEMPERATURE));
     }
+
+    private void setIcon(Weather weather)
+    {
+        int iconReference = R.drawable.ic_compass_rose;
+
+        switch (weather.iconPath)
+        {
+            case "01d":
+                iconReference = R.drawable.ic_clear_day;
+                break;
+            case "01n":
+                iconReference = R.drawable.ic_clear_night;
+                break;
+            case "02d":
+                iconReference = R.drawable.ic_few_clouds_day;
+                break;
+            case "02n":
+                iconReference = R.drawable.ic_few_clouds_night;
+                break;
+            case "03d":
+            case "03n":
+                iconReference = R.drawable.ic_scattered_clouds;
+                break;
+            case "04d":
+            case "04n":
+                iconReference = R.drawable.ic_broken_clouds;
+                break;
+            case "09d":
+            case "09n":
+                iconReference = R.drawable.ic_shower_rain;
+                break;
+            case "10d":
+                iconReference = R.drawable.ic_rain_day;
+                break;
+            case "10n":
+                iconReference = R.drawable.ic_rain_night;
+                break;
+            case "11d":
+            case "11n":
+                iconReference = R.drawable.ic_thunderstorm;
+                break;
+            case "13d":
+            case "13n":
+                iconReference = R.drawable.ic_snow;
+                break;
+            case "50d":
+            case "50n":
+                iconReference = R.drawable.ic_mist;
+                break;
+        }
+
+        this.icon = getResources().getDrawable(iconReference, null);
+    }
+
+
 }
