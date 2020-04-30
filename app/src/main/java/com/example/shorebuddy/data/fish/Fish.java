@@ -23,4 +23,18 @@ public class Fish {
     public String toString() {
         return species;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        } else if (obj == null) {
+            return false;
+        } else if (obj instanceof Fish) {
+            Fish other = (Fish) obj;
+            return this.species.equals(other.species);
+        } else {
+            return false;
+        }
+    }
 }

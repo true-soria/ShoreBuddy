@@ -24,8 +24,10 @@ import com.example.shorebuddy.viewmodels.DateTimeSelectViewModel;
 import com.example.shorebuddy.viewmodels.MainViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.Calendar;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static androidx.navigation.fragment.NavHostFragment.findNavController;
 
@@ -40,8 +42,8 @@ public class CatchEntryFragment extends Fragment implements AdapterView.OnItemSe
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         catchEntryViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity())).get(CatchEntryViewModel.class);
-        setCurrentlySelectedLake();
         dateTimeSelectViewModel = new ViewModelProvider(getActivity()).get(DateTimeSelectViewModel.class);
+        setCurrentlySelectedLake();
     }
 
     @Override
@@ -54,6 +56,11 @@ public class CatchEntryFragment extends Fragment implements AdapterView.OnItemSe
         setupDateTimeBtn(rootView);
         FloatingActionButton saveBtn = rootView.findViewById(R.id.save_button);
         saveBtn.setOnClickListener(v -> onSaveBtnPressed(rootView));
+        catchEntryViewModel.getModeIcon().observe(getViewLifecycleOwner(), icon -> {
+            saveBtn.setImageDrawable(getResources().getDrawable(icon, null));
+        });
+
+        setupCurrentRecord();
 
         return rootView;
     }
@@ -61,8 +68,20 @@ public class CatchEntryFragment extends Fragment implements AdapterView.OnItemSe
     @Override
     public void onResume() {
         super.onResume();
+        setupCurrentRecord();
+    }
+
+    private void setupCurrentRecord() {
         catchEntryViewModel.reset();
-        setCurrentlySelectedLake();
+        int currentRecord = CatchEntryFragmentArgs.fromBundle(getArguments()).getRecordUid();
+        if (currentRecord != -1) {
+            catchEntryViewModel.findCatchRecord(currentRecord).observe(getViewLifecycleOwner(), record -> {
+                catchEntryViewModel.setLake(record.record.lake);
+                catchEntryViewModel.editRecord(record);
+            });
+        } else {
+            setCurrentlySelectedLake();
+        }
     }
 
     private void setCurrentlySelectedLake() {
@@ -95,7 +114,7 @@ public class CatchEntryFragment extends Fragment implements AdapterView.OnItemSe
 
     private void setupLakeBtn(View rootView) {
         Button button = rootView.findViewById(R.id.caught_lake_btn);
-        button.setText(catchEntryViewModel.getLake());
+        catchEntryViewModel.getLake().observe(getViewLifecycleOwner(), button::setText);
     }
 
     private void onSaveBtnPressed(View v) {
@@ -139,9 +158,19 @@ public class CatchEntryFragment extends Fragment implements AdapterView.OnItemSe
     private void setupFishSpinner(View rootView) {
         Spinner fishSpinner = rootView.findViewById(R.id.fish_species_spinner);
         fishSpinner.setOnItemSelectedListener(this);
-        catchEntryViewModel.getAllFish().observe(getViewLifecycleOwner(), (species) -> {
-            ArrayAdapter<Fish> speciesAdapter = new ArrayAdapter<>(Objects.requireNonNull(getActivity()), android.R.layout.simple_spinner_item, species);
-            fishSpinner.setAdapter(speciesAdapter);
+        List<Fish> fish = new ArrayList<>();
+        ArrayAdapter<Fish> speciesAdapter = new ArrayAdapter<>(Objects.requireNonNull(getActivity()), android.R.layout.simple_spinner_item, fish);
+        catchEntryViewModel.getAllFish().observe(getViewLifecycleOwner(), species -> {
+                    speciesAdapter.clear();
+                    speciesAdapter.addAll(species);
+                    speciesAdapter.notifyDataSetChanged();
+        });
+        fishSpinner.setAdapter(speciesAdapter);
+        catchEntryViewModel.getFish().observe(getViewLifecycleOwner(), currentlySelectedFish -> {
+            if (currentlySelectedFish != null) {
+                int position = speciesAdapter.getPosition(currentlySelectedFish);
+                fishSpinner.setSelection(position);
+            }
         });
     }
 

@@ -5,11 +5,11 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.Index;
-import androidx.room.PrimaryKey;
 
 import org.jetbrains.annotations.NotNull;
 
 @Entity(tableName = "CatchPhotos",
+        primaryKeys = {"path", "catchRecordUid"},
         indices = {@Index(value="catchRecordUid")},
         foreignKeys = {
             @ForeignKey(entity = CatchRecord.class,
@@ -18,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
             onDelete = ForeignKey.CASCADE)
         })
 public class CatchPhoto {
-    @PrimaryKey @NonNull public String path;
+    @NonNull public String path;
     public int catchRecordUid;
 
     public CatchPhoto(@NotNull String path, int catchRecordUid) {

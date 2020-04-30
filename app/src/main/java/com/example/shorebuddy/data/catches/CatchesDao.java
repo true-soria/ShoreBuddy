@@ -35,4 +35,8 @@ public interface CatchesDao {
 
     @Query("SELECT uid from CatchRecords WHERE rowid=:rowId")
     int getCatchRecordIdFromRow(long rowId);
+
+    @Transaction
+    @Query("SELECT * FROM CatchRecords WHERE uid=:uid")
+    CatchRecordWithPhotos getCatchRecordWithPhotosSync(int uid);
 }

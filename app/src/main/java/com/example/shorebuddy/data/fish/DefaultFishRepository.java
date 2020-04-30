@@ -20,4 +20,10 @@ public class DefaultFishRepository implements FishRepository {
     public LiveData<List<Fish>> getAllFish() {
         return fishDao.getAllFish();
     }
+
+    @Override
+    public LiveData<Fish> getFish(String species) {
+        return fishDao.getFish(species);
+    }
+
 }

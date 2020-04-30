@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 import com.example.shorebuddy.data.ShoreBuddyDatabase;
 import com.example.shorebuddy.data.relationships.CatchRecordWithPhotos;
 
+import java.io.UncheckedIOException;
 import java.util.List;
 
 public class DefaultCatchRepository implements CatchRepository {
@@ -28,11 +29,11 @@ public class DefaultCatchRepository implements CatchRepository {
     }
 
     @Override
-    public void recordCatch(CatchRecordWithPhotos record) {
+    public void recordCatch(CatchRecordWithPhotos recordWithPhotos) {
         ShoreBuddyDatabase.databaseExecutor.execute(() -> {
-            long rowId = catchesDao.insert(record.record);
+            long rowId = catchesDao.insert(recordWithPhotos.record);
             int newId = catchesDao.getCatchRecordIdFromRow(rowId);
-            for (CatchPhoto photo : record.photos) {
+            for (CatchPhoto photo : recordWithPhotos.photos) {
                 photo.catchRecordUid = newId;
                 catchesDao.insert(photo);
             }
@@ -45,7 +46,18 @@ public class DefaultCatchRepository implements CatchRepository {
     }
 
     @Override
-    public void updateCatch(CatchRecord record) {
-        ShoreBuddyDatabase.databaseExecutor.execute(() -> catchesDao.update(record));
+    public void updateCatch(CatchRecordWithPhotos recordWithPhotos) {
+        ShoreBuddyDatabase.databaseExecutor.execute(() -> {
+            catchesDao.update(recordWithPhotos.record);
+            for (CatchPhoto photo : recordWithPhotos.photos) {
+                photo.catchRecordUid = recordWithPhotos.record.uid;
+                catchesDao.insert(photo);
+            }
+        });
+    }
+
+    @Override
+    public CatchRecordWithPhotos getCatchRecordWithPhotosSync(int uid) {
+        return catchesDao.getCatchRecordWithPhotosSync(uid);
     }
 }

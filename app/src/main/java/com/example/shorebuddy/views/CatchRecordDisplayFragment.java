@@ -7,14 +7,18 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavDirections;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.shorebuddy.viewmodels.CatchRecordDisplayViewModel;
 import com.example.shorebuddy.R;
+
+import static androidx.navigation.fragment.NavHostFragment.findNavController;
 
 public class CatchRecordDisplayFragment extends Fragment {
 
@@ -42,12 +46,20 @@ public class CatchRecordDisplayFragment extends Fragment {
         catchRecordDisplayViewModel.recordLength.observe(getViewLifecycleOwner(), lengthText::setText);
         TextView commentsText = rootView.findViewById(R.id.comments);
         catchRecordDisplayViewModel.recordComments.observe(getViewLifecycleOwner(), commentsText::setText);
+        Button editButton = rootView.findViewById(R.id.edit_btn);
+        editButton.setOnClickListener(this::onEditClick);
         return rootView;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+    }
+
+    public void onEditClick(View v) {
+        CatchRecordDisplayFragmentDirections.ActionCatchRecordDisplayFragmentToCatchEntryFragment action = CatchRecordDisplayFragmentDirections.actionCatchRecordDisplayFragmentToCatchEntryFragment();
+        action.setRecordUid(catchRecordDisplayViewModel.getRecordUid());
+        findNavController(this).navigate(action);
     }
 
 }

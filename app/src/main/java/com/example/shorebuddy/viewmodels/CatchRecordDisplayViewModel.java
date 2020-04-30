@@ -26,4 +26,8 @@ public class CatchRecordDisplayViewModel extends ViewModel {
     public void setRecord(CatchRecord record) {
         this.record.setValue(record);
     }
+
+    public int getRecordUid() {
+        return record.getValue().uid;
+    }
 }

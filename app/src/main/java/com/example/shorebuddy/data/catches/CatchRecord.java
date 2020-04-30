@@ -28,7 +28,7 @@ import java.util.Calendar;
                                     onDelete = ForeignKey.RESTRICT)})
 public class CatchRecord implements Serializable {
     @PrimaryKey(autoGenerate = true)
-    final int uid;
+    public final int uid;
 
     public String lake;
     public String fish;
