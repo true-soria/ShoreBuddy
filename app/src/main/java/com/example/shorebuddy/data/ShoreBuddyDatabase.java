@@ -86,7 +86,7 @@ public abstract class ShoreBuddyDatabase extends RoomDatabase {
             database.execSQL("PRAGMA foreign_keys=off");
             database.execSQL("BEGIN TRANSACTION");
             database.execSQL("ALTER TABLE CatchPhotos RENAME TO old_catch_photo");
-            database.execSQL("DROP TABLE IF EXISTS index_CatchPhotos_catchRecordUid");
+            database.execSQL("DROP INDEX IF EXISTS index_CatchPhotos_catchRecordUid");
             database.execSQL("CREATE TABLE IF NOT EXISTS CatchPhotos (" +
                     "path TEXT NOT NULL," +
                     "catchRecordUid INTEGER NOT NULL," +

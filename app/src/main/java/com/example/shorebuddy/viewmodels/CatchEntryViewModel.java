@@ -41,7 +41,10 @@ public class CatchEntryViewModel extends AndroidViewModel {
     private LiveData<Integer> currentHour = Transformations.map(recordChanged, event -> catchRecordWithPhotos.record.timeCaught.get(Calendar.HOUR_OF_DAY));
     private LiveData<Integer> currentMinute = Transformations.map(recordChanged, event -> catchRecordWithPhotos.record.timeCaught.get(Calendar.MINUTE));
     private LiveData<String> currentLake = Transformations.map(recordChanged, event -> catchRecordWithPhotos.record.lake);
-    private LiveData<Fish> currentFish = Transformations.switchMap(recordChanged, event -> fishRepository.getFish(catchRecordWithPhotos.record.fish));
+    private LiveData<String> currentFish = Transformations.map(recordChanged, event -> catchRecordWithPhotos.record.fish);
+    private LiveData<Double> currentWeight = Transformations.map(recordChanged, event -> catchRecordWithPhotos.record.weight);
+    private LiveData<Double> currentLength = Transformations.map(recordChanged, event -> catchRecordWithPhotos.record.length);
+    private LiveData<String> currentComments = Transformations.map(recordChanged, event -> catchRecordWithPhotos.record.comments);
     private MutableLiveData<Mode> entryMode = new MutableLiveData<>(Mode.CREATE);
     private LiveData<Integer> modeIcon = Transformations.map(entryMode, mode -> {
         if (mode == Mode.CREATE) {
@@ -122,8 +125,20 @@ public class CatchEntryViewModel extends AndroidViewModel {
         return currentLake;
     }
 
-    public LiveData<Fish> getFish() {
+    public LiveData<String> getFish() {
         return currentFish;
+    }
+
+    public LiveData<Double> getWeight() {
+        return currentWeight;
+    }
+
+    public LiveData<Double> getLength() {
+        return currentLength;
+    }
+
+    public LiveData<String> getComments() {
+        return currentComments;
     }
 
     public void addPhoto(String path) {

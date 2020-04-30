@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
 
@@ -51,7 +52,6 @@ public class CatchEntryFragment extends Fragment implements AdapterView.OnItemSe
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_catch_entry, container, false);
-        setupFishSpinner(rootView);
         setupLakeBtn(rootView);
         setupDateTimeBtn(rootView);
         FloatingActionButton saveBtn = rootView.findViewById(R.id.save_button);
@@ -61,6 +61,14 @@ public class CatchEntryFragment extends Fragment implements AdapterView.OnItemSe
         });
 
         setupCurrentRecord();
+        setupFishSpinner(rootView);
+
+        EditText weightTextBox = rootView.findViewById(R.id.weight_input);
+        EditText lengthTextBox = rootView.findViewById(R.id.length_input);
+        EditText commentsTextBox = rootView.findViewById(R.id.comments_input);
+        catchEntryViewModel.getWeight().observe(getViewLifecycleOwner(), weight -> weightTextBox.setText(weight.toString()));
+        catchEntryViewModel.getLength().observe(getViewLifecycleOwner(), length -> lengthTextBox.setText(length.toString()));
+        catchEntryViewModel.getComments().observe(getViewLifecycleOwner(), commentsTextBox::setText);
 
         return rootView;
     }
@@ -118,12 +126,15 @@ public class CatchEntryFragment extends Fragment implements AdapterView.OnItemSe
     }
 
     private void onSaveBtnPressed(View v) {
-        EditText weight = v.findViewById(R.id.weight_input);
-        EditText length = v.findViewById(R.id.length_input);
-        EditText comments = v.findViewById(R.id.comments_input);
-        catchEntryViewModel.setWeight(weight.getText().toString());
-        catchEntryViewModel.setLength(length.getText().toString());
-        catchEntryViewModel.setComments(comments.getText().toString());
+        EditText weight_input = v.findViewById(R.id.weight_input);
+        EditText length_input = v.findViewById(R.id.length_input);
+        EditText comments_input = v.findViewById(R.id.comments_input);
+        String weight = weight_input.getText().toString();
+        String len = length_input.getText().toString();
+        String comments = comments_input.getText().toString();
+        catchEntryViewModel.setWeight(weight);
+        catchEntryViewModel.setLength(len);
+        catchEntryViewModel.setComments(comments);
         saveCatchRecord();
     }
 
@@ -146,8 +157,8 @@ public class CatchEntryFragment extends Fragment implements AdapterView.OnItemSe
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        Fish fish = (Fish) parent.getItemAtPosition(position);
-        catchEntryViewModel.setFish(fish.species);
+        String fish = (String) parent.getItemAtPosition(position);
+        catchEntryViewModel.setFish(fish);
     }
 
     @Override
@@ -158,20 +169,24 @@ public class CatchEntryFragment extends Fragment implements AdapterView.OnItemSe
     private void setupFishSpinner(View rootView) {
         Spinner fishSpinner = rootView.findViewById(R.id.fish_species_spinner);
         fishSpinner.setOnItemSelectedListener(this);
-        List<Fish> fish = new ArrayList<>();
-        ArrayAdapter<Fish> speciesAdapter = new ArrayAdapter<>(Objects.requireNonNull(getActivity()), android.R.layout.simple_spinner_item, fish);
+        List<String> fish = new ArrayList<>();
+        ArrayAdapter<String> speciesAdapter = new ArrayAdapter<>(Objects.requireNonNull(getActivity()), android.R.layout.simple_spinner_item, fish);
         catchEntryViewModel.getAllFish().observe(getViewLifecycleOwner(), species -> {
                     speciesAdapter.clear();
-                    speciesAdapter.addAll(species);
-                    speciesAdapter.notifyDataSetChanged();
+                    for (Fish currentFish : species) {
+                        speciesAdapter.add(currentFish.species);
+                        speciesAdapter.notifyDataSetChanged();
+                    }
         });
         fishSpinner.setAdapter(speciesAdapter);
-        catchEntryViewModel.getFish().observe(getViewLifecycleOwner(), currentlySelectedFish -> {
-            if (currentlySelectedFish != null) {
-                int position = speciesAdapter.getPosition(currentlySelectedFish);
+        LiveData<String> currentlySelectedFish = catchEntryViewModel.getFish();
+        currentlySelectedFish.observe(getViewLifecycleOwner(), selectedFish -> {
+            if (selectedFish != null) {
+                int position = speciesAdapter.getPosition(selectedFish);
                 fishSpinner.setSelection(position);
             }
         });
+
     }
 
     private void setupDateTimeBtnObservations() {
