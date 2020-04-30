@@ -7,7 +7,6 @@ import androidx.lifecycle.LiveData;
 import com.example.shorebuddy.data.ShoreBuddyDatabase;
 import com.example.shorebuddy.data.relationships.CatchRecordWithPhotos;
 
-import java.io.UncheckedIOException;
 import java.util.List;
 
 public class DefaultCatchRepository implements CatchRepository {

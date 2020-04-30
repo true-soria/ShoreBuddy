@@ -9,7 +9,6 @@ import androidx.room.PrimaryKey;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.Calendar;
-import java.util.Scanner;
 
 @Entity(tableName = "solunar_cache")
 public class Solunar{

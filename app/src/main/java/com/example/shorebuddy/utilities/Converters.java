@@ -3,13 +3,8 @@ package com.example.shorebuddy.utilities;
 import androidx.room.TypeConverter;
 
 import com.google.android.gms.maps.model.LatLng;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 public class Converters {
     @TypeConverter

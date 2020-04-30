@@ -5,7 +5,6 @@ import com.google.android.gms.maps.model.LatLng;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Calendar;
 
 class JSONSolunarParser {
     public static Solunar parse(String str, LatLng location) throws JSONException {
