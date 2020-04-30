@@ -55,9 +55,4 @@ public class DefaultCatchRepository implements CatchRepository {
             }
         });
     }
-
-    @Override
-    public CatchRecordWithPhotos getCatchRecordWithPhotosSync(int uid) {
-        return catchesDao.getCatchRecordWithPhotosSync(uid);
-    }
 }

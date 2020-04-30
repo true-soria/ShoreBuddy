@@ -16,6 +16,4 @@ public interface CatchRepository {
     void deleteCatch(CatchRecord record);
 
     void updateCatch(CatchRecordWithPhotos record);
-
-    CatchRecordWithPhotos getCatchRecordWithPhotosSync(int uid);
 }
