@@ -23,7 +23,7 @@ import com.example.shorebuddy.utilities.Converters;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Lake.class, Fish.class, LakeFishCrossRef.class, CatchRecord.class, CatchPhoto.class}, version = 3, exportSchema = false)
+@Database(entities = {Lake.class, Fish.class, LakeFishCrossRef.class, CatchRecord.class, CatchPhoto.class}, version = 4, exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class ShoreBuddyDatabase extends RoomDatabase {
 
@@ -42,8 +42,7 @@ public abstract class ShoreBuddyDatabase extends RoomDatabase {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             ShoreBuddyDatabase.class, "shore_database")
                             .createFromAsset("ShoreBuddy.db")
-                            .addMigrations(MIGRATION_1_2)
-                            .addMigrations(MIGRATION_2_3)
+                            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
                             .build();
                 }
             }
@@ -78,6 +77,26 @@ public abstract class ShoreBuddyDatabase extends RoomDatabase {
                     "FOREIGN KEY (catchRecordUid) REFERENCES CatchRecords(uid) ON DELETE CASCADE)");
             database.execSQL("CREATE INDEX IF NOT EXISTS index_CatchPhotos_catchRecordUid ON CatchPhotos(catchRecordUid)");
             database.execSQL("DELETE FROM lakes WHERE name='Casitas Lake'");
+        }
+    };
+
+    private static final Migration MIGRATION_3_4 = new Migration(3, 4) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("PRAGMA foreign_keys=off");
+            database.execSQL("BEGIN TRANSACTION");
+            database.execSQL("ALTER TABLE CatchPhotos RENAME TO old_catch_photo");
+            database.execSQL("DROP INDEX IF EXISTS index_CatchPhotos_catchRecordUid");
+            database.execSQL("CREATE TABLE IF NOT EXISTS CatchPhotos (" +
+                    "path TEXT NOT NULL," +
+                    "catchRecordUid INTEGER NOT NULL," +
+                    "FOREIGN KEY (catchRecordUid) REFERENCES CatchRecords(uid) ON DELETE CASCADE," +
+                    "CONSTRAINT pk_catch_photos PRIMARY KEY (path, catchRecordUid))");
+            database.execSQL("INSERT INTO CatchPhotos SELECT * FROM old_catch_photo");
+            database.execSQL("CREATE INDEX IF NOT EXISTS index_CatchPhotos_catchRecordUid ON CatchPhotos(catchRecordUid)");
+            database.execSQL("DROP TABLE old_catch_photo");
+            database.execSQL("COMMIT");
+            database.execSQL("PRAGMA foreign_keys=on");
         }
     };
 }

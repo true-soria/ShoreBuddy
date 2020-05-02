@@ -29,4 +29,7 @@ public interface FishDao {
     @Transaction
     @Query("SELECT * FROM fish WHERE species LIKE :species")
     LiveData<List<FishWithLakes>> findFishWithLakes(String species);
+
+    @Query("SELECT * FROM fish WHERE species=:species")
+    LiveData<Fish> getFish(String species);
 }

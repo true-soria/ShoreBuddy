@@ -37,6 +37,10 @@
         <action
             android:id="@+id/action_catchEntryFragment_to_catchRecordsFragment"
             app:destination="@id/catchRecordsFragment" />
+        <argument
+            android:name="recordUid"
+            app:argType="integer"
+            android:defaultValue="-1" />
     </fragment>
     <dialog
         android:id="@+id/datePickerFragment"
@@ -69,7 +73,11 @@
         android:id="@+id/catchRecordDisplayFragment"
         android:name="com.example.shorebuddy.views.CatchRecordDisplayFragment"
         android:label="catch_record_display_fragment"
-        tools:layout="@layout/catch_record_display_fragment" />
+        tools:layout="@layout/catch_record_display_fragment" >
+        <action
+            android:id="@+id/action_catchRecordDisplayFragment_to_catchEntryFragment"
+            app:destination="@id/catchEntryFragment" />
+    </fragment>
     <fragment
         android:id="@+id/lakeFragment"
         android:name="com.example.shorebuddy.views.LakeFragment"

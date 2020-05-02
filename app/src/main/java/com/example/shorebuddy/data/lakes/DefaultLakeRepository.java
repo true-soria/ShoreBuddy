@@ -10,7 +10,6 @@ import com.example.shorebuddy.data.fish.Fish;
 import com.example.shorebuddy.data.relationships.LakeWithFish;
 import com.example.shorebuddy.utilities.SearchQuery;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DefaultLakeRepository implements LakeRepository {
