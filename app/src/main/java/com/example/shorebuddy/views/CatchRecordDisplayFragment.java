@@ -2,6 +2,7 @@ package com.example.shorebuddy.views;
 
 import androidx.lifecycle.ViewModelProvider;
 
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,11 +13,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.shorebuddy.viewmodels.CatchRecordDisplayViewModel;
 import com.example.shorebuddy.R;
 
+import java.io.File;
 import static androidx.navigation.fragment.NavHostFragment.findNavController;
 
 public class CatchRecordDisplayFragment extends Fragment {
@@ -47,6 +50,8 @@ public class CatchRecordDisplayFragment extends Fragment {
         catchRecordDisplayViewModel.recordComments.observe(getViewLifecycleOwner(), commentsText::setText);
         Button editButton = rootView.findViewById(R.id.edit_btn);
         editButton.setOnClickListener(this::onEditClick);
+        ImageView recordPhoto = rootView.findViewById(R.id.imageTaken);
+       // recordPhoto.setImageURI(Uri.fromFile(new File((String) catchRecordDisplayViewModel.photos.getValue().get(1))));
         return rootView;
     }
 
