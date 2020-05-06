@@ -12,9 +12,9 @@
         android:title="Map"
         app:showAsAction="always" />
     <item
-        android:id="@+id/cameraFragment"
-        android:icon="@drawable/ic_photo_camera"
-        android:title="Camera"
+        android:id="@+id/lakeSelectFragment"
+        android:icon="@drawable/ic_format_list_bulleted"
+        android:title="Lakes"
         app:showAsAction="always" />
 
 

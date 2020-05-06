@@ -21,6 +21,7 @@ import com.example.shorebuddy.viewmodels.CatchRecordDisplayViewModel;
 import com.example.shorebuddy.R;
 
 import java.io.File;
+
 import static androidx.navigation.fragment.NavHostFragment.findNavController;
 
 public class CatchRecordDisplayFragment extends Fragment {
@@ -54,7 +55,7 @@ public class CatchRecordDisplayFragment extends Fragment {
         ImageView recordPhoto = rootView.findViewById(R.id.imageTaken);
         //File f = new File(catchRecordDisplayViewModel.photos.getValue().get(0).toString());
         //Log.d("tag", "Absolute url of image is from record " + Uri.fromFile(f));
-       //recordPhoto.setImageURI(Uri.fromFile(new File(catchRecordDisplayViewModel.photos.getValue().get(1).toString())));
+        //recordPhoto.setImageURI(Uri.fromFile(new File(catchRecordDisplayViewModel.photos.getValue().get(1).toString())));
         return rootView;
     }
 
