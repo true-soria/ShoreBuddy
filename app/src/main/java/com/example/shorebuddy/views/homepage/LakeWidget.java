@@ -78,13 +78,17 @@ public class LakeWidget extends ModuleWidget {
 
     private void setFishingComments(String fishingComments)
     {
+        ViewGroup.LayoutParams params = fishingCommentsText.getLayoutParams();
         if (fishingComments == null)
-            fishingCommentsText.setHeight(0);
+        {
+            params.height = 0;
+        }
         else
         {
-            fishingCommentsText.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+            params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
             fishingCommentsText.setText(String.format(Locale.US, "%s", fishingComments));
         }
+        fishingCommentsText.setLayoutParams(params);
     }
 
     private void setAmenities(Lake lake) {
