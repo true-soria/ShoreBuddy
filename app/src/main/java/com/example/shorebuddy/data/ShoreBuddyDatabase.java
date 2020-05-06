@@ -23,7 +23,7 @@ import com.example.shorebuddy.utilities.Converters;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Lake.class, Fish.class, LakeFishCrossRef.class, CatchRecord.class, CatchPhoto.class}, version = 4, exportSchema = false)
+@Database(entities = {Lake.class, Fish.class, LakeFishCrossRef.class, CatchRecord.class, CatchPhoto.class}, version = 5, exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class ShoreBuddyDatabase extends RoomDatabase {
 
@@ -42,7 +42,7 @@ public abstract class ShoreBuddyDatabase extends RoomDatabase {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             ShoreBuddyDatabase.class, "shore_database")
                             .createFromAsset("ShoreBuddy.db")
-                            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
+                            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5)
                             .build();
                 }
             }
@@ -97,6 +97,29 @@ public abstract class ShoreBuddyDatabase extends RoomDatabase {
             database.execSQL("DROP TABLE old_catch_photo");
             database.execSQL("COMMIT");
             database.execSQL("PRAGMA foreign_keys=on");
+        }
+    };
+
+    private static final Migration MIGRATION_4_5 = new Migration(4, 5) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("PRAGMA foreign_keys=off");
+            database.execSQL("BEGIN TRANSACTION");
+            database.execSQL("ALTER TABLE LakeFishCrossRef RENAME TO old_lake_fish_cross_ref");
+            database.execSQL("DROP INDEX IF EXISTS index_LakeFishCrossRef_species");
+            database.execSQL("CREATE TABLE IF NOT EXISTS LakeFishCrossRef (" +
+                    "name TEXT NOT NULL," +
+                    "species TEXT NOT NULL," +
+                    "FOREIGN KEY (name) REFERENCES lakes(name) ON DELETE CASCADE," +
+                    "FOREIGN KEY (species) REFERENCES fish(species) ON DELETE CASCADE," +
+                    "CONSTRAINT pk_lakefishcrossref PRIMARY KEY (name, species))");
+            database.execSQL("INSERT INTO LakeFishCrossRef SELECT * FROM old_lake_fish_cross_ref");
+            database.execSQL("CREATE INDEX IF NOT EXISTS index_Lake_FishCrossRef_species ON LakeFishCrossRef(species)");
+            database.execSQL("DROP TABLE old_lake_fish_cross_ref");
+            database.execSQL("COMMIT");
+            database.execSQL("PRAGMA foreign_keys=on");
+            database.execSQL("UPDATE lakes SET county='Butte' WHERE name='Sly Creek Reservoir'");
+            database.execSQL("DELETE FROM lakes WHERE name='Casitas Lake'");
         }
     };
 }
