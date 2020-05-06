@@ -3,6 +3,8 @@ package com.example.shorebuddy.viewmodels;
 import android.app.Application;
 import android.view.View;
 import android.widget.AdapterView;
+import android.net.Uri;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;

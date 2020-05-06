@@ -20,11 +20,11 @@ import java.util.Locale;
 import static java.lang.String.*;
 
 public class CatchRecordDisplayViewModel extends AndroidViewModel {
-
-    private CatchRepository catchRepo;
-    private LiveData<CatchRecordWithPhotos> recordWithPhotos = new MutableLiveData<>(new CatchRecordWithPhotos());
-    private LiveData<CatchRecord> record = Transformations.map(recordWithPhotos,r -> r.record);
-    public LiveData<List> photos = Transformations.map(recordWithPhotos, r ->r.photos);
+    private MutableLiveData<CatchRecord> record = new MutableLiveData<>(new CatchRecord());
+//    private CatchRepository catchRepo;
+//    private LiveData<CatchRecordWithPhotos> recordWithPhotos = new MutableLiveData<>(new CatchRecordWithPhotos());
+//    private LiveData<CatchRecord> record = Transformations.map(recordWithPhotos,r -> r.record);
+//    public LiveData<List> photos = Transformations.map(recordWithPhotos, r ->r.photos);
     public LiveData<String> recordSpecies = Transformations.map(record, r -> r.fish);
     public LiveData<String> recordLake = Transformations.map(record, r -> r.lake);
     public LiveData<String> recordWeight = Transformations.map(record, r -> format(Locale.US, "%f", r.weight));
@@ -36,11 +36,12 @@ public class CatchRecordDisplayViewModel extends AndroidViewModel {
 
     public CatchRecordDisplayViewModel(@NonNull Application application) {
         super(application);
-        catchRepo = new DefaultCatchRepository(application);
+        //catchRepo = new DefaultCatchRepository(application);
     }
 
     public void setRecord(CatchRecord record) {
-        this.recordWithPhotos=catchRepo.getCatchRecordWithPhotos(record.uid);
+        this.record.setValue(record);
+        //this.recordWithPhotos=catchRepo.getCatchRecordWithPhotos(record.uid);
     }
 
     public int getRecordUid() {

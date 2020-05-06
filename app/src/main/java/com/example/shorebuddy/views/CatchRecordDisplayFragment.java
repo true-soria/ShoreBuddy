@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,7 +52,9 @@ public class CatchRecordDisplayFragment extends Fragment {
         Button editButton = rootView.findViewById(R.id.edit_btn);
         editButton.setOnClickListener(this::onEditClick);
         ImageView recordPhoto = rootView.findViewById(R.id.imageTaken);
-       // recordPhoto.setImageURI(Uri.fromFile(new File((String) catchRecordDisplayViewModel.photos.getValue().get(1))));
+        //File f = new File(catchRecordDisplayViewModel.photos.getValue().get(0).toString());
+        //Log.d("tag", "Absolute url of image is from record " + Uri.fromFile(f));
+       //recordPhoto.setImageURI(Uri.fromFile(new File(catchRecordDisplayViewModel.photos.getValue().get(1).toString())));
         return rootView;
     }
 

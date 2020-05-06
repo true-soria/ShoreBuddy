@@ -71,10 +71,48 @@ public class LakeFragment extends Fragment {
                 mapAPI.addMarker(new MarkerOptions().position(currentLake.getLatLng()).title(currentLake.lakeName));
             }
         });
-        //renderFishInLake(rootView);
+        renderFishInLake(rootView);
         renderSelectedLake(rootView);
         setupLakeSelectBtn(rootView);
+        renderElevationInLake(rootView);
+        renderFishComments(rootView);
+        renderBoatRamp(rootView);
+        renderFuel(rootView);
+        restRoomInLake(rootView);
+        wheelChairAccess(rootView);
         return rootView;
+    }
+
+    private void wheelChairAccess(@NotNull View rootView){
+        TextView wheelChairView = rootView.findViewById(R.id.wheelChairTextView);
+        String wheelChairRampPresent = (mainViewModel.getCurrentlySelectedLake().getValue().wheelChairAccess == true) ? "Yes" : "No";
+        wheelChairView.setText(String.format("Wheel Chair Access: %s\n",wheelChairRampPresent));
+    }
+    private void restRoomInLake(@NotNull View rootView){
+        TextView bathRoomView = rootView.findViewById(R.id.bathRoomTextView);
+        String bathRoomPresent = (mainViewModel.getCurrentlySelectedLake().getValue().restroom == true) ? "Yes" : "No";
+        bathRoomView.setText(String.format("Restroom Present: %s\n",bathRoomPresent));
+    }
+
+    private void renderFuel(@NotNull View rootView){
+        TextView fuelView = rootView.findViewById(R.id.fuelTextView);
+        String fuelStationPresent = (mainViewModel.getCurrentlySelectedLake().getValue().fuel == true)? "Yes" : "No";
+        fuelView.setText(String.format("Fuel Station: %s\n",fuelStationPresent));
+    }
+    private void renderElevationInLake(@NotNull View rootView){
+        TextView elevationView = rootView.findViewById(R.id.elevationTextView);
+        elevationView.setText(String.format("Elevation: %s\n", mainViewModel.getCurrentlySelectedLake().getValue().elevation));
+    }
+
+    private void renderFishComments(@NotNull View rootView){
+        TextView fishCommentView = rootView.findViewById(R.id.fishCommentTextView);
+        fishCommentView.setText(String.format("Fishing Comments: %s\n",mainViewModel.getCurrentlySelectedLake().getValue().fishingComments));
+    }
+
+    private void renderBoatRamp(@NotNull View rootView){
+        TextView  boatRampView = rootView.findViewById(R.id.boatRampTextView);
+        String boatRampPresent = (mainViewModel.getCurrentlySelectedLake().getValue().boatramp == true) ? "Yes" : "No";
+        boatRampView.setText(String.format("Boat Ramp Present: %s \n",boatRampPresent));
     }
 
 
@@ -82,7 +120,7 @@ public class LakeFragment extends Fragment {
         TextView fishTextView = rootView.findViewById(R.id.fishList_Text);
         mainViewModel.getFishInCurrentLake().observe(getViewLifecycleOwner(), fishInLake -> {
             String fishText = createFishText(fishInLake);
-            fishTextView.setText(String.format("Fish Species Present:\n%s", fishText));
+            fishTextView.setText(String.format("Fish Species Present: %s \n", fishText));
         });
     }
 

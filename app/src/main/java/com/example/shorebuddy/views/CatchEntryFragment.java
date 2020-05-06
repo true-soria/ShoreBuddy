@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.shorebuddy.R;
 import com.example.shorebuddy.data.fish.Fish;
 import com.example.shorebuddy.databinding.FragmentCatchEntryBinding;
 import com.example.shorebuddy.viewmodels.CatchEntryViewModel;
@@ -98,7 +99,7 @@ public class CatchEntryFragment extends Fragment implements CatchEntryViewModel.
             }
         });
 
-        pictureTaken = rootView.findViewById(R.id.imageTaken);
+        pictureTaken = binding.imageTaken;
         return binding.getRoot();
     }
 
@@ -168,8 +169,12 @@ public class CatchEntryFragment extends Fragment implements CatchEntryViewModel.
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
             File f = new File(currentPhotoPath);
-            Log.d("tag", "Absolute url of image is " + Uri.fromFile(f));
-            pictureTaken.setImageURI(Uri.fromFile(f));
+            Log.d("tag", "Absolute url of image is catch entry " + currentPhotoPath);
+            if (currentPhotoPath != null) {
+                catchEntryViewModel.addPhoto(currentPhotoPath);
+                pictureTaken.setImageURI(Uri.fromFile(f));
+            }
+
         }
     }
 
@@ -204,6 +209,7 @@ public class CatchEntryFragment extends Fragment implements CatchEntryViewModel.
 
     private void onSaveBtnPressed() {
         if (binding.fishSpeciesSpinner.getSelectedItemPosition() != 0) {
+            if(currentPhotoPath !=null){catchEntryViewModel.addPhoto(currentPhotoPath);}
             saveCatchRecord();
             setupCurrentRecord();
         } else {
