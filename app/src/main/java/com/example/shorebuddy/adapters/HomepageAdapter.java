@@ -55,6 +55,7 @@ public class HomepageAdapter extends RecyclerView.Adapter<HomepageAdapter.HomeVi
         String title = widget.getTitle();
         holder.icon.setImageDrawable(icon);
         holder.title.setText(title);
+
         ViewGroup parent = ((ViewGroup) widget.getParent());
         if (parent != null) {
             parent.removeView(widget);

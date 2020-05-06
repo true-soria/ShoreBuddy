@@ -24,6 +24,7 @@ import java.util.Objects;
 public class HomepageView extends Fragment {
 
     private LakeWidget lakeWidget;
+    private FishWidget fishWidget;
     private SolunarWidget solunarWidget;
     private WeatherWidget weatherWidget;
     private MainViewModel mainViewModel;
@@ -33,6 +34,7 @@ public class HomepageView extends Fragment {
         super.onCreate(savedInstanceState);
         mainViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity())).get(MainViewModel.class);
         lakeWidget = new LakeWidget(getContext());
+        fishWidget = new FishWidget(getContext());
         solunarWidget = new SolunarWidget(getContext());
         weatherWidget = new WeatherWidget(getContext());
     }
@@ -40,6 +42,7 @@ public class HomepageView extends Fragment {
     private List<ModuleWidget> getWidgets() {
         List<ModuleWidget> list = new ArrayList<>();
         list.add(lakeWidget);
+        list.add(fishWidget);
         list.add(weatherWidget);
         list.add(solunarWidget);
         return list;
@@ -60,11 +63,12 @@ public class HomepageView extends Fragment {
         HomepageAdapter adapter = new HomepageAdapter(getWidgets());
 
         mainViewModel.getCurrentlySelectedLake().observe(getViewLifecycleOwner(), currentLake -> {
-                lakeWidget.setTitle(String.format("%s", currentLake.lakeName));
+                lakeWidget.setData(currentLake);
                 adapter.setWidgets(getWidgets());
         });
+
         mainViewModel.getFishInCurrentLake().observe(getViewLifecycleOwner(), fish -> {
-            lakeWidget.setData(fish);
+            fishWidget.setData(fish);
             adapter.setWidgets(getWidgets());
         });
 

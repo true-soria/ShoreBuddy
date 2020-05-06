@@ -3,13 +3,12 @@ package com.example.shorebuddy.views.homepage;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.shorebuddy.R;
-import com.example.shorebuddy.data.fish.Fish;
-
-import java.util.Iterator;
-import java.util.List;
+import com.example.shorebuddy.data.lakes.Lake;
 import java.util.Locale;
 
 public class LakeWidget extends ModuleWidget {
@@ -17,11 +16,17 @@ public class LakeWidget extends ModuleWidget {
     static final String LAKE = "lake";
     private Drawable icon;
     private String title;
-    private final int FISH_DISPLAYED = 8;
 
-    private final TextView leftProperty;
-    private final TextView rightProperty;
+    private final TextView countyText;
 
+    private final ImageView boatRampTickbox;
+    private final ImageView wheelchairTickbox;
+    private final ImageView fuelTickbox;
+    private final ImageView restroomTickbox;
+    private final Drawable checkMark;
+
+    private final TextView elevationText;
+    private final TextView fishingCommentsText;
 
     public LakeWidget(Context context) {
         this(context, null);
@@ -35,10 +40,18 @@ public class LakeWidget extends ModuleWidget {
         super(context, attrs, defStyleAttr);
         inflate(getContext(), R.layout.lake_widget, this);
 
-        leftProperty = findViewById(R.id.left_property);
-        rightProperty = findViewById(R.id.right_property);
+        countyText = findViewById(R.id.county);
+
+        boatRampTickbox = findViewById(R.id.boat_ramp_tickbox);
+        wheelchairTickbox = findViewById(R.id.wheelchair_tickbox);
+        fuelTickbox = findViewById(R.id.fuel_tickbox);
+        restroomTickbox = findViewById(R.id.restroom_tickbox);
+
+        elevationText = findViewById(R.id.lake_elevation);
+        fishingCommentsText = findViewById(R.id.fishing_comments);
 
         // TODO Shore Buddy / Lake icon
+        checkMark = getResources().getDrawable(R.drawable.ic_check_mark,null);
         this.icon = getResources().getDrawable(R.drawable.ic_compass_rose,null);
         this.title = String.format(Locale.US, "%s", LAKE);
     }
@@ -53,45 +66,39 @@ public class LakeWidget extends ModuleWidget {
         return title;
     }
 
-    public void setData(List<Fish> fishList){
-        setFish(fishList);
+    public void setData(Lake lake){
+        this.title = lake.lakeName;
+        setAmenities(lake);
+
+        countyText.setText(String.format(Locale.US, "%s County", lake.county));
+        elevationText.setText(String.format(Locale.US, "%s ft Elevation", lake.elevation));
+        setFishingComments(lake.fishingComments);
+
     }
 
-    public void setTitle(String title) {this.title = title; }
-
-    private void setFish(List<Fish> fishList)
+    private void setFishingComments(String fishingComments)
     {
-        Iterator<Fish> fishIterator = fishList.iterator();
-        StringBuilder leftPropertyFish = new StringBuilder();
-        StringBuilder rightPropertyFish = new StringBuilder();
-        String NO_FISH_LIST = "\tNo fish available";
-
-        for (int i = 0; (i < FISH_DISPLAYED/2) && fishIterator.hasNext(); i ++)
-        {
-            leftPropertyFish.append("\t• ");
-            leftPropertyFish.append(fishIterator.next());
-            leftPropertyFish.append("\n");
-        }
-        if (fishList.isEmpty())
-            leftPropertyFish.append(NO_FISH_LIST);
+        if (fishingComments == null)
+            fishingCommentsText.setHeight(0);
         else
-            leftPropertyFish.deleteCharAt(leftPropertyFish.length() - 1);
-
-
-        for (int i = 0; (i < FISH_DISPLAYED/2) && fishIterator.hasNext(); i ++)
         {
-            rightPropertyFish.append("\t•");
-            rightPropertyFish.append(fishIterator.next());
-            rightPropertyFish.append("\n");
+            fishingCommentsText.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+            fishingCommentsText.setText(String.format(Locale.US, "%s", fishingComments));
         }
+    }
 
-        if (fishIterator.hasNext())
-        {
-            leftPropertyFish.append("\n");
-            rightPropertyFish.append("\t...");
-        }
+    private void setAmenities(Lake lake) {
+        this.boatRampTickbox.setImageDrawable(applyCheckMark(lake.boatramp));
+        this.wheelchairTickbox.setImageDrawable(applyCheckMark(lake.wheelChairAccess));
+        this.fuelTickbox.setImageDrawable(applyCheckMark(lake.fuel));
+        this.restroomTickbox.setImageDrawable(applyCheckMark(lake.restroom));
+    }
 
-        this.leftProperty.setText(String.format(Locale.US, "%s", leftPropertyFish));
-        this.rightProperty.setText(String.format(Locale.US, "%s", rightPropertyFish));
+    private Drawable applyCheckMark(boolean canApply)
+    {
+        if (canApply)
+            return checkMark;
+        else
+            return null;
     }
 }

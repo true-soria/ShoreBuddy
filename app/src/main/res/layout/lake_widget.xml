@@ -6,37 +6,177 @@
     android:id="@+id/lake_widget_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    style="@style/widget_text"
-    tools:context=".views.homepage.SolunarWidget"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintBottom_toBottomOf="parent">
+    tools:context=".views.homepage.LakeWidget">
 
     <TextView
-        android:id="@+id/left_property"
-        android:layout_width="0dp"
+        android:id="@+id/county"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/app_name"
-        android:gravity="start|top"
+        android:gravity="center"
         style="@style/generic_text"
-        app:layout_constraintHorizontal_chainStyle="spread"
-        app:layout_constraintHorizontal_weight="1"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/amenities_section1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/amenities_section1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/county"
+        app:layout_constraintBottom_toTopOf="@id/amenities_section2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/boat_ramp_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/boat_ramp"
+            android:gravity="center"
+            android:layout_margin="4dp"
+            style="@style/generic_text"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintHorizontal_weight="6"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/boat_ramp_tickbox"/>
+
+        <ImageView
+            android:id="@+id/boat_ramp_tickbox"
+            android:layout_height="0dp"
+            android:layout_width="0dp"
+            android:layout_margin="8dp"
+            android:contentDescription="@string/missing_icon"
+            android:background="@drawable/ic_check_box"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/boat_ramp_text"
+            app:layout_constraintEnd_toStartOf="@id/wheelchair_text"
+            app:layout_constraintHorizontal_weight="1" />
+
+        <TextView
+            android:id="@+id/wheelchair_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/wheelchair_access"
+            android:gravity="center"
+            style="@style/generic_text"
+            app:layout_constraintHorizontal_weight="6"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/boat_ramp_tickbox"
+            app:layout_constraintEnd_toStartOf="@id/wheelchair_tickbox"/>
+
+        <ImageView
+            android:id="@+id/wheelchair_tickbox"
+            android:layout_height="0dp"
+            android:layout_width="0dp"
+            android:layout_margin="8dp"
+            android:contentDescription="@string/missing_icon"
+            android:background="@drawable/ic_check_box"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/wheelchair_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="1" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/amenities_section2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/amenities_section1"
+        app:layout_constraintBottom_toTopOf="@id/lake_elevation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/fuel_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/fuel"
+            android:gravity="center"
+            android:layout_margin="4dp"
+            style="@style/generic_text"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintHorizontal_weight="6"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/fuel_tickbox"/>
+
+        <ImageView
+            android:id="@+id/fuel_tickbox"
+            android:layout_height="0dp"
+            android:layout_width="0dp"
+            android:layout_margin="8dp"
+            android:contentDescription="@string/missing_icon"
+            android:background="@drawable/ic_check_box"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/fuel_text"
+            app:layout_constraintEnd_toStartOf="@id/restroom_text"
+            app:layout_constraintHorizontal_weight="1" />
+
+        <TextView
+            android:id="@+id/restroom_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/restroom"
+            android:gravity="center"
+            style="@style/generic_text"
+            app:layout_constraintHorizontal_weight="6"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/fuel_tickbox"
+            app:layout_constraintEnd_toStartOf="@id/restroom_tickbox"/>
+
+        <ImageView
+            android:id="@+id/restroom_tickbox"
+            android:layout_height="0dp"
+            android:layout_width="0dp"
+            android:layout_margin="8dp"
+            android:contentDescription="@string/missing_icon"
+            android:background="@drawable/ic_check_box"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/restroom_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="1" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/lake_elevation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:gravity="center"
+        android:layout_margin="4dp"
+        style="@style/generic_text"
+        app:layout_constraintTop_toBottomOf="@id/amenities_section2"
+        app:layout_constraintBottom_toTopOf="@id/fishing_comments"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/fishing_comments"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_margin="4dp"
+        style="@style/widget_text"
+        app:layout_constraintTop_toBottomOf="@id/lake_elevation"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/right_property"/>
-
-    <TextView
-        android:id="@+id/right_property"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/app_name"
-        android:gravity="start|top"
-        style="@style/generic_text"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/left_property"/>
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
