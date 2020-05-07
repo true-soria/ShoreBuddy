@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#005B85</color>
+    <color name="colorPrimary">#002757</color>
     <color name="colorPrimaryDark">#002757</color>
     <color name="colorAccent">#2ED81B</color>
-    <color name="colorBackgroundGray">#C8C3C3</color>
+    <color name="colorBackgroundWidgets">#2E8B57</color>
     <color name="colorWeatherIconBG">#60A1BF</color>
     <color name="colorTextOpaque">#595959</color>
     <color name="colorGenericText">#000000</color>
-    <color name="colorGlobalBackground">#FFFFFF</color>
+    <color name="colorWidgetBackground">#FFF</color>
 </resources>

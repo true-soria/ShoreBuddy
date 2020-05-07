@@ -16,7 +16,7 @@
         android:id="@+id/sol_property1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorGlobalBackground"
+        android:backgroundTint="@color/colorWidgetBackground"
         app:property_name="@string/moon_minor1"
         app:property_value="minor_1"
         app:layout_constraintTop_toTopOf="parent"/>
@@ -25,7 +25,7 @@
         android:id="@+id/sol_property2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorGlobalBackground"
+        android:backgroundTint="@color/colorWidgetBackground"
         app:property_name="@string/moon_minor2"
         app:property_value="minor_2"
         app:layout_constraintTop_toBottomOf="@id/sol_property1"/>
@@ -34,7 +34,7 @@
         android:id="@+id/sol_property3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorGlobalBackground"
+        android:backgroundTint="@color/colorWidgetBackground"
         app:property_name="@string/moon_major1"
         app:property_value="major_1"
         app:layout_constraintTop_toBottomOf="@id/sol_property2"/>
@@ -43,7 +43,7 @@
         android:id="@+id/sol_property4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorGlobalBackground"
+        android:backgroundTint="@color/colorWidgetBackground"
         android:layout_marginBottom="8dp"
         app:property_name="@string/moon_major2"
         app:property_value="major_2"

@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">ShoreBuddy</string>
     <string name="select_lake">Select Lake</string>
+    <string name="boat_ramp">Boat Ramp</string>
+    <string name="wheelchair_access">Wheelchair Access</string>
+    <string name="fuel">Fuel</string>
+    <string name="restroom">Restroom</string>
     <string name="update_weather">Update Weather</string>
     <string name="pressure">Pressure:</string>
     <string name="humidity">Humidity:</string>
