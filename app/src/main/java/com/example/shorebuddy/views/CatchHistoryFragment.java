@@ -25,7 +25,8 @@ public class CatchHistoryFragment extends Fragment implements CatchRecordAdapter
     private CatchHistoryViewModel catchHistoryViewModel;
     private CatchRecordAdapter catchRecordAdapter;
 
-    public CatchHistoryFragment() {}
+    public CatchHistoryFragment() {
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

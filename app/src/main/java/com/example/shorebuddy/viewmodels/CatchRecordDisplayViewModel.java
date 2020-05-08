@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 
+import com.example.shorebuddy.data.catches.CatchPhoto;
 import com.example.shorebuddy.data.catches.CatchRecord;
 import com.example.shorebuddy.data.catches.CatchRepository;
 import com.example.shorebuddy.data.catches.DefaultCatchRepository;
@@ -20,11 +21,11 @@ import java.util.Locale;
 import static java.lang.String.*;
 
 public class CatchRecordDisplayViewModel extends AndroidViewModel {
-    //private MutableLiveData<CatchRecord> record = new MutableLiveData<>(new CatchRecord());
+
     private CatchRepository catchRepo;
     private LiveData<CatchRecordWithPhotos> recordWithPhotos = new MutableLiveData<>(new CatchRecordWithPhotos());
     private LiveData<CatchRecord> record = Transformations.map(recordWithPhotos, r -> r.record);
-    public LiveData<List> photos = Transformations.map(recordWithPhotos, r -> r.photos);
+    public LiveData<List<CatchPhoto>> photos = Transformations.map(recordWithPhotos, r -> r.photos);
     public LiveData<String> recordSpecies = Transformations.map(record, r -> r.fish);
     public LiveData<String> recordLake = Transformations.map(record, r -> r.lake);
     public LiveData<String> recordWeight = Transformations.map(record, r -> format(Locale.US, "%f", r.weight));
@@ -40,7 +41,6 @@ public class CatchRecordDisplayViewModel extends AndroidViewModel {
     }
 
     public void setRecord(CatchRecord record) {
-        //this.record.setValue(record);
         //this.recordWithPhotos = catchRepo.getCatchRecordWithPhotos(record.uid);
         this.recordWithPhotos.getValue().record = record;
     }

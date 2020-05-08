@@ -53,9 +53,9 @@ public class CatchRecordDisplayFragment extends Fragment {
         Button editButton = rootView.findViewById(R.id.edit_btn);
         editButton.setOnClickListener(this::onEditClick);
         ImageView recordPhoto = rootView.findViewById(R.id.imageTaken);
-        //File f = new File(catchRecordDisplayViewModel.photos.getValue().get(0).toString());
+        // File f = new File(catchRecordDisplayViewModel.photos.getValue().get(0).path);
         //Log.d("tag", "Absolute url of image is from record " + Uri.fromFile(f));
-        //recordPhoto.setImageURI(Uri.fromFile(new File(catchRecordDisplayViewModel.photos.getValue().get(1).toString())));
+        //recordPhoto.setImageURI(Uri.fromFile(f));
         return rootView;
     }
 

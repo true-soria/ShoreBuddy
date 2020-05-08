@@ -179,9 +179,9 @@ public class CatchEntryFragment extends Fragment implements CatchEntryViewModel.
                 catchEntryViewModel.addPhoto(currentPhotoPath);
                 imagePaths.add(currentPhotoPath);
                 pictureTaken.setImageURI(Uri.fromFile(f));
-                ImageAdapter imageAdapter = new ImageAdapter(getContext(),imagePaths);
+                ImageAdapter imageAdapter = new ImageAdapter(getContext(), imagePaths);
                 viewPager.setAdapter(imageAdapter);
-                Toast.makeText(getContext(),"Picture has been added",Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Picture has been added", Toast.LENGTH_LONG).show();
             }
 
         }
