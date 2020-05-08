@@ -41,7 +41,8 @@ public class CatchRecordDisplayViewModel extends AndroidViewModel {
 
     public void setRecord(CatchRecord record) {
         //this.record.setValue(record);
-        this.recordWithPhotos = catchRepo.getCatchRecordWithPhotos(record.uid);
+        //this.recordWithPhotos = catchRepo.getCatchRecordWithPhotos(record.uid);
+        this.recordWithPhotos.getValue().record = record;
     }
 
     public int getRecordUid() {

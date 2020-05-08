@@ -144,6 +144,36 @@
             app:layout_constraintBaseline_toBaselineOf="@id/length_input"
             app:layout_constraintStart_toEndOf="@id/length_input" />
 
+
+        <Button
+            android:id="@+id/cameraButton"
+            android:text="Add Picture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_gravity="center"
+            app:layout_constraintTop_toBottomOf="@id/length_input"
+            app:layout_constraintBottom_toTopOf="@id/imageTaken"/>
+
+        <ImageView
+            android:id="@+id/imageTaken"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@mipmap/ic_launcher"
+            app:layout_constraintBottom_toTopOf="@id/imageSlider"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imageSlider"/>
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/imageSlider"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageTaken"
+            app:layout_constraintBottom_toTopOf="@id/comments_label"/>
+
         <TextView
             android:id="@+id/comments_label"
             android:layout_width="wrap_content"
@@ -153,7 +183,8 @@
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/length_input" />
+            app:layout_constraintTop_toBottomOf="@id/imageSlider"
+            app:layout_constraintBottom_toTopOf="@id/comments_label"/>
 
         <EditText
             android:id="@+id/comments_input"
@@ -170,26 +201,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/comments_label" />
-        <Button
-            android:id="@+id/cameraButton"
-            android:text="Add Picture"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_gravity="center"
-            app:layout_constraintTop_toBottomOf="@id/imageTaken"
-            app:layout_constraintBottom_toBottomOf="parent"/>
 
-        <ImageView
-            android:id="@+id/imageTaken"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@mipmap/ic_launcher"
-            app:layout_constraintBottom_toTopOf="@id/cameraButton"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/comments_input"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/save_button"

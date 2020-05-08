@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
+import androidx.viewpager.widget.ViewPager;
 
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -27,6 +28,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.shorebuddy.R;
+import com.example.shorebuddy.adapters.ImageAdapter;
 import com.example.shorebuddy.data.fish.Fish;
 import com.example.shorebuddy.databinding.FragmentCatchEntryBinding;
 import com.example.shorebuddy.viewmodels.CatchEntryViewModel;
@@ -53,6 +55,8 @@ public class CatchEntryFragment extends Fragment implements CatchEntryViewModel.
     private ImageView pictureTaken;
     private static final int CAMERA_REQUEST_CODE = 102;
     private String currentPhotoPath;
+    private ArrayList<String> imagePaths = new ArrayList<>();
+    private ViewPager viewPager;
 
     public CatchEntryFragment() {}
 
@@ -100,6 +104,7 @@ public class CatchEntryFragment extends Fragment implements CatchEntryViewModel.
         });
 
         pictureTaken = binding.imageTaken;
+        viewPager = binding.imageSlider;
         return binding.getRoot();
     }
 
@@ -172,7 +177,11 @@ public class CatchEntryFragment extends Fragment implements CatchEntryViewModel.
             Log.d("tag", "Absolute url of image is catch entry " + currentPhotoPath);
             if (currentPhotoPath != null) {
                 catchEntryViewModel.addPhoto(currentPhotoPath);
+                imagePaths.add(currentPhotoPath);
                 pictureTaken.setImageURI(Uri.fromFile(f));
+                ImageAdapter imageAdapter = new ImageAdapter(getContext(),imagePaths);
+                viewPager.setAdapter(imageAdapter);
+                Toast.makeText(getContext(),"Picture has been added",Toast.LENGTH_LONG).show();
             }
 
         }
