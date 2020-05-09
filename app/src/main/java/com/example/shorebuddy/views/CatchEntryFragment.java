@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
 
@@ -12,16 +13,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.shorebuddy.R;
 import com.example.shorebuddy.data.fish.Fish;
+import com.example.shorebuddy.databinding.FragmentCatchEntryBinding;
 import com.example.shorebuddy.viewmodels.CatchEntryViewModel;
 import com.example.shorebuddy.viewmodels.DateTimeSelectViewModel;
+import com.example.shorebuddy.viewmodels.LakeSelect.LakeSelectResultViewModel;
 import com.example.shorebuddy.viewmodels.MainViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -31,63 +33,59 @@ import java.util.Objects;
 
 import static androidx.navigation.fragment.NavHostFragment.findNavController;
 
-public class CatchEntryFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+public class CatchEntryFragment extends Fragment {
     private CatchEntryViewModel catchEntryViewModel;
     private DateTimeSelectViewModel dateTimeSelectViewModel;
+    private FragmentCatchEntryBinding binding;
 
-    public CatchEntryFragment() {
-    }
+    public CatchEntryFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         catchEntryViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity())).get(CatchEntryViewModel.class);
         dateTimeSelectViewModel = new ViewModelProvider(getActivity()).get(DateTimeSelectViewModel.class);
-        setCurrentlySelectedLake();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_catch_entry, container, false);
-        setupLakeBtn(rootView);
-        setupDateTimeBtn(rootView);
-        FloatingActionButton saveBtn = rootView.findViewById(R.id.save_button);
-        saveBtn.setOnClickListener(v -> onSaveBtnPressed(rootView));
-        catchEntryViewModel.getModeIcon().observe(getViewLifecycleOwner(), icon -> {
-            saveBtn.setImageDrawable(getResources().getDrawable(icon, null));
-        });
-
         setupCurrentRecord();
-        setupFishSpinner(rootView);
+        binding = FragmentCatchEntryBinding.inflate(inflater, container, false);
+        setupLakeBtn();
+        setupDateTimeBtn();
+        setupFishSpinner();
 
-        EditText weightTextBox = rootView.findViewById(R.id.weight_input);
-        EditText lengthTextBox = rootView.findViewById(R.id.length_input);
-        EditText commentsTextBox = rootView.findViewById(R.id.comments_input);
-        catchEntryViewModel.getWeight().observe(getViewLifecycleOwner(), weight -> weightTextBox.setText(weight.toString()));
-        catchEntryViewModel.getLength().observe(getViewLifecycleOwner(), length -> lengthTextBox.setText(length.toString()));
-        catchEntryViewModel.getComments().observe(getViewLifecycleOwner(), commentsTextBox::setText);
+        FloatingActionButton saveBtn = binding.saveButton;
+        saveBtn.setOnClickListener(v -> onSaveBtnPressed());
+        catchEntryViewModel.getModeIcon().observe(getViewLifecycleOwner(), icon ->
+                saveBtn.setImageDrawable(getResources().getDrawable(icon, null)));
 
-        return rootView;
+        catchEntryViewModel.getWeight().observe(getViewLifecycleOwner(), weight -> binding.weightInput.setText(weight));
+        catchEntryViewModel.getLength().observe(getViewLifecycleOwner(), length -> binding.lengthInput.setText(length.toString()));
+        catchEntryViewModel.getComments().observe(getViewLifecycleOwner(), comments -> binding.commentsInput.setText(comments));
+
+        return binding.getRoot();
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        setupCurrentRecord();
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding.fishSpeciesSpinner.setOnItemSelectedListener(null);
+        binding = null;
     }
 
     private void setupCurrentRecord() {
-        catchEntryViewModel.reset();
         int currentRecord = CatchEntryFragmentArgs.fromBundle(getArguments()).getRecordUid();
-        if (currentRecord != -1) {
+        if (currentRecord > -1) {
             catchEntryViewModel.findCatchRecord(currentRecord).observe(getViewLifecycleOwner(), record -> {
                 catchEntryViewModel.setLake(record.record.lake);
                 catchEntryViewModel.editRecord(record);
             });
-        } else {
-            setCurrentlySelectedLake();
+        } else if (currentRecord != -2) {
+                catchEntryViewModel.reset();
+                setCurrentlySelectedLake();
         }
     }
 
@@ -103,38 +101,53 @@ public class CatchEntryFragment extends Fragment implements AdapterView.OnItemSe
         catchEntryViewModel.setLake(lake);
     }
 
-    private void setupDateTimeBtn(View rootView) {
-        Button dateButton = rootView.findViewById(R.id.date_btn);
+    private void setupDateTimeBtn() {
+        Button dateButton = binding.dateBtn;
         catchEntryViewModel.getCatchRecordDate().observe(getViewLifecycleOwner(), dateButton::setText);
         dateButton.setOnClickListener(v -> {
+            persistTextEntries();
             NavDirections action = CatchEntryFragmentDirections.actionCatchEntryFragmentToDatePickerFragment();
             findNavController(this).navigate(action);
         });
-        Button timeButton = rootView.findViewById(R.id.time_btn);
+        Button timeButton = binding.timeBtn;
         catchEntryViewModel.getCatchRecordTime().observe(getViewLifecycleOwner(), timeButton::setText);
         timeButton.setOnClickListener(v -> {
+            persistTextEntries();
             NavDirections action = CatchEntryFragmentDirections.actionCatchEntryFragmentToTimePickerFragment();
             findNavController(this).navigate(action);
         });
         setupDateTimeBtnObservations();
     }
 
-    private void setupLakeBtn(View rootView) {
-        Button button = rootView.findViewById(R.id.caught_lake_btn);
+    private void setupLakeBtn() {
+        Button button = binding.caughtLakeBtn;
         catchEntryViewModel.getLake().observe(getViewLifecycleOwner(), button::setText);
+        button.setOnClickListener(v -> onLakeSelectBtnPressed());
+
     }
 
-    private void onSaveBtnPressed(View v) {
-        EditText weight_input = v.findViewById(R.id.weight_input);
-        EditText length_input = v.findViewById(R.id.length_input);
-        EditText comments_input = v.findViewById(R.id.comments_input);
-        String weight = weight_input.getText().toString();
-        String len = length_input.getText().toString();
-        String comments = comments_input.getText().toString();
-        catchEntryViewModel.setWeight(weight);
-        catchEntryViewModel.setLength(len);
-        catchEntryViewModel.setComments(comments);
-        saveCatchRecord();
+    private void onSaveBtnPressed() {
+        if (binding.fishSpeciesSpinner.getSelectedItemPosition() != 0) {
+            persistTextEntries();
+            saveCatchRecord();
+            setupCurrentRecord();
+        } else {
+            Toast.makeText(getContext(), "Please select a fish.", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void persistTextEntries() {
+        catchEntryViewModel.setWeight(binding.weightInput.getText().toString());
+        catchEntryViewModel.setLength(binding.lengthInput.getText().toString());
+        catchEntryViewModel.setComments(binding.commentsInput.getText().toString());
+    }
+
+    private void onLakeSelectBtnPressed() {
+        persistTextEntries();
+        LakeSelectResultViewModel resultViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity())).get(LakeSelectResultViewModel.class);
+        resultViewModel.setLakeSelectedCallback(catchEntryViewModel);
+        NavDirections action = CatchEntryFragmentDirections.actionCatchEntryFragmentToLakeSelectFragment();
+        findNavController(this).navigate(action);
     }
 
     private void saveCatchRecord() {
@@ -154,38 +167,54 @@ public class CatchEntryFragment extends Fragment implements AdapterView.OnItemSe
         }
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String fish = (String) parent.getItemAtPosition(position);
-        catchEntryViewModel.setFish(fish);
-    }
+    private void setupFishSpinner() {
+        Spinner spinner = binding.fishSpeciesSpinner;
 
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-        catchEntryViewModel.setFish(null);
-    }
-
-    private void setupFishSpinner(View rootView) {
-        Spinner fishSpinner = rootView.findViewById(R.id.fish_species_spinner);
-        fishSpinner.setOnItemSelectedListener(this);
         List<String> fish = new ArrayList<>();
         ArrayAdapter<String> speciesAdapter = new ArrayAdapter<>(Objects.requireNonNull(getActivity()), android.R.layout.simple_spinner_item, fish);
-        catchEntryViewModel.getAllFish().observe(getViewLifecycleOwner(), species -> {
-                    speciesAdapter.clear();
-                    for (Fish currentFish : species) {
-                        speciesAdapter.add(currentFish.species);
-                        speciesAdapter.notifyDataSetChanged();
-                    }
+
+        MediatorLiveData<Integer> spinnerMediator = new MediatorLiveData<>();
+        spinnerMediator.setValue(0);
+        spinnerMediator.addSource(catchEntryViewModel.getAllFish(), species -> {
+            speciesAdapter.clear();
+            speciesAdapter.add("Select Fish Species");
+            for (Fish currentFish : species) {
+                speciesAdapter.add(currentFish.species);
+                speciesAdapter.notifyDataSetChanged();
+            }
+            spinner.setSelection(spinnerMediator.getValue());
         });
-        fishSpinner.setAdapter(speciesAdapter);
-        LiveData<String> currentlySelectedFish = catchEntryViewModel.getFish();
-        currentlySelectedFish.observe(getViewLifecycleOwner(), selectedFish -> {
+        spinnerMediator.addSource(catchEntryViewModel.getFish(), selectedFish -> {
             if (selectedFish != null) {
                 int position = speciesAdapter.getPosition(selectedFish);
-                fishSpinner.setSelection(position);
+                spinnerMediator.setValue(position);
+                spinner.setSelection(position);
             }
         });
 
+        spinner.setAdapter(speciesAdapter);
+
+        spinner.setOnItemSelectedListener(catchEntryViewModel);
+
+
+        //catchEntryViewModel.getAllFish().observe(getViewLifecycleOwner(), species -> {
+            //speciesAdapter.clear();
+            //speciesAdapter.add("Select Fish Species");
+            //for (Fish currentFish : species) {
+                //speciesAdapter.add(currentFish.species);
+                //speciesAdapter.notifyDataSetChanged();
+            //}
+        //});
+        //LiveData<String> currentlySelectedFish = catchEntryViewModel.getFish();
+        //currentlySelectedFish.observe(getViewLifecycleOwner(), selectedFish -> {
+            //int position;
+            //if (selectedFish != null && spinner.getAdapter().getCount() > 1) {
+                //position = speciesAdapter.getPosition(selectedFish);
+            //} else {
+                //position = 0;
+            //}
+            //spinner.setSelection(position);
+        //});
     }
 
     private void setupDateTimeBtnObservations() {
