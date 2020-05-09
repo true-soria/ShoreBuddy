@@ -2,7 +2,6 @@ package com.example.shorebuddy.views;
 
 import androidx.lifecycle.ViewModelProvider;
 
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,7 +9,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +16,13 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.shorebuddy.adapters.ImageAdapter;
+import com.example.shorebuddy.data.catches.CatchPhoto;
+import com.example.shorebuddy.data.catches.CatchRecord;
 import com.example.shorebuddy.viewmodels.CatchRecordDisplayViewModel;
 import com.example.shorebuddy.R;
 
-import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import static androidx.navigation.fragment.NavHostFragment.findNavController;
 
@@ -57,12 +57,9 @@ public class CatchRecordDisplayFragment extends Fragment {
         Button editButton = rootView.findViewById(R.id.edit_btn);
         editButton.setOnClickListener(this::onEditClick);
         viewPager = rootView.findViewById(R.id.imageSlider);
-
+        populateImagePaths(catchRecordDisplayViewModel.photos.getValue());
         ImageAdapter imageAdapter = new ImageAdapter(getContext(), imagePaths);
         viewPager.setAdapter(imageAdapter);
-        // File f = new File(catchRecordDisplayViewModel.photos.getValue().get(0).path);
-        //Log.d("tag", "Absolute url of image is from record " + Uri.fromFile(f));
-        //recordPhoto.setImageURI(Uri.fromFile(f));
         return rootView;
     }
 
@@ -75,6 +72,12 @@ public class CatchRecordDisplayFragment extends Fragment {
         CatchRecordDisplayFragmentDirections.ActionCatchRecordDisplayFragmentToCatchEntryFragment action = CatchRecordDisplayFragmentDirections.actionCatchRecordDisplayFragmentToCatchEntryFragment();
         action.setRecordUid(catchRecordDisplayViewModel.getRecordUid());
         findNavController(this).navigate(action);
+    }
+
+    public void populateImagePaths(List<CatchPhoto> listOfPhotos){
+        for(CatchPhoto catchPhoto : listOfPhotos){
+            imagePaths.add(catchPhoto.path);
+        }
     }
 
 }

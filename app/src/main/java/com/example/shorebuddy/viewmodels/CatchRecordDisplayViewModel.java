@@ -12,7 +12,6 @@ import com.example.shorebuddy.data.catches.CatchPhoto;
 import com.example.shorebuddy.data.catches.CatchRecord;
 import com.example.shorebuddy.data.catches.CatchRepository;
 import com.example.shorebuddy.data.catches.DefaultCatchRepository;
-import com.example.shorebuddy.data.relationships.CatchRecordWithPhotos;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -23,7 +22,8 @@ import static java.lang.String.*;
 public class CatchRecordDisplayViewModel extends AndroidViewModel {
 
     private CatchRepository catchRepo;
-    private MutableLiveData<CatchRecord> record = new MutableLiveData<>(new CatchRecord());
+    public MutableLiveData<List<CatchPhoto>> photos;
+    public MutableLiveData<CatchRecord> record = new MutableLiveData<>(new CatchRecord());
     //private LiveData<CatchRecordWithPhotos> recordWithPhotos = new MutableLiveData<>(new CatchRecordWithPhotos());
     //private LiveData<CatchRecord> record = Transformations.map(recordWithPhotos, r -> r.record);
     //public LiveData<List<CatchPhoto>> photos = Transformations.map(recordWithPhotos, r -> r.photos);
@@ -43,8 +43,10 @@ public class CatchRecordDisplayViewModel extends AndroidViewModel {
 
     public void setRecord(CatchRecord record) {
         this.record.setValue(record);
-        //this.recordWithPhotos = catchRepo.getCatchRecordWithPhotos(record.uid);
-        //this.recordWithPhotos.getValue().record = record;
+    }
+
+    public void setPhotos(List<CatchPhoto> catchPhotos){
+        this.photos.setValue(catchPhotos);
     }
 
     public int getRecordUid() {

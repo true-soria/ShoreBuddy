@@ -7,23 +7,40 @@
     </data>
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/colorWeatherIconBG">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="8dp"
         tools:context=".views.CatchEntryFragment">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <Button
+            android:id="@+id/cameraButton"
+            android:text="Add Pictures"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_gravity="center"
+            android:background="@color/colorAccent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/fish_entry_title"/>
         <TextView
             android:id="@+id/fish_entry_title"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/species_prompt"
             android:textSize="16sp"
             android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/cameraButton"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@id/cameraButton" />
 
         <Spinner
             android:id="@+id/fish_species_spinner"
@@ -145,24 +162,13 @@
             app:layout_constraintStart_toEndOf="@id/length_input" />
 
 
-        <Button
-            android:id="@+id/cameraButton"
-            android:text="Add Picture"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_gravity="center"
-            app:layout_constraintTop_toBottomOf="@id/length_input"
-            app:layout_constraintBottom_toTopOf="@id/imageSlider"/>
-
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/imageSlider"
             android:layout_width="match_parent"
             android:layout_height="300dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cameraButton"
+            app:layout_constraintTop_toBottomOf="@id/length_input"
             app:layout_constraintBottom_toTopOf="@id/comments_label"/>
 
         <TextView

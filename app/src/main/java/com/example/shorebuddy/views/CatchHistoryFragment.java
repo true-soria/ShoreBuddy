@@ -8,15 +8,19 @@ import androidx.navigation.NavDirections;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.shorebuddy.R;
 import com.example.shorebuddy.adapters.CatchRecordAdapter;
+import com.example.shorebuddy.data.catches.CatchPhoto;
 import com.example.shorebuddy.data.catches.CatchRecord;
 import com.example.shorebuddy.viewmodels.CatchHistoryViewModel;
 import com.example.shorebuddy.viewmodels.CatchRecordDisplayViewModel;
+
+import java.util.List;
 
 import static androidx.navigation.fragment.NavHostFragment.findNavController;
 
@@ -56,6 +60,10 @@ public class CatchHistoryFragment extends Fragment implements CatchRecordAdapter
     public void onRecordClicked(CatchRecord record) {
         CatchRecordDisplayViewModel catchRecordDisplayViewModel = new ViewModelProvider(getActivity()).get(CatchRecordDisplayViewModel.class);
         catchRecordDisplayViewModel.setRecord(record);
+
+        Log.d("Tag","Checking for the id of record clicked "+ record.uid+"\n");
+        List<CatchPhoto> catchPhotos = catchHistoryViewModel.getPhotos(record.uid).getValue();
+        catchRecordDisplayViewModel.setPhotos(catchPhotos);
         NavDirections action = CatchHistoryFragmentDirections.actionCatchRecordsFragmentToCatchRecordDisplayFragment();
         findNavController(this).navigate(action);
     }

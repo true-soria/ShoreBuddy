@@ -176,7 +176,6 @@ public class CatchEntryFragment extends Fragment implements CatchEntryViewModel.
             File f = new File(currentPhotoPath);
             Log.d("tag", "Absolute url of image is catch entry " + currentPhotoPath);
             if (currentPhotoPath != null) {
-                catchEntryViewModel.addPhoto(currentPhotoPath);
                 imagePaths.add(currentPhotoPath);
                 ImageAdapter imageAdapter = new ImageAdapter(getContext(), imagePaths);
                 viewPager.setAdapter(imageAdapter);
@@ -217,7 +216,7 @@ public class CatchEntryFragment extends Fragment implements CatchEntryViewModel.
 
     private void onSaveBtnPressed() {
         if (binding.fishSpeciesSpinner.getSelectedItemPosition() != 0) {
-            if(currentPhotoPath !=null){catchEntryViewModel.addPhoto(currentPhotoPath);}
+            catchEntryViewModel.addPhoto(imagePaths);
             saveCatchRecord();
             setupCurrentRecord();
         } else {

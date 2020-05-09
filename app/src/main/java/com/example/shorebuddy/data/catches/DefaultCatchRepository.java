@@ -1,6 +1,7 @@
 package com.example.shorebuddy.data.catches;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -31,7 +32,9 @@ public class DefaultCatchRepository implements CatchRepository {
     public void recordCatch(CatchRecordWithPhotos recordWithPhotos) {
         ShoreBuddyDatabase.databaseExecutor.execute(() -> {
             long rowId = catchesDao.insert(recordWithPhotos.record);
+            Log.d("tag", "Check CatchRepo rowId :"+rowId+"\n");
             int newId = catchesDao.getCatchRecordIdFromRow(rowId);
+            Log.d("tag", "Check CatchRepo newId number :"+newId+"\n");
             for (CatchPhoto photo : recordWithPhotos.photos) {
                 photo.catchRecordUid = newId;
                 catchesDao.insert(photo);
