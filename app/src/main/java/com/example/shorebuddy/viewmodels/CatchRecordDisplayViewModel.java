@@ -23,9 +23,10 @@ import static java.lang.String.*;
 public class CatchRecordDisplayViewModel extends AndroidViewModel {
 
     private CatchRepository catchRepo;
-    private LiveData<CatchRecordWithPhotos> recordWithPhotos = new MutableLiveData<>(new CatchRecordWithPhotos());
-    private LiveData<CatchRecord> record = Transformations.map(recordWithPhotos, r -> r.record);
-    public LiveData<List<CatchPhoto>> photos = Transformations.map(recordWithPhotos, r -> r.photos);
+    private MutableLiveData<CatchRecord> record = new MutableLiveData<>(new CatchRecord());
+    //private LiveData<CatchRecordWithPhotos> recordWithPhotos = new MutableLiveData<>(new CatchRecordWithPhotos());
+    //private LiveData<CatchRecord> record = Transformations.map(recordWithPhotos, r -> r.record);
+    //public LiveData<List<CatchPhoto>> photos = Transformations.map(recordWithPhotos, r -> r.photos);
     public LiveData<String> recordSpecies = Transformations.map(record, r -> r.fish);
     public LiveData<String> recordLake = Transformations.map(record, r -> r.lake);
     public LiveData<String> recordWeight = Transformations.map(record, r -> format(Locale.US, "%f", r.weight));
@@ -41,8 +42,9 @@ public class CatchRecordDisplayViewModel extends AndroidViewModel {
     }
 
     public void setRecord(CatchRecord record) {
+        this.record.setValue(record);
         //this.recordWithPhotos = catchRepo.getCatchRecordWithPhotos(record.uid);
-        this.recordWithPhotos.getValue().record = record;
+        //this.recordWithPhotos.getValue().record = record;
     }
 
     public int getRecordUid() {
