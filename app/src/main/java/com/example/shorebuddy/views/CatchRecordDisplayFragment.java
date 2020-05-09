@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.example.shorebuddy.adapters.ImageAdapter;
 import com.example.shorebuddy.data.catches.CatchPhoto;
 import com.example.shorebuddy.data.catches.CatchRecord;
+import com.example.shorebuddy.data.relationships.CatchRecordWithPhotos;
 import com.example.shorebuddy.viewmodels.CatchRecordDisplayViewModel;
 import com.example.shorebuddy.R;
 
@@ -41,6 +42,9 @@ public class CatchRecordDisplayFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        int recordUid = CatchRecordDisplayFragmentArgs.fromBundle(getArguments()).getRecordUid();
+        catchRecordDisplayViewModel.lookupRecord(recordUid).observe(getViewLifecycleOwner(), catchRecordDisplayViewModel::setRecord);
+
         View rootView = inflater.inflate(R.layout.catch_record_display_fragment, container, false);
         TextView speciesText = rootView.findViewById(R.id.fish_species);
         catchRecordDisplayViewModel.recordSpecies.observe(getViewLifecycleOwner(), speciesText::setText);
@@ -57,7 +61,7 @@ public class CatchRecordDisplayFragment extends Fragment {
         Button editButton = rootView.findViewById(R.id.edit_btn);
         editButton.setOnClickListener(this::onEditClick);
         viewPager = rootView.findViewById(R.id.imageSlider);
-        populateImagePaths(catchRecordDisplayViewModel.photos.getValue());
+        catchRecordDisplayViewModel.photos.observe(getViewLifecycleOwner(), this::populateImagePaths);
         ImageAdapter imageAdapter = new ImageAdapter(getContext(), imagePaths);
         viewPager.setAdapter(imageAdapter);
         return rootView;
@@ -80,4 +84,7 @@ public class CatchRecordDisplayFragment extends Fragment {
         }
     }
 
+    private void onChanged(CatchRecordWithPhotos record) {
+        catchRecordDisplayViewModel.setRecord(record);
+    }
 }

@@ -95,6 +95,9 @@
         <action
             android:id="@+id/action_catchRecordDisplayFragment_to_catchEntryFragment"
             app:destination="@id/catchEntryFragment" />
+        <argument
+            android:name="recordUid"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/lakeFragment"

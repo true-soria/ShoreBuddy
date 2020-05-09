@@ -6,6 +6,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Transformations;
 
 import com.example.shorebuddy.data.catches.CatchPhoto;
 import com.example.shorebuddy.data.catches.CatchRecord;
@@ -29,13 +30,7 @@ public class CatchHistoryViewModel extends AndroidViewModel {
 
     public LiveData<List<CatchPhoto>> getPhotos(int uid){
         LiveData<CatchRecordWithPhotos> catches = catchRepository.getCatchRecordWithPhotos(uid);
-        String checkCatchRecordsWithPhotos = catches.getValue() == null ? "CatchRecordWithPhotos is null" : "CatchRecordWithPhotos OK";
-        Log.d("tag",checkCatchRecordsWithPhotos);
-        String checkCatchRecord = catches.getValue().record == null ? "CatchRecord is null" : "CatchRecord OK";
-        Log.d("tag",checkCatchRecord);
-        String checkCatchPhotos = catches.getValue().photos == null ? "CatchPhotos is null" : "CatchPhotos OK";
-        Log.d("tag", checkCatchPhotos);
-        return (LiveData<List<CatchPhoto>>) catches.getValue().photos;
+        return Transformations.map(catches, catchRecordWithPhotos -> catchRecordWithPhotos.photos);
     }
 
     public void deleteRecord(CatchRecord record) {

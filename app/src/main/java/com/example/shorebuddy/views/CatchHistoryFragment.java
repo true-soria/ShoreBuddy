@@ -58,13 +58,9 @@ public class CatchHistoryFragment extends Fragment implements CatchRecordAdapter
 
     @Override
     public void onRecordClicked(CatchRecord record) {
-        CatchRecordDisplayViewModel catchRecordDisplayViewModel = new ViewModelProvider(getActivity()).get(CatchRecordDisplayViewModel.class);
-        catchRecordDisplayViewModel.setRecord(record);
 
         Log.d("Tag","Checking for the id of record clicked "+ record.uid+"\n");
-        List<CatchPhoto> catchPhotos = catchHistoryViewModel.getPhotos(record.uid).getValue();
-        catchRecordDisplayViewModel.setPhotos(catchPhotos);
-        NavDirections action = CatchHistoryFragmentDirections.actionCatchRecordsFragmentToCatchRecordDisplayFragment();
+        NavDirections action = CatchHistoryFragmentDirections.actionCatchRecordsFragmentToCatchRecordDisplayFragment(record.uid);
         findNavController(this).navigate(action);
     }
 }
