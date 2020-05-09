@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
@@ -18,7 +17,6 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.shorebuddy.R;
 import com.example.shorebuddy.data.fish.Fish;
 import com.example.shorebuddy.databinding.FragmentCatchEntryBinding;
 import com.example.shorebuddy.viewmodels.CatchEntryViewModel;
@@ -172,6 +170,7 @@ public class CatchEntryFragment extends Fragment {
 
         List<String> fish = new ArrayList<>();
         ArrayAdapter<String> speciesAdapter = new ArrayAdapter<>(Objects.requireNonNull(getActivity()), android.R.layout.simple_spinner_item, fish);
+        spinner.setAdapter(speciesAdapter);
 
         MediatorLiveData<Integer> spinnerMediator = new MediatorLiveData<>();
         spinnerMediator.setValue(0);
@@ -182,39 +181,18 @@ public class CatchEntryFragment extends Fragment {
                 speciesAdapter.add(currentFish.species);
                 speciesAdapter.notifyDataSetChanged();
             }
-            spinner.setSelection(spinnerMediator.getValue());
+            int position = speciesAdapter.getPosition(catchEntryViewModel.getFish().getValue());
+            spinnerMediator.setValue(position);
         });
         spinnerMediator.addSource(catchEntryViewModel.getFish(), selectedFish -> {
             if (selectedFish != null) {
                 int position = speciesAdapter.getPosition(selectedFish);
                 spinnerMediator.setValue(position);
-                spinner.setSelection(position);
             }
         });
-
-        spinner.setAdapter(speciesAdapter);
+        spinnerMediator.observe(getViewLifecycleOwner(), spinner::setSelection);
 
         spinner.setOnItemSelectedListener(catchEntryViewModel);
-
-
-        //catchEntryViewModel.getAllFish().observe(getViewLifecycleOwner(), species -> {
-            //speciesAdapter.clear();
-            //speciesAdapter.add("Select Fish Species");
-            //for (Fish currentFish : species) {
-                //speciesAdapter.add(currentFish.species);
-                //speciesAdapter.notifyDataSetChanged();
-            //}
-        //});
-        //LiveData<String> currentlySelectedFish = catchEntryViewModel.getFish();
-        //currentlySelectedFish.observe(getViewLifecycleOwner(), selectedFish -> {
-            //int position;
-            //if (selectedFish != null && spinner.getAdapter().getCount() > 1) {
-                //position = speciesAdapter.getPosition(selectedFish);
-            //} else {
-                //position = 0;
-            //}
-            //spinner.setSelection(position);
-        //});
     }
 
     private void setupDateTimeBtnObservations() {

@@ -151,13 +151,17 @@ public class CatchEntryViewModel extends AndroidViewModel implements LakeSelectR
     }
 
     public void setLake(String lake) {
-        catchRecordWithPhotos.record.lake = lake;
-        recordChanged.setValue(new Event());
+        if (!lake.equals(catchRecordWithPhotos.record.lake)) {
+            catchRecordWithPhotos.record.lake = lake;
+            recordChanged.setValue(new Event());
+        }
     }
 
     public void setFish(String species) {
-        catchRecordWithPhotos.record.fish = species;
-        recordChanged.setValue(new Event());
+        if (!species.equals(catchRecordWithPhotos.record.fish)) {
+            catchRecordWithPhotos.record.fish = species;
+            recordChanged.setValue(new Event());
+        }
     }
 
     public void setWeight(String weight) {
