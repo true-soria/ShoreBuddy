@@ -35,6 +35,7 @@ public class CatchEntryViewModel extends AndroidViewModel implements LakeSelectR
     private final SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a", Locale.US);
 
     private CatchRecordWithPhotos catchRecordWithPhotos = new CatchRecordWithPhotos();
+    private requestPersist requestPersist;
 
     private MutableLiveData<Event> recordChanged = new MutableLiveData<>(new Event());
     private LiveData<String> dateText = Transformations.map(recordChanged, event -> dateFormat.format(catchRecordWithPhotos.record.timeCaught.getTime()));
@@ -47,7 +48,7 @@ public class CatchEntryViewModel extends AndroidViewModel implements LakeSelectR
     private LiveData<String> currentLake = Transformations.map(recordChanged, event -> catchRecordWithPhotos.record.lake);
     private LiveData<String> currentFish = Transformations.map(recordChanged, event -> catchRecordWithPhotos.record.fish);
     private LiveData<String> currentWeight = Transformations.map(recordChanged, event -> Double.toString(catchRecordWithPhotos.record.weight));
-    private LiveData<Double> currentLength = Transformations.map(recordChanged, event -> catchRecordWithPhotos.record.length);
+    private LiveData<String> currentLength = Transformations.map(recordChanged, event -> Double.toString(catchRecordWithPhotos.record.length));
     private LiveData<String> currentComments = Transformations.map(recordChanged, event -> catchRecordWithPhotos.record.comments);
     private MutableLiveData<Mode> entryMode = new MutableLiveData<>(Mode.CREATE);
     private LiveData<Integer> modeIcon = Transformations.map(entryMode, mode -> {
@@ -137,12 +138,16 @@ public class CatchEntryViewModel extends AndroidViewModel implements LakeSelectR
         return currentWeight;
     }
 
-    public LiveData<Double> getLength() {
+    public LiveData<String> getLength() {
         return currentLength;
     }
 
     public LiveData<String> getComments() {
         return currentComments;
+    }
+
+    public void setRequestPersist(requestPersist requestPersist) {
+        this.requestPersist = requestPersist;
     }
 
     public void addPhoto(String path) {
@@ -165,26 +170,36 @@ public class CatchEntryViewModel extends AndroidViewModel implements LakeSelectR
     }
 
     public void setWeight(String weight) {
+        double parsed;
         try {
-            catchRecordWithPhotos.record.weight = Double.parseDouble(weight);
+            parsed = Double.parseDouble(weight);
         } catch (Exception e) {
-            catchRecordWithPhotos.record.weight = 0;
+            parsed = 0;
         }
-        recordChanged.setValue(new Event());
+        if (catchRecordWithPhotos.record.weight != parsed) {
+            catchRecordWithPhotos.record.weight = parsed;
+            recordChanged.setValue(new Event());
+        }
     }
 
     public void setLength(String length) {
+        double parsed;
         try {
-            catchRecordWithPhotos.record.length = Double.parseDouble(length);
+            parsed = Double.parseDouble(length);
         } catch (Exception e) {
-            catchRecordWithPhotos.record.length = 0;
+            parsed = 0;
         }
-        recordChanged.setValue(new Event());
+        if (catchRecordWithPhotos.record.length != parsed) {
+            catchRecordWithPhotos.record.length = parsed;
+            recordChanged.setValue(new Event());
+        }
     }
 
     public void setComments(String comments) {
-        catchRecordWithPhotos.record.comments = comments;
-        recordChanged.setValue(new Event());
+        if (!comments.equals(catchRecordWithPhotos.record.comments)) {
+            catchRecordWithPhotos.record.comments = comments;
+            recordChanged.setValue(new Event());
+        }
     }
 
     public LiveData<CatchRecordWithPhotos> findCatchRecord(int recordUid) {
@@ -199,6 +214,9 @@ public class CatchEntryViewModel extends AndroidViewModel implements LakeSelectR
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if (position != 0) {
+            if (requestPersist != null) {
+                requestPersist.persist();
+            }
             String fish = (String) parent.getItemAtPosition(position);
             setFish(fish);
         }
@@ -206,6 +224,10 @@ public class CatchEntryViewModel extends AndroidViewModel implements LakeSelectR
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {}
+
+    public interface requestPersist {
+        public void persist();
+    }
 
     public enum CalendarField {
         YEAR (Calendar.YEAR),

@@ -31,7 +31,7 @@ import java.util.Objects;
 
 import static androidx.navigation.fragment.NavHostFragment.findNavController;
 
-public class CatchEntryFragment extends Fragment {
+public class CatchEntryFragment extends Fragment implements CatchEntryViewModel.requestPersist {
     private CatchEntryViewModel catchEntryViewModel;
     private DateTimeSelectViewModel dateTimeSelectViewModel;
     private FragmentCatchEntryBinding binding;
@@ -42,6 +42,7 @@ public class CatchEntryFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         catchEntryViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity())).get(CatchEntryViewModel.class);
+        catchEntryViewModel.setRequestPersist(this);
         dateTimeSelectViewModel = new ViewModelProvider(getActivity()).get(DateTimeSelectViewModel.class);
     }
 
@@ -61,8 +62,24 @@ public class CatchEntryFragment extends Fragment {
                 saveBtn.setImageDrawable(getResources().getDrawable(icon, null)));
 
         catchEntryViewModel.getWeight().observe(getViewLifecycleOwner(), weight -> binding.weightInput.setText(weight));
-        catchEntryViewModel.getLength().observe(getViewLifecycleOwner(), length -> binding.lengthInput.setText(length.toString()));
+        catchEntryViewModel.getLength().observe(getViewLifecycleOwner(), length -> binding.lengthInput.setText(length));
         catchEntryViewModel.getComments().observe(getViewLifecycleOwner(), comments -> binding.commentsInput.setText(comments));
+
+        binding.weightInput.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                catchEntryViewModel.setWeight(binding.weightInput.getText().toString());
+            }
+        });
+        binding.lengthInput.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                catchEntryViewModel.setLength(binding.lengthInput.getText().toString());
+            }
+        });
+        binding.commentsInput.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                catchEntryViewModel.setComments(binding.commentsInput.getText().toString());
+            }
+        });
 
         return binding.getRoot();
     }
@@ -103,14 +120,12 @@ public class CatchEntryFragment extends Fragment {
         Button dateButton = binding.dateBtn;
         catchEntryViewModel.getCatchRecordDate().observe(getViewLifecycleOwner(), dateButton::setText);
         dateButton.setOnClickListener(v -> {
-            persistTextEntries();
             NavDirections action = CatchEntryFragmentDirections.actionCatchEntryFragmentToDatePickerFragment();
             findNavController(this).navigate(action);
         });
         Button timeButton = binding.timeBtn;
         catchEntryViewModel.getCatchRecordTime().observe(getViewLifecycleOwner(), timeButton::setText);
         timeButton.setOnClickListener(v -> {
-            persistTextEntries();
             NavDirections action = CatchEntryFragmentDirections.actionCatchEntryFragmentToTimePickerFragment();
             findNavController(this).navigate(action);
         });
@@ -121,12 +136,10 @@ public class CatchEntryFragment extends Fragment {
         Button button = binding.caughtLakeBtn;
         catchEntryViewModel.getLake().observe(getViewLifecycleOwner(), button::setText);
         button.setOnClickListener(v -> onLakeSelectBtnPressed());
-
     }
 
     private void onSaveBtnPressed() {
         if (binding.fishSpeciesSpinner.getSelectedItemPosition() != 0) {
-            persistTextEntries();
             saveCatchRecord();
             setupCurrentRecord();
         } else {
@@ -141,7 +154,6 @@ public class CatchEntryFragment extends Fragment {
     }
 
     private void onLakeSelectBtnPressed() {
-        persistTextEntries();
         LakeSelectResultViewModel resultViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity())).get(LakeSelectResultViewModel.class);
         resultViewModel.setLakeSelectedCallback(catchEntryViewModel);
         NavDirections action = CatchEntryFragmentDirections.actionCatchEntryFragmentToLakeSelectFragment();
@@ -206,5 +218,10 @@ public class CatchEntryFragment extends Fragment {
         catchEntryViewModel.getDay().observe(getViewLifecycleOwner(), day -> dateTimeSelectViewModel.shownDay = day);
         catchEntryViewModel.getHour().observe(getViewLifecycleOwner(), hour -> dateTimeSelectViewModel.shownHour = hour);
         catchEntryViewModel.getMinute().observe(getViewLifecycleOwner(), minute -> dateTimeSelectViewModel.shownMinute = minute);
+    }
+
+    @Override
+    public void persist() {
+        persistTextEntries();
     }
 }
