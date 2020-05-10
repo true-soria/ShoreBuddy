@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
-import androidx.viewpager.widget.ViewPager;
 
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -22,13 +21,9 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.shorebuddy.R;
-import com.example.shorebuddy.adapters.ImageAdapter;
 import com.example.shorebuddy.data.fish.Fish;
 import com.example.shorebuddy.databinding.FragmentCatchEntryBinding;
 import com.example.shorebuddy.viewmodels.CatchEntryViewModel;
@@ -52,7 +47,6 @@ public class CatchEntryFragment extends Fragment implements CatchEntryViewModel.
     private CatchEntryViewModel catchEntryViewModel;
     private DateTimeSelectViewModel dateTimeSelectViewModel;
     private FragmentCatchEntryBinding binding;
-    private ImageView pictureTaken;
     private static final int CAMERA_REQUEST_CODE = 102;
     private String currentPhotoPath;
     private ArrayList<String> imagePaths = new ArrayList<>();
@@ -102,7 +96,6 @@ public class CatchEntryFragment extends Fragment implements CatchEntryViewModel.
             }
         });
 
-        pictureTaken = binding.imageTaken;
         return binding.getRoot();
     }
 
