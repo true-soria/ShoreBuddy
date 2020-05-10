@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.example.shorebuddy.R;
 import com.example.shorebuddy.data.fish.Fish;
 import com.example.shorebuddy.data.lakes.Lake;
+import com.example.shorebuddy.viewmodels.LakeSelect.LakeSelectResultViewModel;
 import com.example.shorebuddy.viewmodels.MainViewModel;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -38,12 +39,10 @@ import static androidx.navigation.fragment.NavHostFragment.findNavController;
 public class LakeFragment extends Fragment {
 
     private MainViewModel mainViewModel;
-    GoogleMap mapAPI;
-    SupportMapFragment mapView;
+    private GoogleMap mapAPI;
+    private SupportMapFragment mapView;
 
-    public LakeFragment() {
-        // Required empty public constructor
-    }
+    public LakeFragment() {}
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -94,6 +93,8 @@ public class LakeFragment extends Fragment {
     }
 
     private void onClickSelectLakeBtn(View v) {
+        LakeSelectResultViewModel resultViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity())).get(LakeSelectResultViewModel.class);
+        resultViewModel.setLakeSelectedCallback(mainViewModel);
         NavDirections action = LakeFragmentDirections.actionLakeFragmentToLakeSelectFragment();
         findNavController(this).navigate(action);
     }
@@ -116,5 +117,4 @@ public class LakeFragment extends Fragment {
         }
         return fishText.toString();
     }
-
 }

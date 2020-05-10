@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/lakeSelectFragment">
+    app:startDestination="@id/initFragment">
 
     <fragment
         android:id="@+id/lakeSelectFragment"
@@ -13,6 +13,17 @@
         <action
             android:id="@+id/action_lakeSelectFragment_to_homepageView"
             app:destination="@id/homepageView" />
+        <argument
+            android:name="popNavigation"
+            app:argType="boolean"
+            android:defaultValue="false" />
+        <action
+            android:id="@+id/action_lakeSelectFragment_to_catchEntryFragment"
+            app:destination="@id/catchEntryFragment" >
+            <argument
+                android:name="recordUid"
+                android:defaultValue="-2" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
@@ -41,6 +52,13 @@
             android:name="recordUid"
             app:argType="integer"
             android:defaultValue="-1" />
+        <action
+            android:id="@+id/action_catchEntryFragment_to_lakeSelectFragment"
+            app:destination="@id/lakeSelectFragment" >
+            <argument
+                android:name="popNavigation"
+                android:defaultValue="true" />
+        </action>
     </fragment>
     <dialog
         android:id="@+id/datePickerFragment"
@@ -85,6 +103,15 @@
         tools:layout="@layout/fragment_lake" >
         <action
             android:id="@+id/action_lakeFragment_to_lakeSelectFragment"
+            app:destination="@id/lakeSelectFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/initFragment"
+        android:name="com.example.shorebuddy.views.InitFragment"
+        android:label="fragment_init"
+        tools:layout="@layout/fragment_init" >
+        <action
+            android:id="@+id/action_initFragment_to_lakeSelectFragment"
             app:destination="@id/lakeSelectFragment" />
     </fragment>
 </navigation>
