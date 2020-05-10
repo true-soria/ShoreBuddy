@@ -86,7 +86,11 @@
         android:id="@+id/homepageView"
         android:name="com.example.shorebuddy.views.homepage.HomepageView"
         android:label="homepage"
-        tools:layout="@layout/homepage" />
+        tools:layout="@layout/homepage" >
+        <action
+            android:id="@+id/action_homepageView_to_lakeSelectFragment"
+            app:destination="@id/lakeSelectFragment" />
+    </fragment>
     <fragment
         android:id="@+id/catchRecordDisplayFragment"
         android:name="com.example.shorebuddy.views.CatchRecordDisplayFragment"

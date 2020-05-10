@@ -25,6 +25,7 @@ public class ImageAdapter extends PagerAdapter {
     }
 
     public void setImagePaths(List<CatchPhoto> imagePaths) {
+        listImagePaths.clear();
         for(CatchPhoto imagePath : imagePaths){
             listImagePaths.add(imagePath.path);
         }
