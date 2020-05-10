@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class CatchRecordAdapter extends RecyclerView.Adapter<CatchRecordAdapter.CatchRecordHolder>
-implements OnItemClickedListener {
+        implements OnItemClickedListener {
     private List<CatchRecord> records;
     private final LayoutInflater layoutInflater;
     private final OnRecordClickedListener onRecordClickedListener;
@@ -97,6 +97,7 @@ implements OnItemClickedListener {
 
     public interface OnRecordClickedListener {
         void onDeleteButtonClicked(CatchRecord record);
+
         void onRecordClicked(CatchRecord record);
     }
 

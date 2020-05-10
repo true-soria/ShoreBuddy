@@ -71,19 +71,8 @@ public class LakeFragment extends Fragment {
                 mapAPI.addMarker(new MarkerOptions().position(currentLake.getLatLng()).title(currentLake.lakeName));
             }
         });
-        //renderFishInLake(rootView);
         renderSelectedLake(rootView);
-        setupLakeSelectBtn(rootView);
         return rootView;
-    }
-
-
-    private void renderFishInLake(@NotNull View rootView) {
-        TextView fishTextView = rootView.findViewById(R.id.fishList_Text);
-        mainViewModel.getFishInCurrentLake().observe(getViewLifecycleOwner(), fishInLake -> {
-            String fishText = createFishText(fishInLake);
-            fishTextView.setText(String.format("Fish Species Present:\n%s", fishText));
-        });
     }
 
     private void renderSelectedLake(@NotNull View rootView) {
@@ -107,14 +96,5 @@ public class LakeFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-    }
-
-    @NotNull
-    private String createFishText(@NotNull List<Fish> fishInLake) {
-        StringBuilder fishText = new StringBuilder();
-        for (Fish fish : fishInLake) {
-            fishText.append("\n").append(fish.species);
-        }
-        return fishText.toString();
     }
 }

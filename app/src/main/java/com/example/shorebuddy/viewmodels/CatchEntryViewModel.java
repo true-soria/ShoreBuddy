@@ -23,6 +23,7 @@ import com.example.shorebuddy.utilities.Event;
 import com.example.shorebuddy.viewmodels.LakeSelect.LakeSelectResultViewModel;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -146,13 +147,17 @@ public class CatchEntryViewModel extends AndroidViewModel implements LakeSelectR
         return currentComments;
     }
 
+
     public void setRequestPersist(requestPersist requestPersist) {
         this.requestPersist = requestPersist;
     }
 
-    public void addPhoto(String path) {
-        CatchPhoto newPhoto = new CatchPhoto(path);
-        catchRecordWithPhotos.photos.add(newPhoto);
+    public void addPhoto(ArrayList<String> paths) {
+        CatchPhoto newPhoto;
+        for(String path : paths) {
+            newPhoto = new CatchPhoto(path);
+            catchRecordWithPhotos.photos.add(newPhoto);
+        }
     }
 
     public void setLake(String lake) {

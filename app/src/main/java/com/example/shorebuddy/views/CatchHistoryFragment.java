@@ -8,15 +8,19 @@ import androidx.navigation.NavDirections;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.shorebuddy.R;
 import com.example.shorebuddy.adapters.CatchRecordAdapter;
+import com.example.shorebuddy.data.catches.CatchPhoto;
 import com.example.shorebuddy.data.catches.CatchRecord;
 import com.example.shorebuddy.viewmodels.CatchHistoryViewModel;
 import com.example.shorebuddy.viewmodels.CatchRecordDisplayViewModel;
+
+import java.util.List;
 
 import static androidx.navigation.fragment.NavHostFragment.findNavController;
 
@@ -25,7 +29,8 @@ public class CatchHistoryFragment extends Fragment implements CatchRecordAdapter
     private CatchHistoryViewModel catchHistoryViewModel;
     private CatchRecordAdapter catchRecordAdapter;
 
-    public CatchHistoryFragment() {}
+    public CatchHistoryFragment() {
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,9 +58,9 @@ public class CatchHistoryFragment extends Fragment implements CatchRecordAdapter
 
     @Override
     public void onRecordClicked(CatchRecord record) {
-        CatchRecordDisplayViewModel catchRecordDisplayViewModel = new ViewModelProvider(getActivity()).get(CatchRecordDisplayViewModel.class);
-        catchRecordDisplayViewModel.setRecord(record);
-        NavDirections action = CatchHistoryFragmentDirections.actionCatchRecordsFragmentToCatchRecordDisplayFragment();
+
+        Log.d("Tag","Checking for the id of record clicked "+ record.uid+"\n");
+        NavDirections action = CatchHistoryFragmentDirections.actionCatchRecordsFragmentToCatchRecordDisplayFragment(record.uid);
         findNavController(this).navigate(action);
     }
 }
