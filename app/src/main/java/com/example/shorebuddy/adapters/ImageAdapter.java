@@ -18,7 +18,7 @@ import java.util.List;
 
 public class ImageAdapter extends PagerAdapter {
     private Context mContext;
-    private ArrayList<String> listImagePaths;
+    private ArrayList<String> listImagePaths = new ArrayList<>();
 
     public ImageAdapter(Context context) {
         this.mContext = context;

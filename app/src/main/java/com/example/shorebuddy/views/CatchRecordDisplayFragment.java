@@ -10,7 +10,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,23 +17,18 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.shorebuddy.adapters.ImageAdapter;
-import com.example.shorebuddy.data.catches.CatchPhoto;
-import com.example.shorebuddy.data.catches.CatchRecord;
-import com.example.shorebuddy.data.lakes.Lake;
 import com.example.shorebuddy.data.relationships.CatchRecordWithPhotos;
 import com.example.shorebuddy.viewmodels.CatchRecordDisplayViewModel;
 import com.example.shorebuddy.R;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import static androidx.navigation.fragment.NavHostFragment.findNavController;
 
 public class CatchRecordDisplayFragment extends Fragment {
 
     private CatchRecordDisplayViewModel catchRecordDisplayViewModel;
-    private ArrayList<String> imagePaths = new ArrayList<>();
     private ViewPager viewPager;
+    private ImageAdapter imageAdapter;
 
     @Override
     public void onCreate(Bundle saveInstanceState) {
@@ -64,9 +58,9 @@ public class CatchRecordDisplayFragment extends Fragment {
         Button editButton = rootView.findViewById(R.id.edit_btn);
         editButton.setOnClickListener(this::onEditClick);
         viewPager = rootView.findViewById(R.id.imageSlider);
-        ImageAdapter imageAdapter = new ImageAdapter(getContext());
-        catchRecordDisplayViewModel.photos.observe(getViewLifecycleOwner(), this::populateImagePaths);
-        catchRecordDisplayViewModel.photos.observe(getViewLifecycleOwner(),imageAdapter::setImagePaths);
+        imageAdapter = new ImageAdapter(getContext());
+        LiveData<CatchRecordWithPhotos> catchRecordWithPhotos = catchRecordDisplayViewModel.getRecord();
+        catchRecordWithPhotos.observe(getViewLifecycleOwner(),this::populateImageSlider);
         return rootView;
     }
 
@@ -81,10 +75,9 @@ public class CatchRecordDisplayFragment extends Fragment {
         findNavController(this).navigate(action);
     }
 
-    public void populateImagePaths(List<CatchPhoto> listOfPhotos){
-        for(CatchPhoto catchPhoto : listOfPhotos){
-            imagePaths.add(catchPhoto.path);
-        }
+    public void populateImageSlider(CatchRecordWithPhotos catchRecordWithPhotos){
+        imageAdapter.setImagePaths(catchRecordWithPhotos.photos);
+        viewPager.setAdapter(imageAdapter);
     }
 
     private void onChanged(CatchRecordWithPhotos record) {

@@ -1,7 +1,6 @@
 package com.example.shorebuddy.viewmodels;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -50,4 +49,6 @@ public class CatchRecordDisplayViewModel extends AndroidViewModel {
     public LiveData<CatchRecordWithPhotos> lookupRecord(int recordUid) {
         return catchRepo.getCatchRecordWithPhotos(recordUid);
     }
+
+    public LiveData<CatchRecordWithPhotos> getRecord(){return this.record;}
 }
