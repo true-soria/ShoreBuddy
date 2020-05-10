@@ -12,16 +12,6 @@
         android:title="Map"
         app:showAsAction="always" />
     <item
-        android:id="@+id/lakeSelectFragment"
-        android:icon="@drawable/ic_format_list_bulleted"
-        android:title="Lakes"
-        app:showAsAction="always" />
-
-
-    //set android:id = the id of the fragment you want to replace it with by
-    //going to nav_graph adding the fragment page you want to add, and copying the id onto id of
-    item
-    <item
         android:id="@+id/catchEntryFragment"
         android:icon="@drawable/ic_file_upload"
         android:title="@string/catch_str"

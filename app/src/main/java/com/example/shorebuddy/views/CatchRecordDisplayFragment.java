@@ -20,6 +20,7 @@ import com.example.shorebuddy.adapters.ImageAdapter;
 import com.example.shorebuddy.data.relationships.CatchRecordWithPhotos;
 import com.example.shorebuddy.viewmodels.CatchRecordDisplayViewModel;
 import com.example.shorebuddy.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
 import static androidx.navigation.fragment.NavHostFragment.findNavController;
@@ -55,7 +56,7 @@ public class CatchRecordDisplayFragment extends Fragment {
         catchRecordDisplayViewModel.recordLength.observe(getViewLifecycleOwner(), lengthText::setText);
         TextView commentsText = rootView.findViewById(R.id.comments);
         catchRecordDisplayViewModel.recordComments.observe(getViewLifecycleOwner(), commentsText::setText);
-        Button editButton = rootView.findViewById(R.id.edit_btn);
+        FloatingActionButton editButton = rootView.findViewById(R.id.edit_btn);
         editButton.setOnClickListener(this::onEditClick);
         viewPager = rootView.findViewById(R.id.imageSlider);
         imageAdapter = new ImageAdapter(getContext());

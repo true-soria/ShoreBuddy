@@ -23,7 +23,6 @@ import com.example.shorebuddy.utilities.Event;
 import com.example.shorebuddy.viewmodels.LakeSelect.LakeSelectResultViewModel;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -39,6 +38,7 @@ public class CatchEntryViewModel extends AndroidViewModel implements LakeSelectR
     private requestPersist requestPersist;
 
     private MutableLiveData<Event> recordChanged = new MutableLiveData<>(new Event());
+    private MutableLiveData<Event> photosChanged = new MutableLiveData<>(new Event());
     private LiveData<String> dateText = Transformations.map(recordChanged, event -> dateFormat.format(catchRecordWithPhotos.record.timeCaught.getTime()));
     private LiveData<String> timeText = Transformations.map(recordChanged, event -> timeFormat.format(catchRecordWithPhotos.record.timeCaught.getTime()));
     private LiveData<Integer> currentYear = Transformations.map(recordChanged, event -> catchRecordWithPhotos.record.timeCaught.get(Calendar.YEAR));
@@ -51,6 +51,7 @@ public class CatchEntryViewModel extends AndroidViewModel implements LakeSelectR
     private LiveData<String> currentWeight = Transformations.map(recordChanged, event -> Double.toString(catchRecordWithPhotos.record.weight));
     private LiveData<String> currentLength = Transformations.map(recordChanged, event -> Double.toString(catchRecordWithPhotos.record.length));
     private LiveData<String> currentComments = Transformations.map(recordChanged, event -> catchRecordWithPhotos.record.comments);
+    private LiveData<List<CatchPhoto>> currentPhotos = Transformations.map(photosChanged, event -> catchRecordWithPhotos.photos);
     private MutableLiveData<Mode> entryMode = new MutableLiveData<>(Mode.CREATE);
     private LiveData<Integer> modeIcon = Transformations.map(entryMode, mode -> {
         if (mode == Mode.CREATE) {
@@ -80,12 +81,14 @@ public class CatchEntryViewModel extends AndroidViewModel implements LakeSelectR
         entryMode.setValue(Mode.CREATE);
         catchRecordWithPhotos = new CatchRecordWithPhotos();
         recordChanged.setValue(new Event());
+        photosChanged.setValue(new Event());
     }
 
     public void editRecord(CatchRecordWithPhotos record) {
         catchRecordWithPhotos = record;
         entryMode.setValue(Mode.EDIT);
         recordChanged.setValue(new Event());
+        photosChanged.setValue(new Event());
     }
 
     public LiveData<Integer> getModeIcon() {
@@ -125,6 +128,8 @@ public class CatchEntryViewModel extends AndroidViewModel implements LakeSelectR
         return timeText;
     }
 
+    public LiveData<List<CatchPhoto>> getCurrentPhotos() { return currentPhotos; }
+
     public LiveData<List<Fish>> getAllFish() { return fishRepository.getAllFish(); }
 
     public LiveData<String> getLake() {
@@ -152,12 +157,9 @@ public class CatchEntryViewModel extends AndroidViewModel implements LakeSelectR
         this.requestPersist = requestPersist;
     }
 
-    public void addPhoto(ArrayList<String> paths) {
-        CatchPhoto newPhoto;
-        for(String path : paths) {
-            newPhoto = new CatchPhoto(path);
-            catchRecordWithPhotos.photos.add(newPhoto);
-        }
+    public void addPhoto(String path) {
+        catchRecordWithPhotos.photos.add(new CatchPhoto(path));
+        photosChanged.setValue(new Event());
     }
 
     public void setLake(String lake) {
@@ -231,7 +233,7 @@ public class CatchEntryViewModel extends AndroidViewModel implements LakeSelectR
     public void onNothingSelected(AdapterView<?> parent) {}
 
     public interface requestPersist {
-        public void persist();
+        void persist();
     }
 
     public enum CalendarField {

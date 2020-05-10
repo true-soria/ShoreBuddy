@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
+import androidx.viewpager.widget.ViewPager;
 
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -21,9 +22,11 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.shorebuddy.adapters.ImageAdapter;
 import com.example.shorebuddy.data.fish.Fish;
 import com.example.shorebuddy.databinding.FragmentCatchEntryBinding;
 import com.example.shorebuddy.viewmodels.CatchEntryViewModel;
@@ -64,40 +67,24 @@ public class CatchEntryFragment extends Fragment implements CatchEntryViewModel.
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        binding = FragmentCatchEntryBinding.inflate(inflater, container, false);
 
         setupCurrentRecord();
-        binding = FragmentCatchEntryBinding.inflate(inflater, container, false);
-        setupLakeBtn();
+        setupSaveBtn();
         setupDateTimeBtn();
-        setupFishSpinner();
+        setupLakeBtn();
         setupCameraBtn();
-        FloatingActionButton saveBtn = binding.saveButton;
-        saveBtn.setOnClickListener(v -> onSaveBtnPressed());
-        catchEntryViewModel.getModeIcon().observe(getViewLifecycleOwner(), icon ->
-                saveBtn.setImageDrawable(getResources().getDrawable(icon, null)));
+        setupFishSpinner();
+        setupEntryFields();
 
-        catchEntryViewModel.getWeight().observe(getViewLifecycleOwner(), weight -> binding.weightInput.setText(weight));
-        catchEntryViewModel.getLength().observe(getViewLifecycleOwner(), length -> binding.lengthInput.setText(length));
-        catchEntryViewModel.getComments().observe(getViewLifecycleOwner(), comments -> binding.commentsInput.setText(comments));
-
-        binding.weightInput.setOnFocusChangeListener((v, hasFocus) -> {
-            if (!hasFocus) {
-                catchEntryViewModel.setWeight(binding.weightInput.getText().toString());
-            }
-        });
-        binding.lengthInput.setOnFocusChangeListener((v, hasFocus) -> {
-            if (!hasFocus) {
-                catchEntryViewModel.setLength(binding.lengthInput.getText().toString());
-            }
-        });
-        binding.commentsInput.setOnFocusChangeListener((v, hasFocus) -> {
-            if (!hasFocus) {
-                catchEntryViewModel.setComments(binding.commentsInput.getText().toString());
-            }
-        });
+        ViewPager viewPager = binding.imageSlider;
+        ImageAdapter imageAdapter = new ImageAdapter(getContext());
+        catchEntryViewModel.getCurrentPhotos().observe(getViewLifecycleOwner(), imageAdapter::setImagePaths);
+        viewPager.setAdapter(imageAdapter);
 
         return binding.getRoot();
     }
+
 
     @Override
     public void onDestroyView() {
@@ -119,16 +106,11 @@ public class CatchEntryFragment extends Fragment implements CatchEntryViewModel.
         }
     }
 
-    private void setCurrentlySelectedLake() {
-        MainViewModel mainViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity())).get(MainViewModel.class);
-        String lake;
-        // TODO: REMOVE HIGH PRIORITY, enforce selected lake choice.
-        if (mainViewModel.getCurrentlySelectedLake().getValue() == null) {
-            lake = "Pinecrest Lake";
-        } else {
-            lake = mainViewModel.getCurrentlySelectedLake().getValue().lakeName;
-        }
-        catchEntryViewModel.setLake(lake);
+    private void setupSaveBtn() {
+        FloatingActionButton saveBtn = binding.saveButton;
+        saveBtn.setOnClickListener(v -> onSaveBtnPressed());
+        catchEntryViewModel.getModeIcon().observe(getViewLifecycleOwner(), icon ->
+                saveBtn.setImageDrawable(getResources().getDrawable(icon, null)));
     }
 
     private void setupDateTimeBtn() {
@@ -154,11 +136,75 @@ public class CatchEntryFragment extends Fragment implements CatchEntryViewModel.
     }
 
     private void setupCameraBtn(){
-        Button cameraButton = binding.cameraButton;
+        ImageButton cameraButton = binding.cameraButton;
         cameraButton.setOnClickListener(v -> takePicture());
     }
 
-    void takePicture(){dispatchTakePictureIntent();}
+    private void setupFishSpinner() {
+        Spinner spinner = binding.fishSpeciesSpinner;
+
+        List<String> fish = new ArrayList<>();
+        ArrayAdapter<String> speciesAdapter = new ArrayAdapter<>(Objects.requireNonNull(getActivity()), android.R.layout.simple_spinner_item, fish);
+        spinner.setAdapter(speciesAdapter);
+
+        MediatorLiveData<Integer> spinnerMediator = new MediatorLiveData<>();
+        spinnerMediator.setValue(0);
+        spinnerMediator.addSource(catchEntryViewModel.getAllFish(), species -> {
+            speciesAdapter.clear();
+            speciesAdapter.add("Select Fish Species");
+            for (Fish currentFish : species) {
+                speciesAdapter.add(currentFish.species);
+                speciesAdapter.notifyDataSetChanged();
+            }
+            int position = speciesAdapter.getPosition(catchEntryViewModel.getFish().getValue());
+            spinnerMediator.setValue(position);
+        });
+        spinnerMediator.addSource(catchEntryViewModel.getFish(), selectedFish -> {
+            if (selectedFish != null) {
+                int position = speciesAdapter.getPosition(selectedFish);
+                spinnerMediator.setValue(position);
+            }
+        });
+        spinnerMediator.observe(getViewLifecycleOwner(), spinner::setSelection);
+
+        spinner.setOnItemSelectedListener(catchEntryViewModel);
+    }
+
+    private void setupEntryFields() {
+        catchEntryViewModel.getWeight().observe(getViewLifecycleOwner(), weight -> binding.weightInput.setText(weight));
+        catchEntryViewModel.getLength().observe(getViewLifecycleOwner(), length -> binding.lengthInput.setText(length));
+        catchEntryViewModel.getComments().observe(getViewLifecycleOwner(), comments -> binding.commentsInput.setText(comments));
+
+        binding.weightInput.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                catchEntryViewModel.setWeight(binding.weightInput.getText().toString());
+            }
+        });
+        binding.lengthInput.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                catchEntryViewModel.setLength(binding.lengthInput.getText().toString());
+            }
+        });
+        binding.commentsInput.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                catchEntryViewModel.setComments(binding.commentsInput.getText().toString());
+            }
+        });
+    }
+
+    private void setCurrentlySelectedLake() {
+        MainViewModel mainViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity())).get(MainViewModel.class);
+        String lake;
+        // TODO: REMOVE HIGH PRIORITY, enforce selected lake choice.
+        if (mainViewModel.getCurrentlySelectedLake().getValue() == null) {
+            lake = "Pinecrest Lake";
+        } else {
+            lake = mainViewModel.getCurrentlySelectedLake().getValue().lakeName;
+        }
+        catchEntryViewModel.setLake(lake);
+    }
+
+   void takePicture() {dispatchTakePictureIntent();}
 
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 
@@ -167,7 +213,7 @@ public class CatchEntryFragment extends Fragment implements CatchEntryViewModel.
             File f = new File(currentPhotoPath);
             Log.d("tag", "Absolute url of image is catch entry " + currentPhotoPath);
             if (currentPhotoPath != null) {
-                imagePaths.add(currentPhotoPath);
+                catchEntryViewModel.addPhoto(currentPhotoPath);
                 Toast.makeText(getContext(), "Picture has been added", Toast.LENGTH_LONG).show();
             }
 
@@ -205,7 +251,7 @@ public class CatchEntryFragment extends Fragment implements CatchEntryViewModel.
 
     private void onSaveBtnPressed() {
         if (binding.fishSpeciesSpinner.getSelectedItemPosition() != 0) {
-            catchEntryViewModel.addPhoto(imagePaths);
+            persistTextEntries();
             saveCatchRecord();
             setupCurrentRecord();
         } else {
@@ -243,37 +289,7 @@ public class CatchEntryFragment extends Fragment implements CatchEntryViewModel.
         }
     }
 
-    private void setupFishSpinner() {
-        Spinner spinner = binding.fishSpeciesSpinner;
-
-        List<String> fish = new ArrayList<>();
-        ArrayAdapter<String> speciesAdapter = new ArrayAdapter<>(Objects.requireNonNull(getActivity()), android.R.layout.simple_spinner_item, fish);
-        spinner.setAdapter(speciesAdapter);
-
-        MediatorLiveData<Integer> spinnerMediator = new MediatorLiveData<>();
-        spinnerMediator.setValue(0);
-        spinnerMediator.addSource(catchEntryViewModel.getAllFish(), species -> {
-            speciesAdapter.clear();
-            speciesAdapter.add("Select Fish Species");
-            for (Fish currentFish : species) {
-                speciesAdapter.add(currentFish.species);
-                speciesAdapter.notifyDataSetChanged();
-            }
-            int position = speciesAdapter.getPosition(catchEntryViewModel.getFish().getValue());
-            spinnerMediator.setValue(position);
-        });
-        spinnerMediator.addSource(catchEntryViewModel.getFish(), selectedFish -> {
-            if (selectedFish != null) {
-                int position = speciesAdapter.getPosition(selectedFish);
-                spinnerMediator.setValue(position);
-            }
-        });
-        spinnerMediator.observe(getViewLifecycleOwner(), spinner::setSelection);
-
-        spinner.setOnItemSelectedListener(catchEntryViewModel);
-    }
-
-    private void setupDateTimeBtnObservations() {
+   private void setupDateTimeBtnObservations() {
         dateTimeSelectViewModel.getYear().observe(getViewLifecycleOwner(), value -> catchEntryViewModel.updateCalendar(CatchEntryViewModel.CalendarField.YEAR, value));
         dateTimeSelectViewModel.getMonth().observe(getViewLifecycleOwner(), value -> catchEntryViewModel.updateCalendar(CatchEntryViewModel.CalendarField.MONTH, value));
         dateTimeSelectViewModel.getDay().observe(getViewLifecycleOwner(), value -> catchEntryViewModel.updateCalendar(CatchEntryViewModel.CalendarField.DAY, value));
@@ -286,7 +302,7 @@ public class CatchEntryFragment extends Fragment implements CatchEntryViewModel.
         catchEntryViewModel.getMinute().observe(getViewLifecycleOwner(), minute -> dateTimeSelectViewModel.shownMinute = minute);
     }
 
-    @Override
+   @Override
     public void persist() {
         persistTextEntries();
     }

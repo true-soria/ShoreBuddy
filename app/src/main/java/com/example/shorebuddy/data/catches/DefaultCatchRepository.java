@@ -48,10 +48,10 @@ public class DefaultCatchRepository implements CatchRepository {
     public void updateCatch(CatchRecordWithPhotos recordWithPhotos) {
         ShoreBuddyDatabase.databaseExecutor.execute(() -> {
             catchesDao.update(recordWithPhotos.record);
-//            for (CatchPhoto photo : recordWithPhotos.photos) {
-//                photo.catchRecordUid = recordWithPhotos.record.uid;
-//                catchesDao.insert(photo);
-//            }
+            for (CatchPhoto photo : recordWithPhotos.photos) {
+                photo.catchRecordUid = recordWithPhotos.record.uid;
+                catchesDao.insert(photo);
+            }
         });
     }
 }

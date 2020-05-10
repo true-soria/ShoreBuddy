@@ -10,16 +10,21 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavDirections;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shorebuddy.R;
 import com.example.shorebuddy.adapters.HomepageAdapter;
+import com.example.shorebuddy.viewmodels.LakeSelect.LakeSelectResultViewModel;
 import com.example.shorebuddy.viewmodels.MainViewModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import static androidx.navigation.fragment.NavHostFragment.findNavController;
 
 public class HomepageView extends Fragment {
 
@@ -80,6 +85,14 @@ public class HomepageView extends Fragment {
         mainViewModel.getWeatherData().observe(getViewLifecycleOwner(), weather -> {
             weatherWidget.setData(weather);
             adapter.setWidgets(getWidgets());
+        });
+
+        FloatingActionButton selectLakeButton = rootView.findViewById(R.id.selectLakeBtn);
+        selectLakeButton.setOnClickListener((v) -> {
+            LakeSelectResultViewModel lakeViewModel = new ViewModelProvider(getActivity()).get(LakeSelectResultViewModel.class);
+            lakeViewModel.setLakeSelectedCallback(mainViewModel);
+            NavDirections action = HomepageViewDirections.actionHomepageViewToLakeSelectFragment();
+            findNavController(this).navigate(action);
         });
 
         adapter.setWidgets(getWidgets());
