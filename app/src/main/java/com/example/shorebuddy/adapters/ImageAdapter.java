@@ -7,24 +7,33 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 import androidx.viewpager.widget.PagerAdapter;
+
+import com.example.shorebuddy.data.catches.CatchPhoto;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ImageAdapter extends PagerAdapter {
     private Context mContext;
-    private ArrayList<String> imagePaths;
+    private ArrayList<String> listImagePaths;
 
-    public ImageAdapter(Context context, ArrayList<String> imagePaths) {
+    public ImageAdapter(Context context) {
         this.mContext = context;
-        this.imagePaths = imagePaths;
+    }
 
+    public void setImagePaths(List<CatchPhoto> imagePaths) {
+        for(CatchPhoto imagePath : imagePaths){
+            listImagePaths.add(imagePath.path);
+        }
+        notifyDataSetChanged();
     }
 
     @Override
     public int getCount() {
-        return imagePaths.size();
+        return listImagePaths.size();
     }
 
     @Override
@@ -42,7 +51,7 @@ public class ImageAdapter extends PagerAdapter {
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         ImageView imageView = new ImageView(mContext);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        imageView.setImageURI(Uri.fromFile(new File(imagePaths.get(position))));
+        imageView.setImageURI(Uri.fromFile(new File(listImagePaths.get(position))));
         container.addView(imageView, 0);
         return imageView;
     }

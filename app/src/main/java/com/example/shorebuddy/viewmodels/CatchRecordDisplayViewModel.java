@@ -1,6 +1,7 @@
 package com.example.shorebuddy.viewmodels;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -23,10 +24,7 @@ import static java.lang.String.*;
 public class CatchRecordDisplayViewModel extends AndroidViewModel {
 
     private CatchRepository catchRepo;
-    //public MutableLiveData<List<CatchPhoto>> photos;
     public MutableLiveData<CatchRecordWithPhotos> record = new MutableLiveData<>(new CatchRecordWithPhotos());
-    //private LiveData<CatchRecordWithPhotos> recordWithPhotos = new MutableLiveData<>(new CatchRecordWithPhotos());
-    //private LiveData<CatchRecord> record = Transformations.map(recordWithPhotos, r -> r.record);
     public LiveData<List<CatchPhoto>> photos = Transformations.map(record, r -> r.photos);
     public LiveData<String> recordSpecies = Transformations.map(record, r -> r.record.fish);
     public LiveData<String> recordLake = Transformations.map(record, r -> r.record.lake);

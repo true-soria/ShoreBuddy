@@ -56,7 +56,7 @@ public class CatchEntryFragment extends Fragment implements CatchEntryViewModel.
     private static final int CAMERA_REQUEST_CODE = 102;
     private String currentPhotoPath;
     private ArrayList<String> imagePaths = new ArrayList<>();
-    private ViewPager viewPager;
+    //private ViewPager viewPager;
 
     public CatchEntryFragment() {}
 
@@ -104,7 +104,7 @@ public class CatchEntryFragment extends Fragment implements CatchEntryViewModel.
         });
 
         pictureTaken = binding.imageTaken;
-        viewPager = binding.imageSlider;
+        //viewPager = binding.imageSlider;
         return binding.getRoot();
     }
 
@@ -177,8 +177,8 @@ public class CatchEntryFragment extends Fragment implements CatchEntryViewModel.
             Log.d("tag", "Absolute url of image is catch entry " + currentPhotoPath);
             if (currentPhotoPath != null) {
                 imagePaths.add(currentPhotoPath);
-                ImageAdapter imageAdapter = new ImageAdapter(getContext(), imagePaths);
-                viewPager.setAdapter(imageAdapter);
+                //ImageAdapter imageAdapter = new ImageAdapter(getContext(), imagePaths);
+                //viewPager.setAdapter(imageAdapter);
                 Toast.makeText(getContext(), "Picture has been added", Toast.LENGTH_LONG).show();
             }
 

@@ -1,5 +1,6 @@
 package com.example.shorebuddy.views;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,7 @@ import android.widget.TextView;
 import com.example.shorebuddy.adapters.ImageAdapter;
 import com.example.shorebuddy.data.catches.CatchPhoto;
 import com.example.shorebuddy.data.catches.CatchRecord;
+import com.example.shorebuddy.data.lakes.Lake;
 import com.example.shorebuddy.data.relationships.CatchRecordWithPhotos;
 import com.example.shorebuddy.viewmodels.CatchRecordDisplayViewModel;
 import com.example.shorebuddy.R;
@@ -61,9 +64,9 @@ public class CatchRecordDisplayFragment extends Fragment {
         Button editButton = rootView.findViewById(R.id.edit_btn);
         editButton.setOnClickListener(this::onEditClick);
         viewPager = rootView.findViewById(R.id.imageSlider);
+        ImageAdapter imageAdapter = new ImageAdapter(getContext());
         catchRecordDisplayViewModel.photos.observe(getViewLifecycleOwner(), this::populateImagePaths);
-        ImageAdapter imageAdapter = new ImageAdapter(getContext(), imagePaths);
-        viewPager.setAdapter(imageAdapter);
+        catchRecordDisplayViewModel.photos.observe(getViewLifecycleOwner(),imageAdapter::setImagePaths);
         return rootView;
     }
 
