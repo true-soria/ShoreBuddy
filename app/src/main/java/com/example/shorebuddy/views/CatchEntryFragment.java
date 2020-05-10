@@ -52,7 +52,6 @@ public class CatchEntryFragment extends Fragment implements CatchEntryViewModel.
     private FragmentCatchEntryBinding binding;
     private static final int CAMERA_REQUEST_CODE = 102;
     private String currentPhotoPath;
-    private ArrayList<String> imagePaths = new ArrayList<>();
 
     public CatchEntryFragment() {}
 
@@ -194,14 +193,7 @@ public class CatchEntryFragment extends Fragment implements CatchEntryViewModel.
 
     private void setCurrentlySelectedLake() {
         MainViewModel mainViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity())).get(MainViewModel.class);
-        String lake;
-        // TODO: REMOVE HIGH PRIORITY, enforce selected lake choice.
-        if (mainViewModel.getCurrentlySelectedLake().getValue() == null) {
-            lake = "Pinecrest Lake";
-        } else {
-            lake = mainViewModel.getCurrentlySelectedLake().getValue().lakeName;
-        }
-        catchEntryViewModel.setLake(lake);
+        catchEntryViewModel.setLake(mainViewModel.getCurrentlySelectedLake().getValue().lakeName);
     }
 
    void takePicture() {dispatchTakePictureIntent();}

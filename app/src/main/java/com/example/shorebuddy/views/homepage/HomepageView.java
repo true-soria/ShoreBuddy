@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shorebuddy.R;
 import com.example.shorebuddy.adapters.HomepageAdapter;
+import com.example.shorebuddy.utilities.BottomViewToggle;
 import com.example.shorebuddy.viewmodels.LakeSelect.LakeSelectResultViewModel;
 import com.example.shorebuddy.viewmodels.MainViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -42,6 +43,8 @@ public class HomepageView extends Fragment {
         fishWidget = new FishWidget(getContext());
         solunarWidget = new SolunarWidget(getContext());
         weatherWidget = new WeatherWidget(getContext());
+        BottomViewToggle activity = (BottomViewToggle) getActivity();
+        activity.enableBottomNavigationView();
     }
 
     private List<ModuleWidget> getWidgets() {
