@@ -26,9 +26,9 @@ public class MainActivity extends AppCompatActivity implements BottomViewToggle 
             constraintLayout.getWindowVisibleDisplayFrame(rect);
             int screenHeight = constraintLayout.getRootView().getHeight();
             int keypadHeight = screenHeight - rect.bottom;
-            if (keypadHeight > screenHeight * 0.15) {
+            if (keypadHeight > screenHeight * 0.15 && bottomNavigationView != null) {
                 bottomNavigationView.setVisibility(View.GONE);
-            } else if (bottomViewEnabled) {
+            } else if (bottomViewEnabled && bottomNavigationView != null) {
                 bottomNavigationView.setVisibility(View.VISIBLE);
             }
         });
@@ -43,13 +43,15 @@ public class MainActivity extends AppCompatActivity implements BottomViewToggle 
 
     @Override
     public void disableBottomNavigationView() {
+        if (bottomNavigationView != null) {
             bottomNavigationView.setVisibility(View.GONE);
             bottomViewEnabled = false;
+        }
     }
 
     @Override
     public void enableBottomNavigationView() {
-        if (!bottomViewEnabled) {
+        if (!bottomViewEnabled && bottomNavigationView != null) {
             bottomNavigationView.setVisibility(View.VISIBLE);
             bottomViewEnabled = true;
         }

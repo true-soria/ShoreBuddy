@@ -27,8 +27,8 @@ public class CatchRecordDisplayViewModel extends AndroidViewModel {
     public LiveData<List<CatchPhoto>> photos = Transformations.map(record, r -> r.photos);
     public LiveData<String> recordSpecies = Transformations.map(record, r -> r.record.fish);
     public LiveData<String> recordLake = Transformations.map(record, r -> r.record.lake);
-    public LiveData<String> recordWeight = Transformations.map(record, r -> format(Locale.US, "%f", r.record.weight));
-    public LiveData<String> recordLength = Transformations.map(record, r -> format(Locale.US, "%f", r.record.length));
+    public LiveData<String> recordWeight = Transformations.map(record, r -> format(Locale.US, "%.2f", r.record.weight));
+    public LiveData<String> recordLength = Transformations.map(record, r -> format(Locale.US, "%.2f", r.record.length));
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yy hh:mm a", Locale.US);
     public LiveData<String> recordDate = Transformations.map(record, r -> dateFormat.format(r.record.timeCaught.getTime()));
     public LiveData<String> recordComments = Transformations.map(record, r -> r.record.comments);
