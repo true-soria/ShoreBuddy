@@ -14,14 +14,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="@id/countySpinner"
+        style="@style/textForDarkBG"
         android:layout_marginStart="8dp"
-        android:text="County:" />
+        android:text="@string/county" />
 
     <Spinner
         android:id="@+id/countySpinner"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        style="@style/textForDarkBG"
         app:layout_constraintStart_toEndOf="@id/countyTextView"
         app:layout_constraintEnd_toEndOf="parent"/>
 

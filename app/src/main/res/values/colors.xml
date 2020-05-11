@@ -7,5 +7,6 @@
     <color name="colorWeatherIconBG">#60A1BF</color>
     <color name="colorTextOpaque">#595959</color>
     <color name="colorGenericText">#000000</color>
+    <color name="whiteText">#FFF</color>
     <color name="colorWidgetBackground">#FFF</color>
 </resources>

@@ -44,7 +44,7 @@ public class LakeFilterView extends ConstraintLayout implements Spinner.OnItemSe
         View rootView = getRootView();
         Spinner countySpinner = rootView.findViewById(R.id.countySpinner);
         spinner = countySpinner;
-        ArrayAdapter<String> countyAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, counties);
+        ArrayAdapter<String> countyAdapter = new ArrayAdapter<String>(getContext(), R.layout.county_spinner_dropdown_item, counties);
         countySpinner.setAdapter(countyAdapter);
         countySpinner.setOnItemSelectedListener(this);
     }
