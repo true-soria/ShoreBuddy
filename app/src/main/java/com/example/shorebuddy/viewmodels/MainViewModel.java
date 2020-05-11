@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 import com.example.shorebuddy.R;
+import com.example.shorebuddy.data.fish.Fish;
 import com.example.shorebuddy.data.lakes.DefaultLakeRepository;
 import com.example.shorebuddy.data.lakes.Lake;
 import com.example.shorebuddy.data.lakes.LakeRepository;
@@ -15,17 +16,16 @@ import com.example.shorebuddy.data.solunar.DefaultSolunarRepository;
 import com.example.shorebuddy.data.weather.DefaultWeatherRepository;
 import com.example.shorebuddy.data.weather.Weather;
 import com.example.shorebuddy.data.weather.WeatherRepository;
-import com.example.shorebuddy.utilities.SearchQuery;
 import com.example.shorebuddy.utilities.UpdateManager;
 
 import com.example.shorebuddy.data.solunar.SolunarRepository;
+import com.example.shorebuddy.viewmodels.LakeSelect.LakeSelectResultViewModel;
 
 import org.json.JSONException;
 
 import java.util.List;
 
-
-public class MainViewModel extends AndroidViewModel implements DefaultWeatherRepository.OnAPIErrorHandler, DefaultSolunarRepository.OnSolAPIErrorHandler {
+public class MainViewModel extends AndroidViewModel implements DefaultWeatherRepository.OnAPIErrorHandler, DefaultSolunarRepository.OnSolAPIErrorHandler, LakeSelectResultViewModel.OnLakeSelected {
 
     private final WeatherRepository weatherRepo = new DefaultWeatherRepository(this);
 
@@ -34,35 +34,25 @@ public class MainViewModel extends AndroidViewModel implements DefaultWeatherRep
     private final UpdateManager updateStatusManager = new UpdateManager();
 
     private final MutableLiveData<Lake> currentSelectedLake = new MutableLiveData<>();
-    private final MutableLiveData<String> searchStr = new MutableLiveData<>();
+    private final LiveData<List<Fish>> fishInCurrentLake = Transformations.switchMap(currentSelectedLake,
+            currentLake -> lakeRepo.getFishInLake(currentLake));
 
-   private  LiveData<List<Lake>> allLakes;
-   private final LiveData<List<Lake>> filteredLakes;
     private final LiveData<Weather> weatherData = Transformations.switchMap(currentSelectedLake,
-            currentLake -> weatherRepo.getWeatherData(currentLake.getLakeLatLng()));
+            currentLake -> weatherRepo.getWeatherData(currentLake.getLatLng()));
     private final LiveData<Solunar> solunarData = Transformations.switchMap(currentSelectedLake,
-            currentLake -> solunarRepo.getSolunarData(currentLake.getLakeLatLng()));
+            currentLake -> solunarRepo.getSolunarData(currentLake.getLatLng()));
 
     private final MutableLiveData<Integer> toastData = new MutableLiveData<>();
+
 
     public MainViewModel(@NonNull Application application) {
         super(application);
         this.lakeRepo = new DefaultLakeRepository(application);
-        this.allLakes = lakeRepo.getAllLakes();
-        searchStr.setValue("");
-        filteredLakes = Transformations.switchMap(searchStr, query -> {
-            if (query.isEmpty()) {
-                return allLakes;
-            } else {
-                return lakeRepo.getFilteredLakes(new SearchQuery(query));
-            }
-        });
     }
-    public LiveData<List<Lake>> getAllLakes() {return this.allLakes;}
 
     public LiveData<Lake> getCurrentlySelectedLake() { return currentSelectedLake; }
 
-    public LiveData<List<Lake>> getFilteredLakes() { return filteredLakes; }
+    public LiveData<List<Fish>> getFishInCurrentLake() { return fishInCurrentLake; }
 
     public LiveData<Weather> getWeatherData() { return weatherData; }
 
@@ -73,13 +63,6 @@ public class MainViewModel extends AndroidViewModel implements DefaultWeatherRep
     public LiveData<Boolean> getUpdatingStatus() { return updateStatusManager.isUpdating(); }
 
     public void setCurrentSelectedLake(Lake lake) { currentSelectedLake.setValue(lake); }
-
-    public void setCurrentSelectedLakeFromFilteredPosition(int position) {
-        assert filteredLakes.getValue() != null;
-        currentSelectedLake.setValue(filteredLakes.getValue().get(position));
-    }
-
-    public void setSearchQuery(String query) { searchStr.setValue(query); }
 
     public void requestWeatherUpdate() {
         updateStatusManager.weatherUpdateStarted();
@@ -116,5 +99,9 @@ public class MainViewModel extends AndroidViewModel implements DefaultWeatherRep
         }
     }
 
+    @Override
+    public void onLakeSelected(Lake lake) {
+        currentSelectedLake.setValue(lake);
+    }
 }
 

@@ -1,7 +1,10 @@
 <resources>
     <string name="app_name">ShoreBuddy</string>
-    <string name="current_lake_text">Currently Selected Lake: </string>
     <string name="select_lake">Select Lake</string>
+    <string name="boat_ramp">Boat Ramp</string>
+    <string name="wheelchair_access">Wheelchair Access</string>
+    <string name="fuel">Fuel</string>
+    <string name="restroom">Restroom</string>
     <string name="update_weather">Update Weather</string>
     <string name="pressure">Pressure:</string>
     <string name="humidity">Humidity:</string>
@@ -12,8 +15,31 @@
     <string name="wind_direction">Heading:</string>
     <string name="compass_icon">CompassIcon</string>
     <string name="missing_icon">Missing Icon</string>
+    <string name="icon_description">data graphic</string>
+    <string name="moon_major1">Major 1</string>
+    <string name="moon_major2">Major 2</string>
+    <string name="moon_minor1">Minor 1</string>
+    <string name="moon_minor2">Minor 2</string>
     <string name="weather_fetch_error">Error fetching weather data.</string>
     <string name="weather_parse_error">Error parsing weather data</string>
     <string name="solunar_fetch_error">Error fetching solunar data</string>
     <string name="solunar_parse_error">Error parsing solunar data</string>
+    <string name="species_prompt">Species:</string>
+    <string name="lake_prompt">Lake:</string>
+    <string name="time_caught_prompt">Time Caught:</string>
+    <string name="weather">Weather</string>
+    <string name="camera">Camera</string>
+    <string name="catches">Catches</string>
+    <string name="take_picture">Take Picture</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="weight">Weight:</string>
+    <string name="length">Length:</string>
+    <string name="lbs">Lbs</string>
+    <string name="inches">inches</string>
+    <string name="catch_str">Catch</string>
+    <string name="save">Save</string>
+    <string name="comments">Comments:</string>
+    <string name="error_str">Error</string>
+    <string name="add_pictures">Add Pictures</string>
+    <string name="county">County:</string>
 </resources>

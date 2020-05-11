@@ -39,7 +39,7 @@ public class WeatherAttributeView extends ConstraintLayout {
         }
 
         inflate(getContext(), R.layout.weather_attribute_layout, this);
-        setBackground(getResources().getDrawable(R.drawable.rounded_square_gray, null));
+        setBackground(getResources().getDrawable(R.drawable.rounded_square_widgets, null));
         TextView staticTitleView = findViewById(R.id.static_label_text);
         dataText = findViewById(R.id.data_text_view);
         ImageView iconView = findViewById(R.id.icon);

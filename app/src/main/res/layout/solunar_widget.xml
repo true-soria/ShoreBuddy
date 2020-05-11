@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/solunar_widget_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".views.homepage.SolunarWidget"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent">
+
+    <com.example.shorebuddy.views.homepage.WidgetTextLine
+        android:id="@+id/sol_property1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorWidgetBackground"
+        app:property_name="@string/moon_minor1"
+        app:property_value="minor_1"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <com.example.shorebuddy.views.homepage.WidgetTextLine
+        android:id="@+id/sol_property2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorWidgetBackground"
+        app:property_name="@string/moon_minor2"
+        app:property_value="minor_2"
+        app:layout_constraintTop_toBottomOf="@id/sol_property1"/>
+
+    <com.example.shorebuddy.views.homepage.WidgetTextLine
+        android:id="@+id/sol_property3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorWidgetBackground"
+        app:property_name="@string/moon_major1"
+        app:property_value="major_1"
+        app:layout_constraintTop_toBottomOf="@id/sol_property2"/>
+
+    <com.example.shorebuddy.views.homepage.WidgetTextLine
+        android:id="@+id/sol_property4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorWidgetBackground"
+        android:layout_marginBottom="8dp"
+        app:property_name="@string/moon_major2"
+        app:property_value="major_2"
+        app:layout_constraintTop_toBottomOf="@id/sol_property3"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

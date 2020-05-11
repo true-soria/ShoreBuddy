@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/homepageView"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="Home"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/lakeFragment"
+        android:icon="@drawable/ic_map_"
+        android:title="Map"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/catchEntryFragment"
+        android:icon="@drawable/ic_file_upload"
+        android:title="@string/catch_str"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/catchRecordsFragment"
+        android:icon="@drawable/ic_library_books"
+        android:title="Catch Records"
+        app:showAsAction="ifRoom" />
+</menu>

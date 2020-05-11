@@ -22,6 +22,7 @@
             app:layout_constraintGuide_percent=".5"/>
 
         <TextView
+            style="@style/textLakeTitle"
             android:id="@+id/current_lake_text"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -58,6 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
+            android:textColor="@color/colorTextOpaque"
             app:layout_constraintBottom_toTopOf="@id/select_lake_btn"/>
 
         <Button
@@ -66,9 +68,10 @@
             android:layout_height="wrap_content"
             android:text="@string/select_lake"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"  />
 
         <TextView
+            style="@style/textFishList"
             android:id="@+id/fishList_Text"
             android:layout_width="0dp"
             android:layout_height="0dp"

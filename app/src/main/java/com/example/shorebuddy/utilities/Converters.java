@@ -3,32 +3,33 @@ package com.example.shorebuddy.utilities;
 import androidx.room.TypeConverter;
 
 import com.google.android.gms.maps.model.LatLng;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 
 public class Converters {
     @TypeConverter
-    public static Date fromTimestamp(Long value) {
-        return value == null ? null : new Date(value);
+    public static boolean intToBool(int value) {
+        return value == 1;
     }
 
     @TypeConverter
-    public static Long dateToTimestamp(Date date) {
-        return date == null ? null : date.getTime();
+    public static int boolToInt(boolean value) { if (value) return 1; return 0; }
+
+    @TypeConverter
+    public static Calendar fromTimestamp(Long value) {
+        Calendar date = Calendar.getInstance();
+        date.setTimeInMillis(value);
+        return date;
     }
 
-    public static double kelvinToFahrenheit(double kelvinTemp) {
-        return (((kelvinTemp - 273.15) * (9./5.)) + 32);
+    @TypeConverter
+    public static Long dateToTimestamp(Calendar date) {
+        return date.getTimeInMillis();
     }
-
 
     @TypeConverter
     public static String coordinatesToString(LatLng value){
-        return Double.toString(value.latitude)+","+Double.toString(value.longitude);
+        return value.latitude +","+ value.longitude;
     }
 
     @TypeConverter
@@ -38,17 +39,61 @@ public class Converters {
     }
 
     @TypeConverter
-    public static ArrayList<String> fromString(String value){
-        Type listType = new TypeToken<ArrayList<String>>(){}.getType();
-        return new Gson().fromJson(value,listType);
+    public static String degreesToCardinalDirection(int degreeHeading) {
+        String cardinalDirection = "NS";
+        int headingSection = (int) ((degreeHeading + 11) / 22.5);
+        switch (headingSection)
+        {
+            case 0:
+                cardinalDirection = "N";
+                break;
+            case 1:
+                cardinalDirection = "NNE";
+                break;
+            case 2:
+                cardinalDirection = "NE";
+                break;
+            case 3:
+                cardinalDirection = "ENE";
+                break;
+            case 4:
+                cardinalDirection = "E";
+                break;
+            case 5:
+                cardinalDirection = "ESE";
+                break;
+            case 6:
+                cardinalDirection = "SE";
+                break;
+            case 7:
+                cardinalDirection = "SSE";
+                break;
+            case 8:
+                cardinalDirection = "S";
+                break;
+            case 9:
+                cardinalDirection = "SSW";
+                break;
+            case 10:
+                cardinalDirection = "SW";
+                break;
+            case 11:
+                cardinalDirection = "WSW";
+                break;
+            case 12:
+                cardinalDirection = "W";
+                break;
+            case 13:
+                cardinalDirection = "WNW";
+                break;
+            case 14:
+                cardinalDirection = "NW";
+                break;
+            case 15:
+                cardinalDirection = "NNW";
+                break;
+        }
+        return cardinalDirection;
     }
-
-
-    @TypeConverter
-    public static String fromArrayList(ArrayList<String> list){
-        Gson gson = new Gson();
-        return gson.toJson(list);
-    }
-
 
 }

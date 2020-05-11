@@ -9,7 +9,6 @@ import androidx.room.PrimaryKey;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.Calendar;
-import java.util.Scanner;
 
 @Entity(tableName = "solunar_cache")
 public class Solunar{
@@ -197,21 +196,6 @@ public class Solunar{
         latitude = location.latitude;
         longitude = location.longitude;
     }
-
-    /*public Calendar getDateReference() {
-        Calendar dateReferenceObj = Calendar.getInstance();
-        Scanner scanner = new Scanner(this.dateReference);
-        int month = scanner.nextInt() - 1;
-        int day = scanner.nextInt() - 1;
-        int year = scanner.nextInt();
-
-        dateReferenceObj.set(year, month, day);
-        return dateReferenceObj;
-    }
-
-    public void setDateReference (Calendar date) {
-        dateReference = simpleDateFormat.format(date);
-    }*/
 
     public Calendar getTimestamp() {
         return timestamp;

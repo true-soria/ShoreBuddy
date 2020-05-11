@@ -4,4 +4,38 @@
         <attr name="icon" format="reference"/>
         <attr name="label" format="string"/>
     </declare-styleable>
+
+    <declare-styleable name="WidgetTextGenerator">
+        <attr name="property_name" format="string"/>
+        <attr name="property_icon" format="reference"/>
+        <attr name="property_value">
+            <enum name="moon_cycle" value="0" />
+            <enum name="moon_rise" value="1" />
+            <enum name="moon_transit" value="2" />
+            <enum name="moon_set" value="3" />
+            <enum name="minor_1" value="4" />
+            <enum name="minor_2" value="5" />
+            <enum name="major_1" value="6" />
+            <enum name="major_2" value="7" />
+            <enum name="day_rating" value="8" />
+            <enum name="temperature" value="9" />
+            <enum name="pressure" value="10" />
+            <enum name="humidity" value="11" />
+            <enum name="main" value="12" />
+            <enum name="description" value="13" />
+            <enum name="wind_speed" value="14" />
+            <enum name="wind_direction" value="15" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="WidgetIconText" parent="WidgetTextGenerator">
+        <attr name="property_icon"/>
+        <attr name="property_name"/>
+        <attr name="property_value"/>
+    </declare-styleable>
+
+    <declare-styleable name="WidgetTextLine" parent="WidgetTextGenerator">
+        <attr name="property_name"/>
+        <attr name="property_value"/>
+    </declare-styleable>
 </resources>
