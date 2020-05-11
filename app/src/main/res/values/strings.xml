@@ -41,4 +41,5 @@
     <string name="comments">Comments:</string>
     <string name="error_str">Error</string>
     <string name="add_pictures">Add Pictures</string>
+    <string name="county">County:</string>
 </resources>
