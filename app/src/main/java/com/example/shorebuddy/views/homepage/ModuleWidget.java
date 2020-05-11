@@ -23,7 +23,4 @@ public abstract class ModuleWidget extends ConstraintLayout {
     public abstract Drawable getIcon();
 
     public abstract String getTitle();
-
-    // TODO setData method that uses MainViewModel across all
-    // public abstract void setData(Object data);
 }

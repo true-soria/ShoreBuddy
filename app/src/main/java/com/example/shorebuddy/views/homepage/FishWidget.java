@@ -39,7 +39,7 @@ public class FishWidget extends ModuleWidget {
         rightProperty = findViewById(R.id.right_property);
 
         // TODO Fish icon
-        this.icon = getResources().getDrawable(R.drawable.ic_compass_rose,null);
+        this.icon = getResources().getDrawable(R.drawable.ic_fish_2,null);
         this.title = String.format(Locale.US, "%s", FISH);
     }
 

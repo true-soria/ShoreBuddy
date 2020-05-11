@@ -52,7 +52,7 @@ public class LakeWidget extends ModuleWidget {
 
         // TODO Shore Buddy / Lake icon
         checkMark = getResources().getDrawable(R.drawable.ic_check_mark,null);
-        this.icon = getResources().getDrawable(R.drawable.ic_compass_rose,null);
+        this.icon = getResources().getDrawable(R.drawable.ic_angler,null);
         this.title = String.format(Locale.US, "%s", LAKE);
     }
 
