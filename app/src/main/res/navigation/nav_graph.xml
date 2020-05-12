@@ -81,6 +81,9 @@
         <action
             android:id="@+id/action_catchRecordsFragment_to_catchRecordDisplayFragment"
             app:destination="@id/catchRecordDisplayFragment" />
+        <action
+            android:id="@+id/action_catchRecordsFragment_to_catchEntryFragment"
+            app:destination="@id/catchEntryFragment" />
     </fragment>
     <fragment
         android:id="@+id/homepageView"

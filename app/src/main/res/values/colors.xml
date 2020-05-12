@@ -9,4 +9,5 @@
     <color name="colorGenericText">#000000</color>
     <color name="whiteText">#FFF</color>
     <color name="colorWidgetBackground">#FFF</color>
+    <color name="deleteBackground">#FF5722</color>
 </resources>
