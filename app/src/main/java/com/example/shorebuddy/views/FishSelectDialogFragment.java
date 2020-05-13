@@ -36,6 +36,8 @@ public class FishSelectDialogFragment extends DialogFragment {
 
     private List<Fish> fish;
 
+    private final Long ghostKey = -5L;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +77,7 @@ public class FishSelectDialogFragment extends DialogFragment {
                 new SpeciesDetailsLookup(recyclerView),
                 StorageStrategy.createLongStorage())
                 .withSelectionPredicate(SelectionPredicates.createSelectAnything()).build();
+        tracker.select(ghostKey);
         adapter.setTracker(tracker);
 
     }
@@ -85,8 +88,11 @@ public class FishSelectDialogFragment extends DialogFragment {
             ArrayList<Fish> fish = new ArrayList<>();
             Selection<Long> selection = tracker.getSelection();
             for (Iterator<Long> it = selection.iterator(); it.hasNext(); ) {
-                Integer item = it.next().intValue();
-                fish.add(this.fish.get(item));
+                Long item = it.next();
+                if (!item.equals(ghostKey)) {
+                    int position = item.intValue();
+                    fish.add(this.fish.get(position));
+                }
             }
             fishSelectResultViewModel.setResultFish(fish);
             dismiss();
