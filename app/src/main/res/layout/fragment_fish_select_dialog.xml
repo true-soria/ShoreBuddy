@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/close_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:background="@color/whiteText"
+            android:gravity="left|center_vertical"
+            android:stateListAnimator="@null"
+            android:text="CLOSE"
+            android:textStyle="bold"
+            android:textColor="@color/foregroundBlue"
+            app:layout_constraintEnd_toStartOf="@id/titleText"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/titleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Species"
+            android:textSize="20sp"
+            app:layout_constraintBaseline_toBaselineOf="@id/close_btn"
+            app:layout_constraintEnd_toStartOf="@id/save_button"
+            app:layout_constraintStart_toEndOf="@id/close_btn" />
+
+        <Button
+            android:id="@+id/save_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="12dp"
+            android:background="#FFFFFF"
+            android:gravity="right|center_vertical"
+            android:textStyle="bold"
+            android:stateListAnimator="@null"
+            android:text="SAVE"
+            android:textColor="@color/foregroundBlue"
+            app:layout_constraintBaseline_toBaselineOf="@id/titleText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/titleText" />
+
+        <View
+            android:id="@+id/separator"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:background="#c0c0c0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/close_btn" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/fish_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/separator" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

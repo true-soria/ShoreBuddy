@@ -63,8 +63,8 @@ public class MainFragment extends Fragment {
     }
 
     private void onClickSelectLakeBtn(View v) {
-        NavDirections action = MainFragmentDirections.actionMainFragmentToLakeSelectFragment();
-        findNavController(this).navigate(action);
+        //NavDirections action = MainFragmentDirections.actionMainFragmentToLakeSelectFragment();
+        //findNavController(this).navigate(action);
     }
 
     private void renderSelectedLake(@NotNull View rootView) {

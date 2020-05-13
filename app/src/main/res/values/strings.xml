@@ -42,4 +42,6 @@
     <string name="error_str">Error</string>
     <string name="add_pictures">Add Pictures</string>
     <string name="county">County:</string>
+    <string name="all_lakes">All Lakes</string>
+    <string name="all_species">All Species</string>
 </resources>

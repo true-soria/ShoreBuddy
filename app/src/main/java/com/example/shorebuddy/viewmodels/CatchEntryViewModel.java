@@ -20,7 +20,7 @@ import com.example.shorebuddy.data.fish.FishRepository;
 import com.example.shorebuddy.data.lakes.Lake;
 import com.example.shorebuddy.data.relationships.CatchRecordWithPhotos;
 import com.example.shorebuddy.utilities.Event;
-import com.example.shorebuddy.viewmodels.LakeSelect.LakeSelectResultViewModel;
+import com.example.shorebuddy.viewmodels.lake_select.LakeSelectResultViewModel;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

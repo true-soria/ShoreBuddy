@@ -10,7 +10,7 @@ android {
     buildToolsVersion "29.0.3"
     defaultConfig {
         applicationId "com.example.shorebuddy"
-        minSdkVersion 24
+        minSdkVersion 26
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -85,5 +85,6 @@ dependencies {
     //For Bottom Navigation Bar 
     implementation 'android.arch.navigation:navigation-fragment:1.0.0'
     implementation 'android.arch.navigation:navigation-ui:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview-selection:1.0.0'
 
 }

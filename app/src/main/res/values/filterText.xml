@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="FilterTheme">
+        <item name="android:background">@color/backgroundGray</item>
+        <item name="android:textColor">@color/foregroundBlue</item>
+        <item name="cardBackgroundColor">@color/backgroundGray</item>
+        <item name="cardCornerRadius">8dp</item>
+    </style>
+</resources>

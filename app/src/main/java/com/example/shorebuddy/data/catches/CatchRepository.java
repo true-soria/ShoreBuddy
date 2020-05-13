@@ -9,6 +9,8 @@ import java.util.List;
 public interface CatchRepository {
     LiveData<List<CatchRecord>> getCatchRecordsDescending();
 
+    LiveData<List<CatchRecord>> getCatchRecordsFiltered(CatchRecordFilter filter);
+
     LiveData<CatchRecordWithPhotos> getCatchRecordWithPhotos(int uid);
 
     void recordCatch(CatchRecordWithPhotos record);
