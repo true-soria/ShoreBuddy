@@ -16,7 +16,7 @@
         <argument
             android:name="popNavigation"
             app:argType="boolean"
-            android:defaultValue="false" />
+            android:defaultValue="true" />
         <action
             android:id="@+id/action_lakeSelectFragment_to_catchEntryFragment"
             app:destination="@id/catchEntryFragment" >
@@ -24,15 +24,10 @@
                 android:name="recordUid"
                 android:defaultValue="-2" />
         </action>
-    </fragment>
-    <fragment
-        android:id="@+id/mainFragment"
-        android:name="com.example.shorebuddy.views.MainFragment"
-        android:label="MainFragment"
-        tools:layout="@layout/main_fragment">
-        <action
-            android:id="@+id/action_mainFragment_to_lakeSelectFragment"
-            app:destination="@id/lakeSelectFragment" />
+        <argument
+            android:name="requestFromEntryFrag"
+            app:argType="boolean"
+            android:defaultValue="false" />
     </fragment>
     <fragment
         android:id="@+id/catchEntryFragment"
@@ -56,7 +51,7 @@
             android:id="@+id/action_catchEntryFragment_to_lakeSelectFragment"
             app:destination="@id/lakeSelectFragment" >
             <argument
-                android:name="popNavigation"
+                android:name="requestFromEntryFrag"
                 android:defaultValue="true" />
         </action>
     </fragment>
@@ -69,11 +64,6 @@
         android:name="com.example.shorebuddy.views.TimePickerFragment"
         android:label="TimePickerFragment" />
     <fragment
-        android:id="@+id/cameraFragment"
-        android:name="com.example.shorebuddy.views.CameraFragment"
-        android:label="fragment_camera"
-        tools:layout="@layout/fragment_camera" />
-    <fragment
         android:id="@+id/catchRecordsFragment"
         android:name="com.example.shorebuddy.views.CatchHistoryFragment"
         android:label="fragment_catch_records"
@@ -84,6 +74,12 @@
         <action
             android:id="@+id/action_catchRecordsFragment_to_catchEntryFragment"
             app:destination="@id/catchEntryFragment" />
+        <action
+            android:id="@+id/action_catchRecordsFragment_to_lakeSelectFragment"
+            app:destination="@id/lakeSelectFragment" />
+        <action
+            android:id="@+id/action_catchRecordsFragment_to_fishSelectDialogFragment"
+            app:destination="@id/fishSelectDialogFragment" />
     </fragment>
     <fragment
         android:id="@+id/homepageView"
@@ -110,11 +106,7 @@
         android:id="@+id/lakeFragment"
         android:name="com.example.shorebuddy.views.LakeFragment"
         android:label="fragment_lake"
-        tools:layout="@layout/fragment_lake" >
-        <action
-            android:id="@+id/action_lakeFragment_to_lakeSelectFragment"
-            app:destination="@id/lakeSelectFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_lake" />
     <fragment
         android:id="@+id/initFragment"
         android:name="com.example.shorebuddy.views.InitFragment"
@@ -122,6 +114,14 @@
         tools:layout="@layout/fragment_init" >
         <action
             android:id="@+id/action_initFragment_to_lakeSelectFragment"
-            app:destination="@id/lakeSelectFragment" />
+            app:destination="@id/lakeSelectFragment" >
+            <argument
+                android:name="popNavigation"
+                android:defaultValue="false" />
+        </action>
     </fragment>
+    <dialog
+        android:id="@+id/fishSelectDialogFragment"
+        android:name="com.example.shorebuddy.views.FishSelectDialogFragment"
+        android:label="FishSelectDialogFragment" />
 </navigation>

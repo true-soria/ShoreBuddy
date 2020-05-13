@@ -30,6 +30,15 @@ public interface CatchesDao {
     @Query("SELECT * FROM CatchRecords ORDER BY timeCaught DESC")
     LiveData<List<CatchRecord>> getAllRecordsDescending();
 
+    @Query("SELECT * FROM CatchRecords WHERE lake=:lake AND fish IN (:fish) ORDER BY timeCaught DESC")
+    LiveData<List<CatchRecord>> getRecordsFilteredLakeFish(String lake, List<String> fish);
+
+    @Query("SELECT * FROM CatchRecords WHERE lake=:lake ORDER BY timeCaught DESC")
+    LiveData<List<CatchRecord>> getRecordsFilteredLake(String lake);
+
+    @Query("SELECT * FROM CatchRecords WHERE fish IN (:fish) ORDER BY timeCaught DESC")
+    LiveData<List<CatchRecord>> getRecordsFilteredFish(List<String> fish);
+
     @Transaction
     @Query("SELECT * FROM CatchRecords WHERE uid=:uid")
     LiveData<CatchRecordWithPhotos> getCatchRecordWithPhotos(int uid);

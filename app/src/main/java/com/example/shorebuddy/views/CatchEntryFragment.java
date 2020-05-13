@@ -31,7 +31,7 @@ import com.example.shorebuddy.data.fish.Fish;
 import com.example.shorebuddy.databinding.FragmentCatchEntryBinding;
 import com.example.shorebuddy.viewmodels.CatchEntryViewModel;
 import com.example.shorebuddy.viewmodels.DateTimeSelectViewModel;
-import com.example.shorebuddy.viewmodels.LakeSelect.LakeSelectResultViewModel;
+import com.example.shorebuddy.viewmodels.lake_select.LakeSelectResultViewModel;
 import com.example.shorebuddy.viewmodels.MainViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 

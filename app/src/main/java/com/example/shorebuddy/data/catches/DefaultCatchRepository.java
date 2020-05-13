@@ -23,6 +23,19 @@ public class DefaultCatchRepository implements CatchRepository {
     }
 
     @Override
+    public LiveData<List<CatchRecord>> getCatchRecordsFiltered(CatchRecordFilter filter) {
+        if (filter.getLake() == null && filter.getFish() == null) {
+            return catchesDao.getAllRecordsDescending();
+        } else if (filter.getLake() != null && filter.getFish() != null) {
+            return catchesDao.getRecordsFilteredLakeFish(filter.getLake(), filter.getFish());
+        } else if (filter.getLake() != null) {
+            return catchesDao.getRecordsFilteredLake(filter.getLake());
+        } else {
+            return catchesDao.getRecordsFilteredFish(filter.getFish());
+        }
+    }
+
+    @Override
     public LiveData<CatchRecordWithPhotos> getCatchRecordWithPhotos(int uid) {
         return catchesDao.getCatchRecordWithPhotos(uid);
     }

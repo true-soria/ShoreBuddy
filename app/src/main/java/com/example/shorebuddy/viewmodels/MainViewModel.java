@@ -19,7 +19,7 @@ import com.example.shorebuddy.data.weather.WeatherRepository;
 import com.example.shorebuddy.utilities.UpdateManager;
 
 import com.example.shorebuddy.data.solunar.SolunarRepository;
-import com.example.shorebuddy.viewmodels.LakeSelect.LakeSelectResultViewModel;
+import com.example.shorebuddy.viewmodels.lake_select.LakeSelectResultViewModel;
 
 import org.json.JSONException;
 

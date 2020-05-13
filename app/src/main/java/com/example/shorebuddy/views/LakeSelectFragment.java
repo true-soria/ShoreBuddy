@@ -20,8 +20,8 @@ import android.widget.SearchView;
 import com.example.shorebuddy.R;
 import com.example.shorebuddy.adapters.LakeListAdapter;
 import com.example.shorebuddy.data.lakes.Lake;
-import com.example.shorebuddy.viewmodels.LakeSelect.LakeSelectResultViewModel;
-import com.example.shorebuddy.viewmodels.LakeSelect.LakeSelectViewModel;
+import com.example.shorebuddy.viewmodels.lake_select.LakeSelectResultViewModel;
+import com.example.shorebuddy.viewmodels.lake_select.LakeSelectViewModel;
 
 import java.util.Objects;
 
@@ -33,6 +33,7 @@ public class LakeSelectFragment extends Fragment implements LakeListAdapter.OnLa
     private LakeSelectResultViewModel resultViewModel;
     private LakeFilterView lakeFilterView;
     private boolean popBackStack;
+    private boolean returnToEntry;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,7 +46,9 @@ public class LakeSelectFragment extends Fragment implements LakeListAdapter.OnLa
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.lake_select_fragment, container, false);
-        popBackStack = LakeSelectFragmentArgs.fromBundle(getArguments()).getPopNavigation();
+        LakeSelectFragmentArgs args = LakeSelectFragmentArgs.fromBundle(getArguments());
+        popBackStack = args.getPopNavigation();
+        returnToEntry = args.getRequestFromEntryFrag();
         Activity activity = getActivity();
         RecyclerView lakesRecyclerView = rootView.findViewById(R.id.lakes_recycler_view);
         final LakeListAdapter lakesAdapter = new LakeListAdapter(activity, this);
@@ -92,12 +95,15 @@ public class LakeSelectFragment extends Fragment implements LakeListAdapter.OnLa
         lakeViewModel.setFilterCounty("");
         closeKeyboard();
         NavDirections action;
-        if (popBackStack) {
+        if (returnToEntry) {
             action = LakeSelectFragmentDirections.actionLakeSelectFragmentToCatchEntryFragment();
+            findNavController(this).navigate(action);
+        } else if (popBackStack) {
+            findNavController(this).popBackStack();
         } else {
             action = LakeSelectFragmentDirections.actionLakeSelectFragmentToHomepageView();
+            findNavController(this).navigate(action);
         }
-        findNavController(this).navigate(action);
     }
 
     void OnLakeFilterPressed(View view) {

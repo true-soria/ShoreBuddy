@@ -5,18 +5,14 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavDirections;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.shorebuddy.R;
-import com.example.shorebuddy.data.fish.Fish;
 import com.example.shorebuddy.data.lakes.Lake;
-import com.example.shorebuddy.viewmodels.LakeSelect.LakeSelectResultViewModel;
 import com.example.shorebuddy.viewmodels.MainViewModel;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -28,10 +24,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
 import java.util.Objects;
-
-import static androidx.navigation.fragment.NavHostFragment.findNavController;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -79,18 +72,6 @@ public class LakeFragment extends Fragment {
         TextView currentLakeTextView = rootView.findViewById(R.id.current_lake_text);
         mainViewModel.getCurrentlySelectedLake().observe(getViewLifecycleOwner(), currentLake ->
                 currentLakeTextView.setText(String.format("%s", currentLake.lakeName)));
-    }
-
-    private void onClickSelectLakeBtn(View v) {
-        LakeSelectResultViewModel resultViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity())).get(LakeSelectResultViewModel.class);
-        resultViewModel.setLakeSelectedCallback(mainViewModel);
-        NavDirections action = LakeFragmentDirections.actionLakeFragmentToLakeSelectFragment();
-        findNavController(this).navigate(action);
-    }
-
-    private void setupLakeSelectBtn(@NotNull View rootView) {
-        Button selectLakeBtn = rootView.findViewById(R.id.select_lake_btn);
-        selectLakeBtn.setOnClickListener(this::onClickSelectLakeBtn);
     }
 
     @Override

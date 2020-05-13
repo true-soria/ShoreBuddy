@@ -1,4 +1,4 @@
-package com.example.shorebuddy.viewmodels.LakeSelect;
+package com.example.shorebuddy.viewmodels.lake_select;
 
 import androidx.lifecycle.ViewModel;
 

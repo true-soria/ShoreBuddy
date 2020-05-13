@@ -2,25 +2,120 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-
-    <data>
-
-    </data>
-
+    <data />
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorWeatherIconBG"
         tools:context=".views.CatchHistoryFragment">
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/lakeFilterView"
+            android:clickable="true"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            style="@style/FilterTheme"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/speciesFilterView"
+            app:layout_constraintTop_toTopOf="parent"
+            android:focusable="true">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/placeImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:src="@drawable/ic_place_black_24dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+                <TextView
+                    android:id="@+id/lakeFilterText"
+                    style="@style/FilterTheme"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_margin="4dp"
+                    android:textSize="18sp"
+                    android:text="@string/all_lakes"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    app:layout_constraintStart_toEndOf="@id/placeImage"
+                    app:layout_constraintEnd_toStartOf="@id/lakeFilterClearButton"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+                <ImageButton
+                    android:id="@+id/lakeFilterClearButton"
+                    style="@style/FilterTheme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:src="@drawable/ic_clear_blue_24dp"
+                    android:layout_margin="4dp"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toEndOf="@id/lakeFilterText"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/speciesFilterView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            style="@style/FilterTheme"
+            app:layout_constraintStart_toEndOf="@+id/lakeFilterView"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/fishImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:src="@drawable/ic_food"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+                <TextView
+                    android:id="@+id/speciesFilterText"
+                    style="@style/FilterTheme"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_margin="4dp"
+                    android:textSize="18sp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@string/all_species"
+                    app:layout_constraintStart_toEndOf="@id/fishImage"
+                    app:layout_constraintEnd_toStartOf="@id/speciesFilterClearButton"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+                <ImageButton
+                    android:id="@+id/speciesFilterClearButton"
+                    style="@style/FilterTheme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:src="@drawable/ic_clear_blue_24dp"
+                    android:layout_margin="4dp"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toEndOf="@id/speciesFilterText"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/catch_record_recycler_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginTop="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/lakeFilterView" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/add_record_btn"

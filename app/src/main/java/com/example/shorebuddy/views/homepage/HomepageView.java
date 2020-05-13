@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.shorebuddy.R;
 import com.example.shorebuddy.adapters.HomepageAdapter;
 import com.example.shorebuddy.utilities.BottomViewToggle;
-import com.example.shorebuddy.viewmodels.LakeSelect.LakeSelectResultViewModel;
+import com.example.shorebuddy.viewmodels.lake_select.LakeSelectResultViewModel;
 import com.example.shorebuddy.viewmodels.MainViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
