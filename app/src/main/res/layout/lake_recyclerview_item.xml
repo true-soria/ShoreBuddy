@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="16dp"
-    android:background="@drawable/box_outline">
+    android:layout_margin="4dp"
+    android:background="@drawable/rounded_square_white">
 
     <TextView
         android:id="@+id/lakeListTextView"

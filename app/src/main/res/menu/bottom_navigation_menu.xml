@@ -12,11 +12,6 @@
         android:title="Map"
         app:showAsAction="always" />
     <item
-        android:id="@+id/catchEntryFragment"
-        android:icon="@drawable/ic_file_upload"
-        android:title="@string/catch_str"
-        app:showAsAction="ifRoom" />
-    <item
         android:id="@+id/catchRecordsFragment"
         android:icon="@drawable/ic_library_books"
         android:title="Catch Records"

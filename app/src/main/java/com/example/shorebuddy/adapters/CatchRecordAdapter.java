@@ -18,7 +18,8 @@ import java.util.List;
 import java.util.Locale;
 
 public class CatchRecordAdapter extends RecyclerView.Adapter<CatchRecordAdapter.CatchRecordHolder>
-        implements OnItemClickedListener {
+        implements OnItemClickedListener
+{
     private List<CatchRecord> records;
     private final LayoutInflater layoutInflater;
     private final OnRecordClickedListener onRecordClickedListener;
@@ -44,10 +45,6 @@ public class CatchRecordAdapter extends RecyclerView.Adapter<CatchRecordAdapter.
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yy", Locale.US);
             holder.dateTextView.setText(dateFormat.format(current.timeCaught.getTime()));
-
-            holder.deleteButton.setOnClickListener((v -> {
-                onRecordClickedListener.onDeleteButtonClicked(current);
-            }));
         } else {
             holder.speciesTextView.setText(R.string.error_str);
         }
@@ -67,6 +64,11 @@ public class CatchRecordAdapter extends RecyclerView.Adapter<CatchRecordAdapter.
         notifyDataSetChanged();
     }
 
+    public void removeAt(int position) {
+        CatchRecord toRemove = records.get(position);
+        onRecordClickedListener.onDeleteButtonClicked(toRemove);
+    }
+
     @Override
     public void onItemClicked(int item) {
         onRecordClickedListener.onRecordClicked(records.get(item));
@@ -76,7 +78,6 @@ public class CatchRecordAdapter extends RecyclerView.Adapter<CatchRecordAdapter.
         private final TextView speciesTextView;
         private final TextView lakeTextView;
         private final TextView dateTextView;
-        private final ImageButton deleteButton;
         private OnItemClickedListener onItemClickedListener;
 
         CatchRecordHolder(@NonNull View itemView, OnItemClickedListener listener) {
@@ -85,7 +86,6 @@ public class CatchRecordAdapter extends RecyclerView.Adapter<CatchRecordAdapter.
             speciesTextView = itemView.findViewById(R.id.record_species_text);
             lakeTextView = itemView.findViewById(R.id.record_lake_text);
             dateTextView = itemView.findViewById(R.id.record_date_text);
-            deleteButton = itemView.findViewById(R.id.delete_record_btn);
             itemView.setOnClickListener(this);
         }
 

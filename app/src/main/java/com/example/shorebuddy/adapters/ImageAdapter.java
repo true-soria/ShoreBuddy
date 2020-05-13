@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.example.shorebuddy.data.catches.CatchPhoto;
@@ -53,6 +52,7 @@ public class ImageAdapter extends PagerAdapter {
         ImageView imageView = new ImageView(mContext);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         imageView.setImageURI(Uri.fromFile(new File(listImagePaths.get(position))));
+        imageView.setPadding(4,0,4,0);
         container.addView(imageView, 0);
         return imageView;
     }
