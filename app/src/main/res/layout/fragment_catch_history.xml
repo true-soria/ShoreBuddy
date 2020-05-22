@@ -6,7 +6,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorBackgroundWidgets"
+        android:background="@color/colorWeatherIconBG"
         tools:context=".views.CatchHistoryFragment">
 
         <androidx.cardview.widget.CardView
