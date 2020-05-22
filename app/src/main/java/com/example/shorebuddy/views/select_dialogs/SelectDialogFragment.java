@@ -30,7 +30,7 @@ import java.util.List;
 public abstract class SelectDialogFragment extends DialogFragment {
     DialogSelectResultViewModel dialogSelectResultViewModel;
     DialogSelectViewModel dialogSelectViewModel;
-    private FragmentSelectDialogBinding binding;
+    FragmentSelectDialogBinding binding;
     private SelectionTracker<Long> tracker;
     protected List<String> data;
     private final Long ghostKey = -5L;
