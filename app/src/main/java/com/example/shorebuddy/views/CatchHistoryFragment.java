@@ -23,7 +23,7 @@ import com.example.shorebuddy.data.catches.CatchRecord;
 import com.example.shorebuddy.databinding.FragmentCatchHistoryBinding;
 import com.example.shorebuddy.utilities.SwipeToDeleteCallback;
 import com.example.shorebuddy.viewmodels.CatchHistoryViewModel;
-import com.example.shorebuddy.viewmodels.fish_select.FishSelectResultViewModel;
+import com.example.shorebuddy.viewmodels.DialogSelectResultViewModel;
 import com.example.shorebuddy.viewmodels.lake_select.LakeSelectResultViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -79,10 +79,10 @@ public class CatchHistoryFragment extends Fragment implements CatchRecordAdapter
     private void setupFishFilter() {
         CardView fishCardView = binding.speciesFilterView;
         fishCardView.setOnClickListener((v) -> {
-            FishSelectResultViewModel fishSelectResultViewModel = new ViewModelProvider(getActivity()).get(FishSelectResultViewModel.class);
-            fishSelectResultViewModel.setFishSelectedCallback(catchHistoryViewModel);
+            DialogSelectResultViewModel dialogSelectResultViewModel = new ViewModelProvider(getActivity()).get(DialogSelectResultViewModel.class);
+            dialogSelectResultViewModel.setSelectedCallback(catchHistoryViewModel);
 
-            NavDirections action = CatchHistoryFragmentDirections.actionCatchRecordsFragmentToFishSelectDialogFragment();
+            NavDirections action = CatchHistoryFragmentDirections.actionCatchRecordsFragmentToSelectDialogFragment();
             findNavController(this).navigate(action);
         });
 

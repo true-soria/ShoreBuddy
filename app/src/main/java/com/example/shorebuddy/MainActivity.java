@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity implements BottomViewToggle 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
         setUpNavigation();
+        getSupportActionBar().hide();
         ConstraintLayout constraintLayout = findViewById(R.id.container);
         constraintLayout.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
             Rect rect = new Rect();
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements BottomViewToggle 
     public void setUpNavigation(){
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         NavHostFragment navHostFragment = (NavHostFragment)getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
-        NavigationUI.setupWithNavController(bottomNavigationView,navHostFragment.getNavController());
+        NavigationUI.setupWithNavController(bottomNavigationView, navHostFragment.getNavController());
         disableBottomNavigationView();
     }
 

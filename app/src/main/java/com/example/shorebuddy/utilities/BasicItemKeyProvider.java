@@ -5,10 +5,10 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.selection.ItemKeyProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class SpeciesItemKeyProvider extends ItemKeyProvider<Long> {
+public class BasicItemKeyProvider extends ItemKeyProvider<Long> {
     private RecyclerView recyclerView;
 
-    public SpeciesItemKeyProvider(RecyclerView recyclerView) {
+    public BasicItemKeyProvider(RecyclerView recyclerView) {
         super(ItemKeyProvider.SCOPE_MAPPED);
         this.recyclerView = recyclerView;
     }

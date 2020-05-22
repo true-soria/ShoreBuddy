@@ -4,27 +4,24 @@ import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 
 import com.example.shorebuddy.BR;
-import com.example.shorebuddy.data.fish.Fish;
-import com.example.shorebuddy.data.lakes.Lake;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class CatchRecordFilter extends BaseObservable {
-    private Lake lake;
-    private List<Fish> fish;
+    private String lake;
+    private List<String> fish;
 
     @Bindable
     public String getLake() {
         if (lake != null) {
-            return lake.lakeName;
+            return lake;
         }
         return null;
     }
 
-    public void setLake(@NotNull Lake lake) {
+    public void setLake(@NotNull String lake) {
         this.lake = lake;
         notifyPropertyChanged(BR.lake);
     }
@@ -36,13 +33,10 @@ public class CatchRecordFilter extends BaseObservable {
 
     @Bindable
     public List<String> getFish() {
-        if (fish != null) {
-            return fish.stream().map(f -> f.species).collect(Collectors.toList());
-        }
-        return null;
+            return fish;
     }
 
-    public void setFish(@NotNull List<Fish> fish) {
+    public void setFish(@NotNull List<String> fish) {
         this.fish = fish;
         notifyPropertyChanged(BR.fish);
     }

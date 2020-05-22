@@ -26,4 +26,9 @@ public class DefaultFishRepository implements FishRepository {
         return fishDao.getFish(species);
     }
 
+    @Override
+    public LiveData<List<String>> getAllFishSpecies() {
+        return fishDao.getAllFishSpecies();
+    }
+
 }

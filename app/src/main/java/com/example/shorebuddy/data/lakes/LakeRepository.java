@@ -8,7 +8,8 @@ import java.util.List;
 
 // TODO: Implement LakeRepository Interface
 public interface LakeRepository {
-    LiveData<List<Lake>> getFilteredLakes(LakeFilter search);
+    LiveData<List<String>> getFilteredLakes(LakeFilter search);
     LiveData<List<Fish>> getFishInLake(Lake lake);
     LiveData<List<String>> getAllCounties();
+    LiveData<Lake> getLake(String lakeName);
 }

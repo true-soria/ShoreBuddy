@@ -11,11 +11,11 @@ public class LakeSelectResultViewModel extends ViewModel {
         this.lakeSelectedCallback = lakeSelectedCallback;
     }
 
-    public void setResultLake(Lake lake) {
+    public void setResultLake(String lake) {
         lakeSelectedCallback.onLakeSelected(lake);
     }
 
     public interface OnLakeSelected {
-        void onLakeSelected(Lake lake);
+        void onLakeSelected(String lake);
     }
 }

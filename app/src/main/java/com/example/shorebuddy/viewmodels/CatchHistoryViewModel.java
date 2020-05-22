@@ -11,10 +11,7 @@ import com.example.shorebuddy.data.catches.CatchRecord;
 import com.example.shorebuddy.data.catches.CatchRecordFilter;
 import com.example.shorebuddy.data.catches.CatchRepository;
 import com.example.shorebuddy.data.catches.DefaultCatchRepository;
-import com.example.shorebuddy.data.fish.Fish;
-import com.example.shorebuddy.data.lakes.Lake;
 import com.example.shorebuddy.utilities.CustomMutableLiveData;
-import com.example.shorebuddy.viewmodels.fish_select.FishSelectResultViewModel;
 import com.example.shorebuddy.viewmodels.lake_select.LakeSelectResultViewModel;
 
 import java.util.List;
@@ -22,7 +19,7 @@ import java.util.List;
 public class CatchHistoryViewModel
         extends AndroidViewModel
         implements LakeSelectResultViewModel.OnLakeSelected,
-                   FishSelectResultViewModel.OnFishFilterSaved
+        DialogSelectResultViewModel.OnDialogDataSaved
 {
     private CatchRepository catchRepository;
 
@@ -48,7 +45,7 @@ public class CatchHistoryViewModel
         return catchFilter;
     }
 
-    public void setCatchFilterLake(Lake lake) {
+    public void setCatchFilterLake(String lake) {
         catchFilter.getValue().setLake(lake);
     }
 
@@ -56,7 +53,7 @@ public class CatchHistoryViewModel
         catchFilter.getValue().clearLake();
     }
 
-    public void setCatchFilterFish(List<Fish> fish) {
+    public void setCatchFilterFish(List<String> fish) {
         catchFilter.getValue().setFish(fish);
     }
 
@@ -69,12 +66,12 @@ public class CatchHistoryViewModel
     }
 
     @Override
-    public void onLakeSelected(Lake lake) {
+    public void onLakeSelected(String lake) {
         setCatchFilterLake(lake);
     }
 
     @Override
-    public void onFishSelected(List<Fish> fish) {
+    public void onSelected(List<String> fish) {
         setCatchFilterFish(fish);
     }
 }

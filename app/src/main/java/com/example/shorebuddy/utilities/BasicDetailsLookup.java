@@ -8,13 +8,11 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.selection.ItemDetailsLookup;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.shorebuddy.adapters.SpeciesFilterAdapter;
-
-public class SpeciesDetailsLookup extends ItemDetailsLookup<Long> {
+public class BasicDetailsLookup extends ItemDetailsLookup<Long> {
 
     private RecyclerView recyclerView;
 
-    public SpeciesDetailsLookup(RecyclerView recyclerView) {
+    public BasicDetailsLookup(RecyclerView recyclerView) {
         this.recyclerView = recyclerView;
     }
 
@@ -23,9 +21,13 @@ public class SpeciesDetailsLookup extends ItemDetailsLookup<Long> {
     public ItemDetails<Long> getItemDetails(@NonNull MotionEvent e) {
         View touchedView =recyclerView.findChildViewUnder(e.getX(), e.getY());
         if (touchedView != null) {
-            SpeciesFilterAdapter.SpeciesViewHolder viewHolder = (SpeciesFilterAdapter.SpeciesViewHolder) recyclerView.getChildViewHolder(touchedView);
+            ItemLookupViewHolder<Long> viewHolder = (ItemLookupViewHolder<Long>) recyclerView.getChildViewHolder(touchedView);
             return viewHolder.getItemDetails();
         }
         return null;
+    }
+
+    public interface ItemLookupViewHolder<T> {
+        ItemDetailsLookup.ItemDetails<T> getItemDetails();
     }
 }

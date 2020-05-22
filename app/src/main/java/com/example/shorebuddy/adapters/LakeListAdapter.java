@@ -16,7 +16,7 @@ import java.util.List;
 
 public class LakeListAdapter extends RecyclerView.Adapter<LakeListAdapter.LakeViewHolder> {
     public static class LakeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private Lake lake;
+        private String lakeName;
         private final TextView lakeItemView;
         private final OnLakeListener onLakeListener;
 
@@ -28,12 +28,12 @@ public class LakeListAdapter extends RecyclerView.Adapter<LakeListAdapter.LakeVi
         }
 
         @Override
-        public void onClick(View v) { onLakeListener.onLakeSelected(lake); }
+        public void onClick(View v) { onLakeListener.onLakeSelected(lakeName); }
     }
 
     private final LayoutInflater inflater;
     private final OnLakeListener onLakeListener;
-    private List<Lake> lakes;
+    private List<String> lakes;
 
     public LakeListAdapter(Context context, OnLakeListener onLakeListener) {
         inflater = LayoutInflater.from(context);
@@ -50,13 +50,13 @@ public class LakeListAdapter extends RecyclerView.Adapter<LakeListAdapter.LakeVi
     @Override
     public void onBindViewHolder(@NotNull LakeViewHolder holder, int position) {
         if (lakes != null) {
-            Lake current_lake = lakes.get(position);
-            holder.lakeItemView.setText(current_lake.lakeName);
-            holder.lake = current_lake;
+            String current_lake = lakes.get(position);
+            holder.lakeItemView.setText(current_lake);
+            holder.lakeName = current_lake;
         }
     }
 
-    public void setLakes(List<Lake> lakes) {
+    public void setLakes(List<String> lakes) {
         this.lakes = lakes;
         notifyDataSetChanged();
     }
@@ -70,6 +70,6 @@ public class LakeListAdapter extends RecyclerView.Adapter<LakeListAdapter.LakeVi
     }
 
     public interface OnLakeListener {
-        void onLakeSelected(Lake lake);
+        void onLakeSelected(String lakeName);
     }
 }
