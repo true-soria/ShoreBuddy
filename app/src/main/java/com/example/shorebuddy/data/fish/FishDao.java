@@ -32,4 +32,7 @@ public interface FishDao {
 
     @Query("SELECT * FROM fish WHERE species=:species")
     LiveData<Fish> getFish(String species);
+
+    @Query("SELECT species FROM fish")
+    LiveData<List<String>> getAllFishSpecies();
 }

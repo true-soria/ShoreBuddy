@@ -8,7 +8,6 @@ import androidx.lifecycle.Transformations;
 import com.example.shorebuddy.data.ShoreBuddyDatabase;
 import com.example.shorebuddy.data.fish.Fish;
 import com.example.shorebuddy.data.relationships.LakeWithFish;
-import com.example.shorebuddy.utilities.SearchQuery;
 
 import java.util.List;
 
@@ -22,11 +21,15 @@ public class DefaultLakeRepository implements LakeRepository {
     }
 
     @Override
-    public LiveData<List<Lake>> getFilteredLakes(LakeFilter query) {
-        if (query.county == null || query.county.equals("")) {
+    public LiveData<List<String>> getFilteredLakes(LakeFilter query) {
+        if (query.county == null && query.fish == null) {
             return lakeDao.getFilteredLakes(query.name.getQuery());
+        } else if (query.county != null && query.fish != null) {
+            return lakeDao.getFilteredLakes(query.name.getQuery(), query.getFishSpecies(), query.county);
+        } else if (query.county != null) {
+            return lakeDao.getFilteredLakesCounty(query.name.getQuery(), query.county);
         } else {
-            return lakeDao.getFilteredLakes(query.name.getQuery(), query.county);
+            return lakeDao.getFilteredLakesSpecies(query.name.getQuery(), query.getFishSpecies());
         }
     }
 
@@ -39,5 +42,10 @@ public class DefaultLakeRepository implements LakeRepository {
     @Override
     public LiveData<List<String>> getAllCounties() {
         return lakeDao.getAllCounties();
+    }
+
+    @Override
+    public LiveData<Lake> getLake(String lakeName) {
+        return lakeDao.findLake(lakeName);
     }
 }

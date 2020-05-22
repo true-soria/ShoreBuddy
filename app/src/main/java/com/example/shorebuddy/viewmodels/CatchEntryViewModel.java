@@ -214,8 +214,8 @@ public class CatchEntryViewModel extends AndroidViewModel implements LakeSelectR
     }
 
     @Override
-    public void onLakeSelected(Lake lake) {
-        setLake(lake.lakeName);
+    public void onLakeSelected(String lake) {
+        setLake(lake);
     }
 
     @Override

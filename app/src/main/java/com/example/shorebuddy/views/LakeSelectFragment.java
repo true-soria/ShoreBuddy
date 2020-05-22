@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
@@ -16,10 +17,12 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.SearchView;
+import android.widget.TextView;
 
-import com.example.shorebuddy.R;
 import com.example.shorebuddy.adapters.LakeListAdapter;
 import com.example.shorebuddy.data.lakes.Lake;
+import com.example.shorebuddy.databinding.LakeSelectFragmentBinding;
+import com.example.shorebuddy.viewmodels.DialogSelectResultViewModel;
 import com.example.shorebuddy.viewmodels.lake_select.LakeSelectResultViewModel;
 import com.example.shorebuddy.viewmodels.lake_select.LakeSelectViewModel;
 
@@ -31,7 +34,7 @@ public class LakeSelectFragment extends Fragment implements LakeListAdapter.OnLa
 
     private LakeSelectViewModel lakeViewModel;
     private LakeSelectResultViewModel resultViewModel;
-    private LakeFilterView lakeFilterView;
+    private LakeSelectFragmentBinding binding;
     private boolean popBackStack;
     private boolean returnToEntry;
 
@@ -43,31 +46,104 @@ public class LakeSelectFragment extends Fragment implements LakeListAdapter.OnLa
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.lake_select_fragment, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        binding = LakeSelectFragmentBinding.inflate(inflater, container, false);
+
         LakeSelectFragmentArgs args = LakeSelectFragmentArgs.fromBundle(getArguments());
         popBackStack = args.getPopNavigation();
         returnToEntry = args.getRequestFromEntryFrag();
+
+        setupLakeRecycleView();
+        setupLakeSearchView();
+        setupFishFilter();
+        setupCountyFilter();
+        setupFilterText();
+
+        return binding.getRoot();
+    }
+
+    private void setupFishFilter() {
+        CardView fishCardView = binding.speciesFilterView;
+        fishCardView.setOnClickListener((v) -> {
+            DialogSelectResultViewModel dialogSelectResultViewModel = new ViewModelProvider(getActivity()).get(DialogSelectResultViewModel.class);
+            dialogSelectResultViewModel.setSelectedCallback((data -> lakeViewModel.setFilterSpecies(data)));
+
+            NavDirections action = LakeSelectFragmentDirections.actionLakeSelectFragmentToSelectDialogFragment();
+            findNavController(this).navigate(action);
+        });
+
+        ImageButton fishClearBtn = binding.speciesFilterClearButton;
+        fishClearBtn.setOnClickListener((v) -> {
+            lakeViewModel.setFilterSpecies(null);
+            fishClearBtn.setVisibility(View.GONE);
+        });
+    }
+
+    private void setupCountyFilter() {
+        CardView fishCardView = binding.countyFilterView;
+        fishCardView.setOnClickListener((v) -> {
+            DialogSelectResultViewModel dialogSelectResultViewModel = new ViewModelProvider(getActivity()).get(DialogSelectResultViewModel.class);
+            dialogSelectResultViewModel.setSelectedCallback((data -> lakeViewModel.setFilterCounty(data)));
+
+            NavDirections action = LakeSelectFragmentDirections.actionLakeSelectFragmentToCountySelectDialogFragment();
+            findNavController(this).navigate(action);
+        });
+
+        ImageButton countyFilterClearButton = binding.countyFilterClearButton;
+        countyFilterClearButton.setOnClickListener((v) -> {
+            lakeViewModel.setFilterCounty(null);
+            countyFilterClearButton.setVisibility(View.GONE);
+        });
+    }
+
+    private void setupFilterText() {
+        ImageButton countyClearBtn = binding.countyFilterClearButton;
+        ImageButton fishClearBtn = binding.speciesFilterClearButton;
+        TextView countyText = binding.countyFilterText;
+        TextView speciesFilterText = binding.speciesFilterText;
+        lakeViewModel.getLakeFilter().observe(getViewLifecycleOwner(), filter -> {
+            if (filter.county != null) {
+                String s = String.join(", ", filter.county);
+                countyText.setText(s);
+                countyClearBtn.setVisibility(View.VISIBLE);
+            } else {
+                countyText.setText("All Counties");
+            }
+
+            if (filter.fish != null) {
+                String s = String.join(", ", filter.fish);
+                speciesFilterText.setText(s);
+                fishClearBtn.setVisibility(View.VISIBLE);
+            } else {
+                speciesFilterText.setText("All Species");
+            }
+        });
+    }
+
+    private void setupLakeRecycleView() {
         Activity activity = getActivity();
-        RecyclerView lakesRecyclerView = rootView.findViewById(R.id.lakes_recycler_view);
+        assert activity != null;
+
+        RecyclerView lakesRecyclerView = binding.lakesRecyclerView;
         final LakeListAdapter lakesAdapter = new LakeListAdapter(activity, this);
         lakesRecyclerView.setAdapter(lakesAdapter);
         lakesRecyclerView.setLayoutManager(new LinearLayoutManager(activity));
-        assert activity != null;
 
         lakeViewModel.setSearchQuery("");
         lakeViewModel.getFilteredLakes().observe(getViewLifecycleOwner(), lakesAdapter::setLakes);
+    }
 
-        SearchView lakesSearchView = rootView.findViewById(R.id.lakes_search_view);
+    private void setupLakeSearchView() {
+        SearchView lakesSearchView = binding.lakesSearchView;
         lakesSearchView.setOnCloseListener(() -> {
             lakeViewModel.setSearchQuery("");
             return false;
         });
+
         lakesSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Lake selectedLake = lakeViewModel.getLakeFromFilteredPosition(0);
+                String selectedLake = lakeViewModel.getLakeFromFilteredPosition(0);
                 onLakeSelected(selectedLake);
                 return false;
             }
@@ -78,21 +154,12 @@ public class LakeSelectFragment extends Fragment implements LakeListAdapter.OnLa
                 return false;
             }
         });
-        lakeFilterView = rootView.findViewById(R.id.lakeFilterView);
-        lakeViewModel.getCounties().observe(getViewLifecycleOwner(), counties -> {
-            lakeFilterView.setup(counties, this);
-        });
-
-        ImageButton filterButton = rootView.findViewById(R.id.filter_lakes_btn);
-        filterButton.setOnClickListener(this::OnLakeFilterPressed);
-        return rootView;
     }
 
     @Override
-    public void onLakeSelected(Lake lake) {
-        resultViewModel.setResultLake(lake);
-        lakeFilterView.setVisibility(View.GONE);
-        lakeViewModel.setFilterCounty("");
+    public void onLakeSelected(String lakeName) {
+        resultViewModel.setResultLake(lakeName);
+        lakeViewModel.setFilterCounty(null);
         closeKeyboard();
         NavDirections action;
         if (returnToEntry) {
@@ -106,16 +173,6 @@ public class LakeSelectFragment extends Fragment implements LakeListAdapter.OnLa
         }
     }
 
-    void OnLakeFilterPressed(View view) {
-         if (lakeFilterView.getVisibility() == View.GONE) {
-             lakeFilterView.setVisibility(View.VISIBLE);
-             lakeViewModel.setFilterCounty(lakeFilterView.getSelected());
-         } else {
-             lakeFilterView.setVisibility(View.GONE);
-             lakeViewModel.setFilterCounty("");
-         }
-    }
-
     private void closeKeyboard() {
         View view = Objects.requireNonNull(this.getActivity()).getCurrentFocus();
         if (view != null) {
@@ -127,8 +184,6 @@ public class LakeSelectFragment extends Fragment implements LakeListAdapter.OnLa
 
     @Override
     public void onLakeFilterChanged(String county) {
-        if (lakeFilterView.getVisibility() == View.VISIBLE) {
-            lakeViewModel.setFilterCounty(county);
-        }
+            //lakeViewModel.setFilterCounty(county);
     }
 }

@@ -14,18 +14,17 @@ import androidx.recyclerview.selection.SelectionTracker;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shorebuddy.R;
-import com.example.shorebuddy.data.fish.Fish;
 import com.example.shorebuddy.utilities.BasicDetailsLookup;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SpeciesFilterAdapter extends RecyclerView.Adapter<SpeciesFilterAdapter.SpeciesViewHolder> {
-    private List<Fish> fish = new ArrayList<>();
+public class BasicFilterAdapter extends RecyclerView.Adapter<BasicFilterAdapter.SpeciesViewHolder> {
+    private List<String> data = new ArrayList<>();
     private Context context;
     private SelectionTracker<Long> tracker;
 
-    public SpeciesFilterAdapter(Context context) {
+    public BasicFilterAdapter(Context context) {
         setHasStableIds(true);
         this.context = context;
     }
@@ -38,7 +37,7 @@ public class SpeciesFilterAdapter extends RecyclerView.Adapter<SpeciesFilterAdap
 
     @Override
     public void onBindViewHolder(@NonNull SpeciesViewHolder holder, int position) {
-        holder.speciesText.setText(fish.get(position).species);
+        holder.textView.setText(data.get(position));
 
         if (tracker.isSelected((long) position)) {
             holder.checkmark.setVisibility(View.VISIBLE);
@@ -49,8 +48,8 @@ public class SpeciesFilterAdapter extends RecyclerView.Adapter<SpeciesFilterAdap
 
     @Override
     public int getItemCount() {
-        if (fish != null) {
-            return fish.size();
+        if (data != null) {
+            return data.size();
         } else {
             return 0;
         }
@@ -61,8 +60,8 @@ public class SpeciesFilterAdapter extends RecyclerView.Adapter<SpeciesFilterAdap
         return position;
     }
 
-    public void setFish(List<Fish> fish) {
-        this.fish = fish;
+    public void setData(List<String> data) {
+        this.data = data;
         notifyDataSetChanged();
     }
 
@@ -71,12 +70,12 @@ public class SpeciesFilterAdapter extends RecyclerView.Adapter<SpeciesFilterAdap
     }
 
     public static class SpeciesViewHolder extends RecyclerView.ViewHolder implements BasicDetailsLookup.ItemLookupViewHolder<Long> {
-        TextView speciesText;
+        TextView textView;
         ImageView checkmark;
 
         public SpeciesViewHolder(@NonNull View itemView) {
             super(itemView);
-            speciesText = itemView.findViewById(R.id.fish_species_text);
+            textView = itemView.findViewById(R.id.fish_species_text);
             checkmark = itemView.findViewById(R.id.checkmark);
         }
 

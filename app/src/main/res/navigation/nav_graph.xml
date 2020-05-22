@@ -28,6 +28,12 @@
             android:name="requestFromEntryFrag"
             app:argType="boolean"
             android:defaultValue="false" />
+        <action
+            android:id="@+id/action_lakeSelectFragment_to_SelectDialogFragment"
+            app:destination="@id/SelectDialogFragment" />
+        <action
+            android:id="@+id/action_lakeSelectFragment_to_countySelectDialogFragment"
+            app:destination="@id/countySelectDialogFragment" />
     </fragment>
     <fragment
         android:id="@+id/catchEntryFragment"
@@ -78,8 +84,8 @@
             android:id="@+id/action_catchRecordsFragment_to_lakeSelectFragment"
             app:destination="@id/lakeSelectFragment" />
         <action
-            android:id="@+id/action_catchRecordsFragment_to_fishSelectDialogFragment"
-            app:destination="@id/fishSelectDialogFragment" />
+            android:id="@+id/action_catchRecordsFragment_to_selectDialogFragment"
+            app:destination="@id/SelectDialogFragment" />
     </fragment>
     <fragment
         android:id="@+id/homepageView"
@@ -121,7 +127,11 @@
         </action>
     </fragment>
     <dialog
-        android:id="@+id/fishSelectDialogFragment"
-        android:name="com.example.shorebuddy.views.FishSelectDialogFragment"
-        android:label="FishSelectDialogFragment" />
+        android:id="@+id/SelectDialogFragment"
+        android:name="com.example.shorebuddy.views.select_dialogs.FishSelectDialogFragment"
+        android:label="SelectDialogFragment" />
+    <dialog
+        android:id="@+id/countySelectDialogFragment"
+        android:name="com.example.shorebuddy.views.select_dialogs.CountySelectDialogFragment"
+        android:label="CountySelectDialogFragment" />
 </navigation>

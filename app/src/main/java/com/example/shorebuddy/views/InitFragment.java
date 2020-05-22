@@ -39,7 +39,7 @@ public class InitFragment extends Fragment implements LakeSelectResultViewModel.
     }
 
     @Override
-    public void onLakeSelected(Lake lake) {
+    public void onLakeSelected(String lake) {
         MainViewModel mainViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity())).get(MainViewModel.class);
         mainViewModel.setCurrentSelectedLake(lake);
     }
