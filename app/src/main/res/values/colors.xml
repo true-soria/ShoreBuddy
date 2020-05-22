@@ -12,4 +12,5 @@
     <color name="deleteBackground">#FF5722</color>
     <color name="backgroundGray">#454545</color>
     <color name="foregroundBlue">#0896D8</color>
+    <color name="icon_dark">#6B6B6B</color>
 </resources>

@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.shorebuddy.R;
 import com.example.shorebuddy.adapters.BasicFilterAdapter;
 
 import java.util.List;
@@ -13,7 +14,9 @@ public class CountySelectDialogFragment extends SelectDialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         dialogSelectResultViewModel.setData(dialogSelectViewModel.getAllCounties());
-        return super.onCreateView(inflater, container, savedInstanceState);
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        binding.titleText.setText(R.string.counties_title);
+        return rootView;
     }
     @Override
     void setupDataObservation(BasicFilterAdapter adapter) {
